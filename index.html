@@ -44,6 +44,7 @@ select,.chips{background:var(--card2);border:1px solid var(--line);color:var(--t
 .tbl th{color:var(--mut);font-weight:600;text-align:right}
 .tbl th:first-child,.tbl td:first-child{text-align:left}
 .tbl tr:hover td{background:var(--card2)}
+html{scroll-padding-top:64px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:30;border-bottom:1px solid var(--line)}
 .tab{flex:1;text-align:center;background:var(--card2);border:1px solid var(--line);color:var(--mut);padding:11px 14px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:600;transition:.15s;white-space:nowrap}
 .tab:hover{color:var(--txt)}
@@ -62,8 +63,9 @@ select,.chips{background:var(--card2);border:1px solid var(--line);color:var(--t
  .head img{height:36px}
  .head h1{font-size:15px}
  .grid{grid-template-columns:1fr;gap:12px}
- .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:6px;padding:8px 0}
+ .tabs{position:static;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:6px;padding:8px 0}
  .tab{flex:0 0 auto;padding:8px 13px;font-size:12.5px}
+ .panel h3{position:relative;z-index:1}
  .panel{padding:12px;border-radius:12px;margin-bottom:12px}
  .panel h3{font-size:14px}
  .kpis{gap:10px}
@@ -356,6 +358,7 @@ Chart.register(ChartDataLabels);
 Chart.defaults.font.size=14;
 Chart.defaults.font.weight='600';
 Chart.defaults.color='#cdd7ea';
+Chart.defaults.layout={padding:{top:10,right:8}};
 const F=PAYLOAD.fields, ROWS=PAYLOAD.rows;
 const ix={}; F.forEach((f,i)=>ix[f]=i);
 const BNAMES={'ACP':'Ayutthaya Park','ZR':'Zeer Rangsit','TU':'Thammasat Rangsit','FPR':'Futurepark Rangsit','BU':'Bangkok University','MVR':'Market Village Rangsit','CAY':'Central Ayutthaya','SMA':'Saimai Avenue','YCR':'YingCharoen Market','OMA FPR':'Omakase Futurepark'};
