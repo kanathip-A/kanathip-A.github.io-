@@ -49,6 +49,39 @@ select,.chips{background:var(--card2);border:1px solid var(--line);color:var(--t
 .tab:hover{color:var(--txt)}
 .tab.on{background:var(--a);color:#fff;border-color:var(--a)}
 .section.hidden{display:none}
+/* ---- Responsive: tablet ---- */
+@media(max-width:1024px){
+ body{padding:14px}
+ .head h1{font-size:18px}
+ .cw{height:300px}.cw.tall{height:380px}
+}
+/* ---- Responsive: mobile ---- */
+@media(max-width:768px){
+ body{padding:10px;font-size:13px}
+ .head{gap:10px;margin-bottom:12px}
+ .head img{height:36px}
+ .head h1{font-size:15px}
+ .grid{grid-template-columns:1fr;gap:12px}
+ .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:6px;padding:8px 0}
+ .tab{flex:0 0 auto;padding:8px 13px;font-size:12.5px}
+ .panel{padding:12px;border-radius:12px;margin-bottom:12px}
+ .panel h3{font-size:14px}
+ .kpis{gap:10px}
+ .kpi{padding:12px}
+ .kpi .v{font-size:20px}
+ .cw{height:280px}.cw.tall{height:340px}
+ .filters{gap:10px}
+ .fg label{font-size:11px}
+ select,.chips{font-size:12.5px;padding:7px 9px}
+ .chip{font-size:12px;padding:5px 9px}
+ .tbl{font-size:11.5px}
+ .tbl th,.tbl td{padding:6px 7px}
+}
+/* let chart containers scale on very small screens */
+@media(max-width:420px){
+ .cw{height:240px}.cw.tall{height:300px}
+ .head h1{font-size:14px}
+}
 </style>
 </head>
 <body>
