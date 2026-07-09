@@ -53,6 +53,28 @@ html{scroll-padding-top:64px}
 .tab:hover{color:var(--txt);border-color:#3a4a72}
 .tab.on{background:linear-gradient(135deg,#ff7a4a,#ff5470);color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(255,91,74,.35)}
 .section.hidden{display:none}
+.scard td,.scard th{text-align:center}
+.scard td:first-child,.scard th:first-child{text-align:left}
+.pill{display:inline-block;padding:3px 10px;border-radius:20px;font-weight:800;font-size:13px}
+.xlf{position:relative;display:inline-block}
+.xlf-btn{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:9px 12px;font-size:14px;font-weight:700;cursor:pointer;min-width:190px;display:flex;align-items:center;gap:8px}
+.xlf-btn .cnt{color:var(--mut);font-weight:600;margin-left:auto;font-size:12.5px}
+.xlf-btn .arw{color:var(--mut)}
+.xlf-panel{position:absolute;z-index:60;top:calc(100% + 6px);left:0;min-width:240px;max-height:340px;overflow:auto;background:#0e1524;border:1px solid #2c3a5c;border-radius:12px;box-shadow:0 16px 44px rgba(0,0,0,.6);padding:8px;display:none}
+.xlf.open .xlf-panel{display:block}
+.xlf-panel label{display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap}
+.xlf-panel label:hover{background:var(--card2)}
+.xlf-panel input{width:16px;height:16px;accent-color:var(--a);cursor:pointer}
+.xlf-sep{border-top:1px solid var(--line);margin:5px 2px}
+@media print{
+ @page{size:A4 landscape;margin:8mm}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ body{background:#05070d!important;padding:0}
+ .tabs,#topFilter,#printBtn{display:none!important}
+ .section:not(#sec-cover){display:none!important}
+ #sec-cover{display:block!important}
+ .panel{break-inside:avoid;box-shadow:none}
+}
 /* ---- Responsive: tablet ---- */
 @media(max-width:1024px){
  body{padding:14px}
@@ -66,6 +88,7 @@ html{scroll-padding-top:64px}
  .head img{height:36px}
  .head h1{font-size:15px}
  .grid{grid-template-columns:1fr;gap:12px}
+ #actionBox{grid-template-columns:1fr!important}
  .tabs{position:static;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:6px;padding:8px 0}
  .tab{flex:0 0 auto;padding:8px 13px;font-size:12.5px}
  .panel h3{position:relative;z-index:1}
@@ -93,13 +116,17 @@ html{scroll-padding-top:64px}
 <div class="head">
 <img id="logo" alt="logo">
 <div><h1>KPI ZONE3 BY KANATHIP</h1></div>
+<button class="btn" id="printBtn" style="margin-left:auto;font-size:14px;font-weight:700;padding:10px 16px">⤓ Export PDF (HOME)</button>
 </div>
 
 <div class="panel" id="topFilter" style="display:none">
 <div class="filters">
 <div class="fg" style="flex:1;min-width:280px">
-<label>สาขา (เลือกได้หลายสาขา)</label>
-<div class="chips" id="branchChips"></div>
+<label>สาขา</label>
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<div id="branchChips"></div>
+<div id="branchTags" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+</div>
 </div>
 <div class="fg">
 <label>โหมดเปรียบเทียบ</label>
@@ -111,9 +138,6 @@ html{scroll-padding-top:64px}
 <div class="fg">
 <label>ช่วงเดือน (KPI/แนวโน้ม/Ranking สาขา)</label>
 <select id="monthSel"></select>
-</div>
-<div class="fg">
-<button class="btn" id="resetBtn">รีเซ็ตสาขา</button>
 </div>
 </div>
 </div>
@@ -140,6 +164,15 @@ html{scroll-padding-top:64px}
 <div class="panel full">
 <h3>ยอดขาย Q2 — Actual vs Plan รายสาขา</h3>
 <div class="cw tall"><canvas id="coverQChart"></canvas></div>
+</div>
+<div class="panel full">
+<h3 id="scoreTitle">Branch Scorecard</h3>
+<div style="color:var(--mut);font-size:12.5px;margin-bottom:8px">🟢 ดี · 🟡 เฝ้าระวัง · 🔴 ต้องแก้</div>
+<div style="overflow:auto"><table class="tbl scard" id="scoreTable"></table></div>
+</div>
+<div class="panel full">
+<h3 id="actionTitle">Action Plan</h3>
+<div id="actionBox" style="display:grid;grid-template-columns:1fr 1fr;gap:14px"></div>
 </div>
 <div class="panel">
 <h3 id="coverMTitle">ยอดขายเดือนล่าสุด</h3>
@@ -440,17 +473,43 @@ const fmt=n=>n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(0)+'K':Math.ro
 const fmtFull=n=>Math.round(n).toLocaleString();
 const pct=(a,b)=>b===0?0:((a-b)/b*100);
 
+// ---- Excel-style multi-select filter (dropdown + checkboxes + Select All) ----
+function excelFilter(mount,items,selSet,onChange,opts){
+ opts=opts||{};mount.innerHTML='';
+ const wrap=document.createElement('div');wrap.className='xlf';
+ const btn=document.createElement('div');btn.className='xlf-btn';
+ const lab=document.createElement('span');lab.textContent=opts.label||'เลือก';
+ const cnt=document.createElement('span');cnt.className='cnt';
+ const arw=document.createElement('span');arw.className='arw';arw.textContent='▾';
+ btn.appendChild(lab);btn.appendChild(cnt);btn.appendChild(arw);
+ const panel=document.createElement('div');panel.className='xlf-panel';
+ const allL=document.createElement('label');const allCb=document.createElement('input');allCb.type='checkbox';
+ const allT=document.createElement('span');allT.textContent='เลือกทั้งหมด';allT.style.fontWeight='800';
+ allL.appendChild(allCb);allL.appendChild(allT);panel.appendChild(allL);
+ const sep=document.createElement('div');sep.className='xlf-sep';panel.appendChild(sep);
+ const cbs=[];
+ items.forEach(it=>{const l=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=selSet.has(it.v);
+  const t=document.createElement('span');t.textContent=it.label;l.appendChild(cb);l.appendChild(t);panel.appendChild(l);cbs.push({cb,v:it.v});
+  cb.onchange=()=>{if(cb.checked){if(opts.max&&selSet.size>=opts.max){cb.checked=false;alert('เลือกได้สูงสุด '+opts.max);return;}selSet.add(it.v);}else selSet.delete(it.v);upd();onChange();};});
+ allCb.onchange=()=>{if(allCb.checked){let arr=items.map(x=>x.v);if(opts.max)arr=arr.slice(0,opts.max);selSet.clear();arr.forEach(v=>selSet.add(v));}else selSet.clear();cbs.forEach(o=>o.cb.checked=selSet.has(o.v));upd();onChange();};
+ function upd(){cnt.textContent=selSet.size===items.length?'(ทั้งหมด)':'('+selSet.size+')';allCb.checked=selSet.size===items.length;allCb.indeterminate=selSet.size>0&&selSet.size<items.length;}
+ btn.onclick=e=>{e.stopPropagation();document.querySelectorAll('.xlf.open').forEach(x=>{if(x!==wrap)x.classList.remove('open');});wrap.classList.toggle('open');};
+ panel.onclick=e=>e.stopPropagation();
+ wrap.appendChild(btn);wrap.appendChild(panel);mount.appendChild(wrap);upd();
+ return {refresh:()=>{cbs.forEach(o=>o.cb.checked=selSet.has(o.v));upd();}};
+}
+document.addEventListener('click',()=>document.querySelectorAll('.xlf.open').forEach(x=>x.classList.remove('open')));
 const bc=document.getElementById('branchChips');
-BORDER.forEach(b=>{const el=document.createElement('div');el.className='chip on';el.textContent=BNAMES[b];el.dataset.b=b;
- el.onclick=()=>{el.classList.toggle('on');if(el.classList.contains('on'))state.branches.add(b);else state.branches.delete(b);render();};
- bc.appendChild(el);});
+function updateBranchTags(){const el=document.getElementById('branchTags');if(!el)return;const sel=BORDER.filter(b=>state.branches.has(b));
+ el.innerHTML=(sel.length===BORDER.length)?'<span class="pill" style="background:rgba(46,204,143,.16);color:#2ecc8f">ทั้งหมด</span>':(sel.length?sel.map(b=>`<span class="pill" style="background:rgba(74,163,255,.16);color:#8fc0ff">${b.replace(' ','')}</span>`).join(''):'<span class="pill" style="background:rgba(255,91,110,.16);color:#ff5b6e">ไม่ได้เลือก</span>');}
+const branchFilter=excelFilter(bc,BORDER.map(b=>({v:b,label:BNAMES[b]||b})),state.branches,()=>{updateBranchTags();render();},{label:'สาขา'});
+updateBranchTags();
 const ms=document.getElementById('monthSel');
 ms.innerHTML='<option value="YTD">YTD (ม.ค.–'+MONTHS[maxM2026-1]+')</option>'+MONTHS.slice(0,maxM2026).map((m,i)=>`<option value="${i+1}">${m}</option>`).join('');
 ms.onchange=()=>{state.monthMode=ms.value;render();};
 document.getElementById('modeSeg').querySelectorAll('button').forEach(btn=>btn.onclick=()=>{
  document.getElementById('modeSeg').querySelectorAll('button').forEach(b=>b.classList.remove('on'));
  btn.classList.add('on');state.mode=btn.dataset.m;render();});
-document.getElementById('resetBtn').onclick=()=>{state.branches=new Set(BORDER);bc.querySelectorAll('.chip').forEach(c=>c.classList.add('on'));render();};
 
 // ---- timeline of available months (across years) ----
 const monthsByYear={2025:[],2026:[]};
@@ -478,7 +537,7 @@ function monthRows(sec,t){return ROWS.filter(r=>r[0]===t.y&&r[1]===t.m&&(section
 ['ch','dv','bl','kd'].forEach(sec=>{
  const bsel=document.getElementById(sec+'Branch');
  if(bsel){bsel.innerHTML=branchOptsHtml;bsel.onchange=()=>{sections[sec].branch=bsel.value;render();};}
- buildMonthChips(sec+'Months',sec);
+ excelFilter(document.getElementById(sec+'Months'),TIMELINE.map(t=>({v:t.key,label:t.label})),sections[sec].sel,render,{label:'เดือน',max:MAXSEL});
 });
 
 function monthFilter(r){
@@ -1066,7 +1125,7 @@ function renderCover(){
   {label:'Plan',data:marr.map(x=>x.plan),backgroundColor:hexA('#7a8aa8',.55),borderColor:'#7a8aa8',borderWidth:1,borderRadius:4},
   {label:'Actual',data:marr.map(x=>x.act),backgroundColor:marr.map(x=>x.act>=x.plan?'#2ecc8f':'#ff5b6e'),borderRadius:4}
  ]},options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:90,top:6}},plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',clamp:true,color:c=>c.datasetIndex===0?'#9aa8c4':'#eef2fa',font:c=>({size:c.datasetIndex===0?11:12.5,weight:'700'}),formatter:(v,ctx)=>ctx.datasetIndex===0?fmt(v):fmt(v)+' ('+(marr[ctx.dataIndex].plan?(v/marr[ctx.dataIndex].plan*100).toFixed(0):0)+'%)'}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt},title:{display:true,text:'ยอดขาย (บาท)',color:'#93a1bd'}},y:baseScale}}});
- renderCoverKpiTable();
+ renderCoverKpiTable(); renderScorecard(); renderActions();
 }
 const KPICFG={
  Sales:{tgtMet:'Plan',actMet:'Actual',cat:'Sales',dec:0,suf:'',good:1,money:true,tlabel:'เป้า'},
@@ -1106,6 +1165,110 @@ function renderCoverKpiTable(){
  }
  document.getElementById('coverKpiTable').innerHTML=h+'</tbody>';
 }
+// helpers for scorecard/actions
+const KLAST=Math.max(...KR.filter(r=>r[kix.cat]==='Sales'&&r[kix.met]==='Actual'&&r[kix.v]>0).map(r=>r[kix.m]));
+const revAvgBranch=b=>{const rs=REVIEWS.filter(r=>r.code===b);return rs.length?rs.reduce((a,r)=>a+r.rating,0)/rs.length:null;};
+function chronicCount(){
+ const agg={};QSC.fails.forEach(f=>{const k=f.code+'|'+f.topic;(agg[k]=agg[k]||new Set()).add(f.month);});
+ const out={};Object.entries(agg).forEach(([k,ms])=>{const code=k.split('|')[0];let st=0;for(let i=qscMonths.length-1;i>=0;i--){if(ms.has(qscMonths[i]))st++;else break;}if(st>=3)out[code]=(out[code]||0)+1;});
+ return out;
+}
+const gCol=g=>g==='g'?'#2ecc8f':g==='y'?'#ffc24b':'#ff5b6e';
+const pill=(txt,g)=>`<span class="pill" style="background:${hexA(gCol(g),.18)};color:${gCol(g)}">${txt}</span>`;
+function renderRunrate(){
+ const elapsed=KLAST;const allM=[1,2,3,4,5,6,7,8,9,10,11,12];
+ const ytdA=ksum('Sales','Actual',allM.slice(0,elapsed)), ytdP=ksum('Sales','Plan',allM.slice(0,elapsed));
+ const yrPlan=ksum('Sales','Plan',allM);
+ const runrate=elapsed?ytdA/elapsed:0, projYr=runrate*12;
+ const projPct=yrPlan?projYr/yrPlan*100:0, ytdPct=ytdP?ytdA/ytdP*100:0;
+ document.getElementById('rrTitle').textContent=`Run-rate & คาดการณ์ทั้งปี 2026 (ข้อมูลถึงเดือน ${KLAST})`;
+ document.getElementById('rrKpis').innerHTML=[
+  coverKpi(`YTD Actual (ม.ค.–เดือน ${KLAST})`,'฿'+fmt(ytdA)),
+  coverKpi('YTD vs Plan',ytdPct.toFixed(1)+'%',ytdPct>=100?'up':'down'),
+  coverKpi('Run-rate ต่อเดือน','฿'+fmt(runrate)),
+  coverKpi('คาดการณ์ทั้งปี','฿'+fmt(projYr)),
+  coverKpi('คาดการณ์ vs แผนทั้งปี',projPct.toFixed(1)+'%',projPct>=100?'up':'down',projPct>=100?'มีแนวโน้มถึงเป้า':'เสี่ยงต่ำกว่าเป้า'),
+ ].join('');
+}
+function renderScorecard(){
+ const chr=chronicCount();
+ const rows=salesBr.map(b=>{
+  const p=ksum('Sales','Plan',[KLAST],b);const sAch=p?ksum('Sales','Actual',[KLAST],b)/p*100:0;
+  const colV=ksum('COL','Actual',[KLAST],b)-ksum('COL','Limit',[KLAST],b);
+  const cogV=ksum('COGs','Actual',[KLAST],b)-ksum('COGs','Limit',[KLAST],b);
+  const qsc=ksum('QSC','Actual',[KLAST],b);
+  const comp=ksum('Complaint','Food',[KLAST],b)+ksum('Complaint','Service',[KLAST],b);
+  const rev=revAvgBranch(b);
+  const gAch=sAch>=100?'g':sAch>=95?'y':'r';
+  const gCOL=colV<=0?'g':colV<=0.5?'y':'r';
+  const gCOG=cogV<=0?'g':cogV<=0.5?'y':'r';
+  const gQSC=qsc>=85?'g':qsc>=80?'y':'r';
+  const gCMP=comp===0?'g':comp===1?'y':'r';
+  const gREV=rev==null?'y':rev>=4.2?'g':rev>=4.0?'y':'r';
+  const sc={g:100,y:60,r:20};
+  const health=(sc[gAch]+sc[gCOL]+sc[gCOG]+sc[gQSC]+sc[gCMP]+sc[gREV])/6;
+  return {b,sAch,colV,cogV,qsc,comp,rev,gAch,gCOL,gCOG,gQSC,gCMP,gREV,health,chr:chr[b]||0};
+ }).sort((x,y)=>y.health-x.health);
+ document.getElementById('scoreTitle').textContent='Branch Scorecard';
+ let h='<thead><tr><th>อันดับ</th><th>สาขา</th><th>Sales Ach%</th><th>COL var</th><th>COGs var</th><th>QSC</th><th>Complaints</th><th>Review</th><th>QSC เรื้อรัง</th><th>Score</th></tr></thead><tbody>';
+ rows.forEach((r,i)=>{const gH=r.health>=80?'g':r.health>=55?'y':'r';
+  h+=`<tr><td>${i+1}</td><td>${BNAMES[r.b]||r.b}</td>`+
+   `<td>${pill(r.sAch.toFixed(0)+'%',r.gAch)}</td>`+
+   `<td>${pill((r.colV>=0?'+':'')+r.colV.toFixed(2),r.gCOL)}</td>`+
+   `<td>${pill((r.cogV>=0?'+':'')+r.cogV.toFixed(2),r.gCOG)}</td>`+
+   `<td>${pill(r.qsc.toFixed(1),r.gQSC)}</td>`+
+   `<td>${pill(r.comp,r.gCMP)}</td>`+
+   `<td>${pill(r.rev==null?'-':r.rev.toFixed(1)+'★',r.gREV)}</td>`+
+   `<td class="${r.chr>0?'down':''}">${r.chr||'-'}</td>`+
+   `<td>${pill(r.health.toFixed(0),gH)}</td></tr>`;});
+ document.getElementById('scoreTable').innerHTML=h+'</tbody>';
+}
+function renderActions(){
+ const chr=chronicCount();const acts=[];const MO=['','ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+ salesBr.forEach(b=>{const nm=BNAMES[b]||b;
+  const p=ksum('Sales','Plan',[KLAST],b),a=ksum('Sales','Actual',[KLAST],b);
+  if(p&&a<p){const gap=p-a,pct=a/p*100;acts.push({sev:pct<95?3:2,cat:'ยอดขาย',br:nm,msg:`ต่ำกว่าเป้าเดือน ${MO[KLAST]} : ${pct.toFixed(1)}% (ขาด ฿${fmt(gap)})`});}
+  const colV=ksum('COL','Actual',[KLAST],b)-ksum('COL','Limit',[KLAST],b);
+  if(colV>0)acts.push({sev:colV>0.5?3:2,cat:'COL',br:nm,msg:`ต้นทุนแรงงานเกิน Limit +${colV.toFixed(2)} pp`});
+  const cogV=ksum('COGs','Actual',[KLAST],b)-ksum('COGs','Limit',[KLAST],b);
+  if(cogV>0)acts.push({sev:cogV>0.5?3:2,cat:'COGs',br:nm,msg:`ต้นทุนวัตถุดิบเกิน Limit +${cogV.toFixed(2)} pp`});
+  const qsc=ksum('QSC','Actual',[KLAST],b);
+  if(qsc&&qsc<85)acts.push({sev:qsc<80?3:2,cat:'QSC',br:nm,msg:`คะแนน QSC ${qsc.toFixed(1)} ต่ำกว่าเกณฑ์ 85`});
+  if(chr[b])acts.push({sev:3,cat:'QSC',br:nm,msg:`ตกหัวข้อเดิมเรื้อรัง ${chr[b]} หัวข้อ (≥3 เดือนติด)`});
+  const comp=ksum('Complaint','Food',[KLAST],b)+ksum('Complaint','Service',[KLAST],b);
+  if(comp>0)acts.push({sev:comp>=2?3:2,cat:'Complaint',br:nm,msg:`มีคอมเพลนเดือน ${MO[KLAST]} : ${comp} เคส`});
+  const rev=revAvgBranch(b);
+  if(rev!=null&&rev<4.0)acts.push({sev:2,cat:'Review',br:nm,msg:`คะแนนรีวิวเฉลี่ยต่ำ ${rev.toFixed(1)}★`});
+ });
+ if(WASTE&&WASTE.months&&WASTE.months.length>=2){const wl=WASTE.months[WASTE.months.length-1],wp=WASTE.months[WASTE.months.length-2];
+  const jumps=[];WASTE.recs.filter(r=>r.ym===wl).forEach(r=>{const prev=WASTE.recs.find(x=>x.code===r.code&&x.ym===wp&&x.item===r.item);const pv=prev?prev.qty:0;if(pv>0&&(r.qty-pv)/pv>0.5&&r.qty>50)jumps.push({br:BNAMES[r.code]||r.code,pv,qty:r.qty,desc:r.desc,unit:r.unit,pct:(r.qty-pv)/pv*100});});
+  jumps.sort((a,b)=>b.pct-a.pct);jumps.slice(0,6).forEach(j=>acts.push({sev:2,cat:'Waste',br:j.br,msg:`${j.desc} เสียเพิ่ม +${j.pct.toFixed(0)}% (${fmt(j.pv)}→${fmt(j.qty)} ${j.unit})`}));
+ }
+ const sevBadge=s=>s>=3?'<span class="pill" style="background:rgba(255,91,110,.18);color:#ff5b6e">สูง</span>':'<span class="pill" style="background:rgba(255,194,75,.18);color:#ffc24b">กลาง</span>';
+ // group by branch
+ const byB={};acts.forEach(a=>{(byB[a.br]=byB[a.br]||[]).push(a);});
+ const cards=Object.entries(byB).map(([br,list])=>{
+  list.sort((a,b)=>b.sev-a.sev);
+  const worst=Math.max(...list.map(a=>a.sev));const col=worst>=3?'#ff5b6e':'#ffc24b';
+  return {br,list,worst,col};
+ }).sort((a,b)=>b.worst-a.worst||b.list.length-a.list.length);
+ document.getElementById('actionTitle').textContent=`Action Plan (${cards.length} สาขาที่ต้องติดตาม • ${acts.length} ประเด็น)`;
+ if(!cards.length){document.getElementById('actionBox').innerHTML='<div style="color:var(--g);font-weight:700;padding:8px">ไม่มีรายการที่ต้องแก้ — ทุกสาขาอยู่ในเกณฑ์ดี</div>';return;}
+ document.getElementById('actionBox').innerHTML=cards.map(c=>`
+  <div style="border:1px solid ${hexA(c.col,.5)};border-left:5px solid ${c.col};border-radius:14px;padding:14px 16px;background:linear-gradient(160deg,#141b2b,#0d121c)">
+   <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <span style="font-weight:800;font-size:16.5px">${c.br}</span>
+    <span style="color:var(--mut);font-size:12.5px">${c.list.length} ประเด็น</span>
+    <span style="margin-left:auto">${sevBadge(c.worst)}</span>
+   </div>
+   ${c.list.map(a=>`<div style="display:flex;gap:8px;padding:5px 0;border-top:1px solid #1e2740">
+     <span style="flex:0 0 auto">${sevBadge(a.sev)}</span>
+     <span style="flex:0 0 84px;color:var(--mut);font-weight:700;font-size:13px">${a.cat}</span>
+     <span style="flex:1;font-size:14px">${a.msg}</span>
+   </div>`).join('')}
+  </div>`).join('');
+}
+document.getElementById('printBtn').onclick=()=>{const t=document.querySelector('.tab[data-s="cover"]');if(t)t.click();setTimeout(()=>window.print(),400);};
 renderCover();
 
 // ===== Tab navigation =====
