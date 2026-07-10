@@ -6,18 +6,21 @@
 <title>Sales Dashboard 2025 vs 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#000000;--card:#0e1320;--card2:#161d2e;--line:#28324c;--txt:#eef2fa;--mut:#9aa8c4;--a:#ff6b4a;--b:#4aa3ff;--g:#2ecc8f;--r:#ff5b6e;--y:#ffc24b;}
+:root{--bg:#080a0f;--card:#0f131b;--card2:#161b26;--line:#212936;--txt:#e8ecf4;--mut:#828fa6;--a:#6d8bff;--b:#4d84c7;--g:#35b98a;--r:#e05563;--y:#e0b34e;}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI','Sarabun',system-ui,sans-serif;background:#000 radial-gradient(1300px 620px at 50% -12%, #131a2b 0%, #070a12 45%, #000 78%) fixed;color:var(--txt);padding:20px;font-size:16px;font-weight:500;letter-spacing:.1px}
+body{font-family:'Inter','Noto Sans Thai','Segoe UI',system-ui,sans-serif;background:#080a0f linear-gradient(180deg,#0c1017 0%,#080a0f 60%) fixed;color:var(--txt);padding:22px;font-size:16.5px;font-weight:450;letter-spacing:.1px;-webkit-font-smoothing:antialiased}
 .head{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
 .head img{height:46px}
-.head h1{font-size:25px;font-weight:800}
+.head h1{font-size:23px;font-weight:800;letter-spacing:.4px}
 .head .sub{color:var(--mut);font-size:12.5px}
-.panel{background:linear-gradient(168deg,#141b2b 0%,#0c111c 100%);border:1px solid #223052;border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:0 10px 30px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.03)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px}
 .filters{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
 .fg{display:flex;flex-direction:column;gap:5px}
-.fg label{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;font-weight:700}
+.fg label{font-size:13.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;font-weight:700}
 select,.chips{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 10px;font-size:13px}
 .chips{display:flex;flex-wrap:wrap;gap:6px;max-width:560px}
 .chip{padding:5px 11px;border-radius:20px;background:var(--card2);border:1px solid var(--line);cursor:pointer;font-size:12.5px;user-select:none;transition:.15s}
@@ -25,33 +28,34 @@ select,.chips{background:var(--card2);border:1px solid var(--line);color:var(--t
 .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
 .seg button{background:var(--card2);border:none;color:var(--mut);padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600}
 .seg button.on{background:var(--a);color:#fff}
-.btn{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:12.5px}
+.btn{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600}
+.btn:hover{border-color:rgba(109,139,255,.55);color:#c4d0ff}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px}
-.kpi{background:linear-gradient(160deg,#18202f 0%,#0e1420 100%);border:1px solid #26324f;border-radius:16px;padding:16px 16px 16px 18px;position:relative;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.4)}
-.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--a),var(--b))}
-.kpi .t{color:var(--mut);font-size:13.5px;margin-bottom:6px;font-weight:700}
-.kpi .v{font-size:30px;font-weight:800;letter-spacing:-.3px}
+.kpi{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:16px 16px 16px 18px;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--a);opacity:.85}
+.kpi .t{color:var(--mut);font-size:14px;margin-bottom:7px;font-weight:600;letter-spacing:.2px}
+.kpi .v{font-size:31px;font-weight:700;letter-spacing:-.4px}
 .kpi .d{font-size:14px;margin-top:5px;font-weight:700}
 .up{color:var(--g)}.down{color:var(--r)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .grid .full{grid-column:1/-1}
-.panel h3{font-size:18px;margin-bottom:4px;font-weight:800}
+.panel h3{font-size:19px;margin-bottom:12px;font-weight:700;letter-spacing:.2px;color:#eef2fa;padding-left:11px;border-left:3px solid var(--a)}
 .panel .note{color:var(--mut);font-size:11.5px;margin-bottom:12px}
 .cw{position:relative;height:330px}
 .cw.tall{height:420px}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
-.tbl{width:100%;border-collapse:collapse;font-size:15px;font-weight:600}
+.tbl{width:100%;border-collapse:collapse;font-size:16px;font-weight:600}
 .tbl th,.tbl td{padding:10px 12px;text-align:right;border-bottom:1px solid #1e2740}
-.tbl th{color:#b9c6e0;font-weight:800;text-align:right;font-size:14px;background:linear-gradient(180deg,#1a2233,#141b29);text-transform:none}
+.tbl th{color:#b9c6e0;font-weight:800;text-align:right;font-size:15px;background:var(--card2);text-transform:none}
 .tbl th:first-child,.tbl td:first-child{text-align:left}
 .tbl tbody tr:nth-child(even) td{background:rgba(255,255,255,.018)}
 .tbl tr:hover td{background:rgba(74,163,255,.09)}
 .tbl.stk thead th{position:sticky;top:0;background:var(--card);z-index:3;box-shadow:inset 0 -1px 0 var(--line)}
 html{scroll-padding-top:64px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:30;border-bottom:1px solid var(--line)}
-.tab{flex:1;text-align:center;background:linear-gradient(165deg,#1a2233,#0f1522);border:1px solid #26324f;color:var(--mut);padding:12px 14px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;transition:.18s;white-space:nowrap}
-.tab:hover{color:var(--txt);border-color:#3a4a72}
-.tab.on{background:linear-gradient(135deg,#ff7a4a,#ff5470);color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(255,91,74,.35)}
+.tab{flex:1;text-align:center;background:transparent;border:1px solid var(--line);color:var(--mut);padding:12px 15px;border-radius:9px;cursor:pointer;font-size:16px;font-weight:600;transition:.15s;white-space:nowrap}
+.tab:hover{color:var(--txt);background:var(--card2)}
+.tab.on{background:rgba(109,139,255,.12);color:#c4d0ff;border-color:rgba(109,139,255,.5);font-weight:700}
 .section.hidden{display:none}
 .scard td,.scard th{text-align:center}
 .scard td:first-child,.scard th:first-child{text-align:left}
@@ -167,7 +171,7 @@ html{scroll-padding-top:64px}
 </div>
 <div class="panel full">
 <h3 id="scoreTitle">Branch Scorecard</h3>
-<div style="color:var(--mut);font-size:12.5px;margin-bottom:8px">🟢 ดี · 🟡 เฝ้าระวัง · 🔴 ต้องแก้</div>
+<div style="color:var(--mut);font-size:12.5px;margin-bottom:8px"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle;margin-right:5px;background:#35b98a"></span>ดี &nbsp;·&nbsp; <span style="display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle;margin-right:5px;background:#e0b34e"></span>เฝ้าระวัง &nbsp;·&nbsp; <span style="display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle;margin-right:5px;background:#e05563"></span>ต้องแก้</div>
 <div style="overflow:auto"><table class="tbl scard" id="scoreTable"></table></div>
 </div>
 <div class="panel full">
@@ -449,7 +453,7 @@ const LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAe8AAAGQCAYAAACH/ejZ
 <script>
 document.getElementById('logo').src=LOGO;
 Chart.register(ChartDataLabels);
-Chart.defaults.font.size=15;
+Chart.defaults.font.size=16;
 Chart.defaults.font.weight='700';
 Chart.defaults.color='#cdd7ea';
 Chart.defaults.layout={padding:{top:10,right:8}};
@@ -460,8 +464,8 @@ const BORDER=['ACP','ZR','TU','FPR','BU','MVR','CAY','SMA','YCR','OMA FPR'];
 const MONTHS=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 const DELIV=['ch_Grab Food','ch_Lineman','ch_Shopee Food','ch_Food Panda','ch_Robinhood'];
 const DELIV_LBL={'ch_Grab Food':'Grab','ch_Lineman':'Lineman','ch_Shopee Food':'Shopee','ch_Food Panda':'FoodPanda','ch_Robinhood':'Robinhood','ch_(KD) Lineman':'KD-Lineman','ch_(KD) Grabfood':'KD-Grab','ch_(KD) Foodpanda':'KD-FP','ch_(KD) Shopeefood':'KD-Shopee'};
-const COL={a:'#ff6b4a',b:'#4aa3ff',g:'#2ecc8f',y:'#ffc24b',p:'#a87bff',c:'#3fd0d8',r:'#ff5b6e',o:'#ff9a3c'};
-const PAL=['#4aa3ff','#ff6b4a','#2ecc8f','#ffc24b','#a87bff','#3fd0d8','#ff5b6e','#ff9a3c','#5b8def','#1abc9c','#e056fd','#f6c945','#7ed957','#ff8fab'];
+const COL={a:'#6d8bff',b:'#4d84c7',g:'#35b98a',y:'#e0b34e',p:'#a87bff',c:'#3fd0d8',r:'#e05563',o:'#e0954e'};
+const PAL=['#5b8def','#3fb6ae','#e0a34e','#a988d6','#6dbf7b','#e0707a','#4aa6c9','#d38cae','#8fb45c','#c9995a','#7c8cff','#57c2b4','#e6b566','#c98cd0'];
 function hexA(hex,a){const n=parseInt(hex.slice(1),16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;}
 const palOf=(i)=>PAL[i%PAL.length];
 
@@ -501,7 +505,7 @@ function excelFilter(mount,items,selSet,onChange,opts){
 document.addEventListener('click',()=>document.querySelectorAll('.xlf.open').forEach(x=>x.classList.remove('open')));
 const bc=document.getElementById('branchChips');
 function updateBranchTags(){const el=document.getElementById('branchTags');if(!el)return;const sel=BORDER.filter(b=>state.branches.has(b));
- el.innerHTML=(sel.length===BORDER.length)?'<span class="pill" style="background:rgba(46,204,143,.16);color:#2ecc8f">ทั้งหมด</span>':(sel.length?sel.map(b=>`<span class="pill" style="background:rgba(74,163,255,.16);color:#8fc0ff">${b.replace(' ','')}</span>`).join(''):'<span class="pill" style="background:rgba(255,91,110,.16);color:#ff5b6e">ไม่ได้เลือก</span>');}
+ el.innerHTML=(sel.length===BORDER.length)?'<span class="pill" style="background:rgba(46,204,143,.16);color:#35b98a">ทั้งหมด</span>':(sel.length?sel.map(b=>`<span class="pill" style="background:rgba(74,163,255,.16);color:#8fc0ff">${b.replace(' ','')}</span>`).join(''):'<span class="pill" style="background:rgba(255,91,110,.16);color:#e05563">ไม่ได้เลือก</span>');}
 const branchFilter=excelFilter(bc,BORDER.map(b=>({v:b,label:BNAMES[b]||b})),state.branches,()=>{updateBranchTags();render();},{label:'สาขา'});
 updateBranchTags();
 const ms=document.getElementById('monthSel');
@@ -580,9 +584,9 @@ function renderBranchMonth(){
  const val=(y,b)=>ROWS.filter(r=>r[0]===y&&r[1]===mo&&r[3]===b).reduce((s,r)=>s+(r[ix.net]||0),0);
  const arr=BORDER.map(b=>({b,n25:val(2025,b),n26:val(2026,b)})).sort((x,y)=>y.n26-x.n26);
  mk('branchMonthChart',{type:'bar',data:{labels:arr.map(x=>BNAMES[x.b]),datasets:[
-  {label:'2025',data:arr.map(x=>x.n25),backgroundColor:hexA('#7a8aa8',.7),borderColor:'#7a8aa8',borderWidth:1,borderRadius:4},
-  {label:'2026',data:arr.map(x=>x.n26),backgroundColor:'#2ecc8f',borderRadius:4}
- ]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:12,weight:'600'},formatter:v=>v?fmt(v):''}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt}},y:baseScale}}});
+  {label:'2025',data:arr.map(x=>x.n25),backgroundColor:hexA('#5c6b86',.7),borderColor:'#5c6b86',borderWidth:1,borderRadius:4},
+  {label:'2026',data:arr.map(x=>x.n26),backgroundColor:'#5b8def',borderRadius:4}
+ ]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'600'},formatter:v=>v?fmt(v):''}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt}},y:baseScale}}});
  let h='<thead><tr><th>สาขา</th><th>2025</th><th>2026</th><th>%YoY</th><th>เปลี่ยนแปลง (฿)</th></tr></thead><tbody>';
  let t25=0,t26=0;
  arr.forEach(x=>{const y=pct(x.n26,x.n25);const d=x.n26-x.n25;t25+=x.n25;t26+=x.n26;
@@ -618,7 +622,7 @@ function renderKD(){
  const kdsum=(rows,b)=>rows.filter(r=>r[3]===b).reduce((s,r)=>s+KD.reduce((a,c)=>a+(r[ix[c]]||0),0),0);
  // one line per branch across months (only branches with any KD)
  const allB=BORDER.filter(b=>ms.some(t=>kdsum(kdMonthRows(t),b)>0));
- mk('kdChart',{type:'line',data:{labels:ms.map(t=>t.label),datasets:allB.map((b,i)=>({label:BNAMES[b]||b,data:ms.map(t=>kdsum(kdMonthRows(t),b)),borderColor:palOf(i),backgroundColor:palOf(i),borderWidth:2.5,tension:.3,pointRadius:3}))},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{align:'top',color:'#cdd7ea',font:{size:12,weight:'600'},formatter:v=>v?fmt(v):''}},scales:{x:baseScale,y:{...baseScale,ticks:{color:'#93a1bd',callback:fmt}}}}});
+ mk('kdChart',{type:'line',data:{labels:ms.map(t=>t.label),datasets:allB.map((b,i)=>({label:BNAMES[b]||b,data:ms.map(t=>kdsum(kdMonthRows(t),b)),borderColor:palOf(i),backgroundColor:palOf(i),borderWidth:2.5,tension:.3,pointRadius:3}))},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{align:'top',color:'#cdd7ea',font:{size:13,weight:'600'},formatter:v=>v?fmt(v):''}},scales:{x:baseScale,y:{...baseScale,ticks:{color:'#93a1bd',callback:fmt}}}}});
  // table branch x platform (summed over selected months)
  const pl=KD.map(c=>KD_LBL[c]);
  const selRows=ms.flatMap(t=>kdMonthRows(t));
@@ -675,20 +679,20 @@ function renderTrend(){
   labels=MONTHS.slice(0,12);
   const m25=Array(12).fill(0),m26=Array(12).fill(0);
   ROWS.forEach(r=>{if(!state.branches.has(r[3]))return;const v=r[ix.net]||0;if(r[0]===2025)m25[r[1]-1]+=v;else m26[r[1]-1]+=v;});
-  ds=[{label:'2025',data:m25,backgroundColor:COL.b,borderRadius:5},{label:'2026',data:m26.map((v,i)=>i<maxM2026?v:null),backgroundColor:COL.a,borderRadius:5}];
+  ds=[{label:'2025',data:m25,backgroundColor:'#5c6b86',borderRadius:5},{label:'2026',data:m26.map((v,i)=>i<maxM2026?v:null),backgroundColor:'#5b8def',borderRadius:5}];
  } else {
   ct.textContent='การเติบโตรายไตรมาส (QoQ) — ยอดสุทธิ';
   const q25=[0,0,0,0],q26=[0,0,0,0];
   ROWS.forEach(r=>{if(!state.branches.has(r[3]))return;const q=Math.floor((r[1]-1)/3);const v=r[ix.net]||0;if(r[0]===2025)q25[q]+=v;else q26[q]+=v;});
   labels=['Q1','Q2','Q3','Q4'];
   const maxQ=Math.floor((maxM2026-1)/3);
-  ds=[{label:'2025',data:q25,backgroundColor:COL.b,borderRadius:5},{label:'2026',data:q26.map((v,i)=>i<=maxQ&&q26[i]>0?v:null),backgroundColor:COL.a,borderRadius:5}];
+  ds=[{label:'2025',data:q25,backgroundColor:'#5c6b86',borderRadius:5},{label:'2026',data:q26.map((v,i)=>i<=maxQ&&q26[i]>0?v:null),backgroundColor:'#5b8def',borderRadius:5}];
  }
  const isPct=false;
  mk('trendChart',{type:'bar',data:{labels,datasets:ds},options:{maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'600'},formatter:v=>v==null?'':isPct?v.toFixed(1)+'%':fmt(v)}},scales:{x:baseScale,y:{...baseScale,ticks:{color:'#93a1bd',callback:v=>isPct?v+'%':fmt(v)}}}}});
 }
 
-const barOpts=()=>({indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:12,weight:'600'},formatter:v=>v?fmt(v):''}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt}},y:baseScale}});
+const barOpts=()=>({indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'600'},formatter:v=>v?fmt(v):''}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt}},y:baseScale}});
 function barTrend(sec,series){
  const ms=selMonths(sec);
  return {labels:ms.map(t=>t.label),datasets:series.map((s,i)=>({label:s.label,data:ms.map(t=>s.val(monthRows(sec,t))),backgroundColor:palOf(i),borderRadius:4}))};
@@ -713,7 +717,7 @@ function renderRank(){
   return {b,n25:a,n26:c,yoy:pct(c,a)};
  }).sort((x,y)=>y.n26-x.n26);
  const cc=arr.map((_,i)=>palOf(i));
- mk('rankChart',{type:'bar',data:{labels:arr.map(x=>BNAMES[x.b]),datasets:[{label:'2025',data:arr.map(x=>x.n25),backgroundColor:cc.map(c=>hexA(c,.4)),borderColor:cc,borderWidth:1,borderRadius:4},{label:'2026',data:arr.map(x=>x.n26),backgroundColor:cc,borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{color:'#cdd7ea',anchor:'end',align:'end',font:{size:12,weight:'600'},formatter:v=>v?fmt(v):''},tooltip:{callbacks:{afterBody:(items)=>{const i=items[0].dataIndex;return 'YoY: '+arr[i].yoy.toFixed(1)+'%';}}}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt}},y:baseScale}}});
+ mk('rankChart',{type:'bar',data:{labels:arr.map(x=>BNAMES[x.b]),datasets:[{label:'2025',data:arr.map(x=>x.n25),backgroundColor:cc.map(c=>hexA(c,.4)),borderColor:cc,borderWidth:1,borderRadius:4},{label:'2026',data:arr.map(x=>x.n26),backgroundColor:cc,borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{color:'#cdd7ea',anchor:'end',align:'end',font:{size:13,weight:'600'},formatter:v=>v?fmt(v):''},tooltip:{callbacks:{afterBody:(items)=>{const i=items[0].dataIndex;return 'YoY: '+arr[i].yoy.toFixed(1)+'%';}}}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt}},y:baseScale}}});
 }
 
 function renderBill(){
@@ -725,7 +729,7 @@ function renderBill(){
   {label:'จำนวนบิล',data:bills,backgroundColor:palOf(0),borderRadius:4,xAxisID:'x'},
   {label:'เฉลี่ย/บิล',data:apb,backgroundColor:palOf(1),borderRadius:4,xAxisID:'x1'},
   {label:'เฉลี่ย/หัว',data:aph,backgroundColor:palOf(2),borderRadius:4,xAxisID:'x1'}
- ]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:12,weight:'600'},formatter:v=>fmt(v)}},scales:{y:baseScale,x:{...baseScale,position:'bottom',ticks:{color:palOf(0),callback:fmt},title:{display:true,text:'จำนวนบิล',color:palOf(0)}},x1:{position:'top',grid:{drawOnChartArea:false},ticks:{color:'#93a1bd',callback:fmt},title:{display:true,text:'฿ เฉลี่ย',color:'#93a1bd'}}}}});
+ ]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'600'},formatter:v=>fmt(v)}},scales:{y:baseScale,x:{...baseScale,position:'bottom',ticks:{color:palOf(0),callback:fmt},title:{display:true,text:'จำนวนบิล',color:palOf(0)}},x1:{position:'top',grid:{drawOnChartArea:false},ticks:{color:'#93a1bd',callback:fmt},title:{display:true,text:'฿ เฉลี่ย',color:'#93a1bd'}}}}});
 }
 
 function renderTable(){
@@ -795,7 +799,7 @@ function renderProd(){
  const ds=compare
   ?[{label:mlB,data:top.map(x=>aggB[x[0]]||0),backgroundColor:cc.map(c=>hexA(c,.4)),borderColor:cc,borderWidth:1,borderRadius:4},{label:mlA,data:top.map(x=>x[1]),backgroundColor:cc,borderRadius:4}]
   :[{label:'จำนวนชิ้น',data:top.map(x=>x[1]),backgroundColor:cc,borderRadius:4}];
- pchart=new Chart(document.getElementById('prodChart'),{type:'bar',data:{labels:top.map(x=>x[0]),datasets:ds},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:compare,labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:12,weight:'600'},formatter:v=>v?v.toLocaleString():''}},scales:{x:{...baseScale,ticks:{color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#cdd7ea',font:{size:13}}}}}});
+ pchart=new Chart(document.getElementById('prodChart'),{type:'bar',data:{labels:top.map(x=>x[0]),datasets:ds},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:compare,labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'600'},formatter:v=>v?v.toLocaleString():''}},scales:{x:{...baseScale,ticks:{color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#cdd7ea',font:{size:13}}}}}});
  const totalAll=sorted.reduce((a,x)=>a+x[1],0);
  let h=`<thead><tr><th>อันดับ</th><th>สินค้า</th><th>${mlA}</th>${compare?`<th>${mlB}</th><th>เปลี่ยนแปลง</th>`:'<th>% ของยอดรวม</th>'}</tr></thead><tbody>`;
  top.forEach((x,i)=>{
@@ -831,7 +835,7 @@ function renderQSC(){
  document.getElementById('qscPeriod').textContent='• รอบ: '+qscMlbl(selMonth);
  // score chart (selected month) per branch, colored by status
  const sm=QSC.summary.filter(s=>s.month===selMonth).sort((a,b)=>b.score-a.score);
- mk('qscScoreChart',{type:'bar',data:{labels:sm.map(s=>BNAMES[s.code]||s.code),datasets:[{label:'คะแนนรวม %',data:sm.map(s=>s.score),backgroundColor:sm.map(s=>qscPass(s)?'#2ecc8f':'#ff5b6e'),borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'700'},formatter:v=>v.toFixed(2)+'%'}},scales:{x:{...baseScale,max:100,ticks:{color:'#93a1bd',callback:v=>v+'%'}},y:baseScale}}});
+ mk('qscScoreChart',{type:'bar',data:{labels:sm.map(s=>BNAMES[s.code]||s.code),datasets:[{label:'คะแนนรวม %',data:sm.map(s=>s.score),backgroundColor:sm.map(s=>qscPass(s)?'#35b98a':'#e05563'),borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'700'},formatter:v=>v.toFixed(2)+'%'}},scales:{x:{...baseScale,max:100,ticks:{color:'#93a1bd',callback:v=>v+'%'}},y:baseScale}}});
  // summary table (selected month) — status by type threshold (Onsite>=85, CCTV>=80)
  let h='<thead><tr><th>สาขา</th><th>ประเภท</th><th>คะแนน %</th><th>เกณฑ์ผ่าน</th><th>สถานะ</th><th>ผู้ตรวจ</th></tr></thead><tbody>';
  sm.forEach(s=>{const ps=qscPass(s);h+=`<tr><td>${BNAMES[s.code]||s.code}</td><td>${s.type}</td><td><b>${s.score.toFixed(2)}%</b></td><td>≥ ${qscThresh(s.type).toFixed(2)}%</td><td class="${ps?'up':'down'}">${ps?'ผ่าน':'ไม่ผ่าน'}</td><td>${s.auditor}</td></tr>`;});
@@ -866,7 +870,7 @@ function renderQSC(){
  const ord={chronic:0,watch:1,fixed:2};
  rows.sort((a,b)=>ord[a.status]-ord[b.status]||b.streak-a.streak||b.cnt-a.cnt||a.code.localeCompare(b.code));
  const badge={chronic:'<span class="down">🔴 เรื้อรัง</span>',watch:'<span style="color:var(--y)">🟡 เฝ้าระวัง</span>',fixed:'<span class="up">🟢 แก้ได้แล้ว</span>'};
- const tl=o=>qscMonths.map(m=>{const f=o.months.has(m);return `<span title="${qscMlbl(m)}" style="color:${f?'#ff5b6e':'#2ecc8f'};font-weight:700">${qscMonShort(m)}${f?'✗':'✓'}</span>`;}).join(' ');
+ const tl=o=>qscMonths.map(m=>{const f=o.months.has(m);return `<span title="${qscMlbl(m)}" style="color:${f?'#e05563':'#35b98a'};font-weight:700">${qscMonShort(m)}${f?'✗':'✓'}</span>`;}).join(' ');
  let t='<thead><tr><th>สาขา</th><th>หมวด</th><th>หัวข้อ</th><th>Timeline (✗=Fail ✓=Pass)</th><th>ตกรวม(เดือน)</th><th>ตกติดกัน(เดือน)</th><th>สถานะ</th><th>เหตุผลล่าสุดที่ตก</th></tr></thead><tbody>';
  rows.forEach(o=>{t+=`<tr><td>${BNAMES[o.code]||o.code}</td><td>${shortCat(o.category)}</td><td style="text-align:left">${o.topic}</td><td style="text-align:left;white-space:nowrap">${tl(o)}</td><td>${o.cnt}</td><td class="${o.streak>=3?'down':''}">${o.streak}</td><td>${badge[o.status]}</td><td style="text-align:left;color:var(--y)">${o.status==='fixed'?'-':(o.lastReason||'-')}</td></tr>`;});
  if(!rows.length)t+='<tr><td colspan="8" style="text-align:left;color:var(--mut)">— ไม่มีรายการตามตัวกรอง —</td></tr>';
@@ -889,10 +893,10 @@ function renderCOL(){
  const labels=rs.map(r=>r.mth);
  // sales bar + %COL actual & target lines (labels on all)
  mk('colChart',{data:{labels,datasets:[
-  {type:'bar',label:'Sale 21-20',data:rs.map(r=>r.sales),backgroundColor:hexA('#4aa3ff',.8),borderRadius:5,yAxisID:'y',order:3,datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:12,weight:'600'},formatter:v=>fmt(v)}},
-  {type:'line',label:'% COL Actual',data:rs.map(r=>r.colA),borderColor:'#ff5b6e',backgroundColor:'#ff5b6e',borderWidth:3,tension:.3,pointRadius:5,yAxisID:'y1',order:1,datalabels:{align:'top',color:'#ff5b6e',font:{size:12,weight:'700'},formatter:v=>v+'%'}},
-  {type:'line',label:'% COL Target',data:rs.map(r=>r.colT),borderColor:'#ffc24b',borderDash:[6,4],borderWidth:2,tension:.3,pointRadius:4,yAxisID:'y1',order:2,datalabels:{align:'bottom',color:'#ffc24b',font:{size:11,weight:'600'},formatter:v=>v+'%'}}
- ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#e8edf6'}}},scales:{x:baseScale,y:{...baseScale,position:'left',ticks:{color:'#4aa3ff',callback:fmt},title:{display:true,text:'Sale 21-20 (฿)',color:'#4aa3ff'}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{color:'#ff5b6e',callback:v=>v+'%'},title:{display:true,text:'% COL',color:'#ff5b6e'}}}}});
+  {type:'bar',label:'Sale 21-20',data:rs.map(r=>r.sales),backgroundColor:hexA('#4d84c7',.8),borderRadius:5,yAxisID:'y',order:3,datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'600'},formatter:v=>fmt(v)}},
+  {type:'line',label:'% COL Actual',data:rs.map(r=>r.colA),borderColor:'#5b8def',backgroundColor:'#5b8def',borderWidth:3,tension:.3,pointRadius:5,yAxisID:'y1',order:1,datalabels:{align:'top',color:'#5b8def',font:{size:13,weight:'700'},formatter:v=>v+'%'}},
+  {type:'line',label:'% COL Target',data:rs.map(r=>r.colT),borderColor:'#e0b34e',borderDash:[6,4],borderWidth:2,tension:.3,pointRadius:4,yAxisID:'y1',order:2,datalabels:{align:'bottom',color:'#e0b34e',font:{size:13.5,weight:'600'},formatter:v=>v+'%'}}
+ ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:'#e8edf6'}}},scales:{x:baseScale,y:{...baseScale,position:'left',ticks:{color:'#4d84c7',callback:fmt},title:{display:true,text:'Sale 21-20 (฿)',color:'#4d84c7'}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{color:'#5b8def',callback:v=>v+'%'},title:{display:true,text:'% COL',color:'#5b8def'}}}}});
  // detail table for selected branch (under chart) — with OT breakdown
  let t='<thead><tr><th>รอบเดือน</th><th>Wage</th><th>OT (฿)</th><th>Wage+OT</th><th>Sale 21-20</th><th>% Wage+OT1</th><th>% OT1.5+OT3</th><th>% COL Actual</th><th>% Target</th><th>Variance (pp)</th></tr></thead><tbody>';
  rs.forEach(r=>{const ok=r.var<=0;const ot=(r.labor||0)-(r.wage||0);
@@ -938,10 +942,10 @@ function renderReviews(){
  ].map(k=>`<div class="kpi"><div class="t">${k[0]}</div><div class="v ${k[2]}">${k[1]}</div></div>`).join('');
  // avg per branch (always all branches for comparison; highlight selected)
  const arr=revBranches.map(b=>{const rs=REVIEWS.filter(r=>r.code===b);return {b,n:rs.length,avg:rs.reduce((a,r)=>a+r.rating,0)/rs.length};}).sort((x,y)=>y.avg-x.avg);
- mk('revAvgChart',{type:'bar',data:{labels:arr.map(x=>`${BNAMES[x.b]||x.b} (${x.n})`),datasets:[{label:'คะแนนเฉลี่ย',data:arr.map(x=>+x.avg.toFixed(1)),backgroundColor:arr.map(x=>(mb!=='ALL'&&x.b===mb)?'#4aa3ff':(x.avg>=4.2?'#2ecc8f':x.avg>=4?'#ffc24b':'#ff5b6e')),borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'700'},formatter:v=>v.toFixed(1)}},scales:{x:{...baseScale,max:5,ticks:{color:'#93a1bd'}},y:baseScale}}});
+ mk('revAvgChart',{type:'bar',data:{labels:arr.map(x=>`${BNAMES[x.b]||x.b} (${x.n})`),datasets:[{label:'คะแนนเฉลี่ย',data:arr.map(x=>+x.avg.toFixed(1)),backgroundColor:arr.map(x=>(mb!=='ALL'&&x.b===mb)?'#4d84c7':(x.avg>=4.2?'#35b98a':x.avg>=4?'#e0b34e':'#e05563')),borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'700'},formatter:v=>v.toFixed(1)}},scales:{x:{...baseScale,max:5,ticks:{color:'#93a1bd'}},y:baseScale}}});
  // star distribution overall
  const stars=[1,2,3,4,5].map(s=>all.filter(r=>r.rating===s).length);
- mk('revStarChart',{type:'bar',data:{labels:['1★','2★','3★','4★','5★'],datasets:[{label:'จำนวน',data:stars,backgroundColor:['#ff5b6e','#ff9a3c','#ffc24b','#7ed957','#2ecc8f'],borderRadius:5}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:12,weight:'700'},formatter:v=>v}},scales:{x:baseScale,y:{...baseScale,ticks:{color:'#93a1bd'}}}}});
+ mk('revStarChart',{type:'bar',data:{labels:['1★','2★','3★','4★','5★'],datasets:[{label:'จำนวน',data:stars,backgroundColor:['#e05563','#e0954e','#e0b34e','#7ed957','#35b98a'],borderRadius:5}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'700'},formatter:v=>v}},scales:{x:baseScale,y:{...baseScale,ticks:{color:'#93a1bd'}}}}});
  // complaint themes from negative reviews
  const negRev=all.filter(r=>r.rating<=2);
  const tc=THEMES.map(([name,kw])=>[name,negRev.filter(r=>kw.some(k=>r.text&&r.text.includes(k))).length]).sort((a,b)=>b[1]-a[1]);
@@ -980,7 +984,7 @@ function renderCOG(){
  const cogOrder=new Map(COG_WL.map((c,i)=>[c.trim(),i]));
  const ds=rows.slice().sort((a,b)=>(cogOrder.get(a.cat.trim())??99)-(cogOrder.get(b.cat.trim())??99));
  document.getElementById('cogDeltaTitle').textContent=`การเปลี่ยนแปลงต้นทุนรายหมวด (Δ บาท) — ${bl} • ${cogM[mi]} เทียบ ${cogM[mi-1]}`;
- mk('cogDeltaChart',{type:'bar',data:{labels:ds.map(r=>shortCog(r.cat)),datasets:[{label:'Δ บาท (เพิ่ม=แดง ลด=เขียว)',data:ds.map(r=>r.d),backgroundColor:ds.map(r=>r.d>0?'#ff5b6e':'#2ecc8f'),borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:11,weight:'700'},formatter:v=>(v>0?'+':'')+fmt(v)}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt},title:{display:true,text:'Δ บาท เทียบเดือนก่อน',color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#cdd7ea',font:{size:12}},title:{display:true,text:'หมวดต้นทุน',color:'#93a1bd'}}}}});
+ mk('cogDeltaChart',{type:'bar',data:{labels:ds.map(r=>shortCog(r.cat)),datasets:[{label:'Δ บาท (เพิ่ม=แดง ลด=เขียว)',data:ds.map(r=>r.d),backgroundColor:ds.map(r=>r.d>0?'#e05563':'#35b98a'),borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13.5,weight:'700'},formatter:v=>(v>0?'+':'')+fmt(v)}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt},title:{display:true,text:'Δ บาท เทียบเดือนก่อน',color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#cdd7ea',font:{size:12}},title:{display:true,text:'หมวดต้นทุน',color:'#93a1bd'}}}}});
  // up/down lists
  const mkTable=(list)=>{let h='<thead><tr><th>หมวด</th><th>'+cogM[mi-1]+'</th><th>'+cogM[mi]+'</th><th>Δบาท</th><th>%Δ</th></tr></thead><tbody>';
   list.forEach(r=>{h+=`<tr><td style="text-align:left">${shortCog(r.cat)}</td><td>${fmtFull(r.prev)}</td><td>${fmtFull(r.cur)}</td><td class="${r.d>0?'down':'up'}">${r.d>0?'+':''}${fmtFull(r.d)}</td><td class="${r.d>0?'down':'up'}">${r.pct==null?'-':(r.pct>0?'+':'')+r.pct.toFixed(1)+'%'}</td></tr>`;});
@@ -1016,7 +1020,7 @@ function renderUsage(){
  // ---- by item: compare branches, months side by side ----
  const it=usItems[resolveUsItem()]||usItems[0];
  document.getElementById('usItemTitle').textContent=`การใช้รายไอเทม — ${it.name} (หน่วย: ${it.unit})`;
- mk('usItemChart',{type:'bar',data:{labels:usB.map(b=>BNAMES[b]||b),datasets:usM.map((m,mi)=>({label:m,data:it.v[mi],backgroundColor:mi===usM.length-1?COL.a:hexA(COL.b,.75),borderRadius:5}))},options:{maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:12,weight:'700'},formatter:v=>v||''}},scales:{x:{...baseScale,title:{display:true,text:'สาขา',color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#93a1bd'},title:{display:true,text:'ปริมาณการใช้ ('+it.unit+')',color:'#93a1bd'}}}}});
+ mk('usItemChart',{type:'bar',data:{labels:usB.map(b=>BNAMES[b]||b),datasets:usM.map((m,mi)=>({label:m,data:it.v[mi],backgroundColor:mi===usM.length-1?COL.a:hexA(COL.b,.75),borderRadius:5}))},options:{maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'700'},formatter:v=>v||''}},scales:{x:{...baseScale,title:{display:true,text:'สาขา',color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#93a1bd'},title:{display:true,text:'ปริมาณการใช้ ('+it.unit+')',color:'#93a1bd'}}}}});
  // ---- by branch: top items ----
  const bi=clampI(document.getElementById('usBranch').value,usB.length-1), mi=clampI(document.getElementById('usMonth').value,lastM), topN=parseInt(document.getElementById('usTop').value,10)||20;
  const mBraw=document.getElementById('usMonthB').value; const cmp=mBraw!=='NONE'&&mBraw!==String(mi);
@@ -1028,7 +1032,7 @@ function renderUsage(){
   ?[{label:'ใช้ '+usM[mB],data:arr.map(x=>x.valB),backgroundColor:cc.map(c=>hexA(c,.4)),borderColor:cc,borderWidth:1,borderRadius:4},
     {label:'ใช้ '+usM[mi],data:arr.map(x=>x.val),backgroundColor:cc,borderRadius:4}]
   :[{label:'ปริมาณการใช้ ('+usM[mi]+')',data:arr.map(x=>x.val),backgroundColor:cc,borderRadius:4}];
- mk('usBranchChart',{type:'bar',data:{labels:arr.map(x=>x.name),datasets:dsets},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:11,weight:'700'},formatter:(v,ctx)=>v?v+' '+arr[ctx.dataIndex].unit:''}},scales:{x:{...baseScale,ticks:{color:'#93a1bd'},title:{display:true,text:'ปริมาณการใช้',color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#cdd7ea',font:{size:11}},title:{display:true,text:'สินค้า',color:'#93a1bd'}}}}});
+ mk('usBranchChart',{type:'bar',data:{labels:arr.map(x=>x.name),datasets:dsets},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13.5,weight:'700'},formatter:(v,ctx)=>v?v+' '+arr[ctx.dataIndex].unit:''}},scales:{x:{...baseScale,ticks:{color:'#93a1bd'},title:{display:true,text:'ปริมาณการใช้',color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#cdd7ea',font:{size:11}},title:{display:true,text:'สินค้า',color:'#93a1bd'}}}}});
  // ---- matrix ----
  const mm=clampI(document.getElementById('usMxMonth').value,lastM);
  const q=(document.getElementById('usSearch').value||'').trim().toLowerCase();
@@ -1058,7 +1062,7 @@ function renderWaste(){
  const arr=WASTE.recs.filter(r=>r.code===b&&r.ym===mi).slice().sort((a,b)=>b.qty-a.qty).slice(0,topN);
  document.getElementById('wasteTitle').textContent=`Waste (ของเสีย) — ${BNAMES[b]||b} • ${wMlbl(mi)}`;
  const cc=arr.map((_,i)=>palOf(i));
- mk('wasteChart',{type:'bar',data:{labels:arr.map(r=>r.desc),datasets:[{label:'ปริมาณเสีย ('+wMlbl(mi)+')',data:arr.map(r=>r.qty),backgroundColor:cc,borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:11,weight:'700'},formatter:(v,ctx)=>v?fmt(v)+' '+arr[ctx.dataIndex].unit:''}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt},title:{display:true,text:'ปริมาณที่เสีย',color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#cdd7ea',font:{size:11}},title:{display:true,text:'สินค้า',color:'#93a1bd'}}}}});
+ mk('wasteChart',{type:'bar',data:{labels:arr.map(r=>r.desc),datasets:[{label:'ปริมาณเสีย ('+wMlbl(mi)+')',data:arr.map(r=>r.qty),backgroundColor:cc,borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13.5,weight:'700'},formatter:(v,ctx)=>v?fmt(v)+' '+arr[ctx.dataIndex].unit:''}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt},title:{display:true,text:'ปริมาณที่เสีย',color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#cdd7ea',font:{size:11}},title:{display:true,text:'สินค้า',color:'#93a1bd'}}}}});
  // table: compare ALL months for selected branch, arrow vs previous month
  const items={};
  WASTE.recs.filter(r=>r.code===b).forEach(r=>{if(!items[r.item])items[r.item]={item:r.item,desc:r.desc,unit:r.unit,m:{}};items[r.item].m[r.ym]=r.qty;});
@@ -1103,8 +1107,8 @@ function renderCover(){
  // ---- Q2 chart: actual vs plan by branch ----
  const arr=salesBr.map(b=>({b,plan:ksum('Sales','Plan',Q2,b),act:ksum('Sales','Actual',Q2,b)})).sort((x,y)=>y.act-x.act);
  mk('coverQChart',{type:'bar',data:{labels:arr.map(x=>BNAMES[x.b]||x.b),datasets:[
-  {label:'Plan',data:arr.map(x=>x.plan),backgroundColor:hexA('#7a8aa8',.55),borderColor:'#7a8aa8',borderWidth:1,borderRadius:4},
-  {label:'Actual',data:arr.map(x=>x.act),backgroundColor:arr.map(x=>x.act>=x.plan?'#2ecc8f':'#ff5b6e'),borderRadius:4}
+  {label:'Plan',data:arr.map(x=>x.plan),backgroundColor:hexA('#5c6b86',.55),borderColor:'#5c6b86',borderWidth:1,borderRadius:4},
+  {label:'Actual',data:arr.map(x=>x.act),backgroundColor:arr.map(x=>x.act>=x.plan?'#35b98a':'#e05563'),borderRadius:4}
  ]},options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:90,top:6}},plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',clamp:true,color:c=>c.datasetIndex===0?'#9aa8c4':'#eef2fa',font:c=>({size:c.datasetIndex===0?11:12.5,weight:'700'}),formatter:(v,ctx)=>ctx.datasetIndex===0?fmt(v):fmt(v)+' ('+(arr[ctx.dataIndex].plan?(v/arr[ctx.dataIndex].plan*100).toFixed(0):0)+'%)'}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt},title:{display:true,text:'ยอดขาย (บาท)',color:'#93a1bd'}},y:baseScale}}});
  // ---- Latest month KPIs ----
  const mplan=ksum('Sales','Plan',[LASTM]), mact=ksum('Sales','Actual',[LASTM]);
@@ -1122,8 +1126,8 @@ function renderCover(){
  document.getElementById('coverMChartTitle').textContent=`ยอดขาย ${LASTMname} 2026 — Actual vs Plan รายสาขา`;
  const marr=salesBr.map(b=>({b,plan:ksum('Sales','Plan',[LASTM],b),act:ksum('Sales','Actual',[LASTM],b)})).sort((x,y)=>y.act-x.act);
  mk('coverMChart',{type:'bar',data:{labels:marr.map(x=>BNAMES[x.b]||x.b),datasets:[
-  {label:'Plan',data:marr.map(x=>x.plan),backgroundColor:hexA('#7a8aa8',.55),borderColor:'#7a8aa8',borderWidth:1,borderRadius:4},
-  {label:'Actual',data:marr.map(x=>x.act),backgroundColor:marr.map(x=>x.act>=x.plan?'#2ecc8f':'#ff5b6e'),borderRadius:4}
+  {label:'Plan',data:marr.map(x=>x.plan),backgroundColor:hexA('#5c6b86',.55),borderColor:'#5c6b86',borderWidth:1,borderRadius:4},
+  {label:'Actual',data:marr.map(x=>x.act),backgroundColor:marr.map(x=>x.act>=x.plan?'#35b98a':'#e05563'),borderRadius:4}
  ]},options:{indexAxis:'y',maintainAspectRatio:false,layout:{padding:{right:90,top:6}},plugins:{legend:{labels:{color:'#e8edf6'}},datalabels:{anchor:'end',align:'end',clamp:true,color:c=>c.datasetIndex===0?'#9aa8c4':'#eef2fa',font:c=>({size:c.datasetIndex===0?11:12.5,weight:'700'}),formatter:(v,ctx)=>ctx.datasetIndex===0?fmt(v):fmt(v)+' ('+(marr[ctx.dataIndex].plan?(v/marr[ctx.dataIndex].plan*100).toFixed(0):0)+'%)'}},scales:{x:{...baseScale,ticks:{color:'#93a1bd',callback:fmt},title:{display:true,text:'ยอดขาย (บาท)',color:'#93a1bd'}},y:baseScale}}});
  renderCoverKpiTable(); renderScorecard(); renderActions();
 }
@@ -1173,7 +1177,7 @@ function chronicCount(){
  const out={};Object.entries(agg).forEach(([k,ms])=>{const code=k.split('|')[0];let st=0;for(let i=qscMonths.length-1;i>=0;i--){if(ms.has(qscMonths[i]))st++;else break;}if(st>=3)out[code]=(out[code]||0)+1;});
  return out;
 }
-const gCol=g=>g==='g'?'#2ecc8f':g==='y'?'#ffc24b':'#ff5b6e';
+const gCol=g=>g==='g'?'#35b98a':g==='y'?'#e0b34e':'#e05563';
 const pill=(txt,g)=>`<span class="pill" style="background:${hexA(gCol(g),.18)};color:${gCol(g)}">${txt}</span>`;
 function renderRunrate(){
  const elapsed=KLAST;const allM=[1,2,3,4,5,6,7,8,9,10,11,12];
@@ -1244,18 +1248,18 @@ function renderActions(){
   const jumps=[];WASTE.recs.filter(r=>r.ym===wl).forEach(r=>{const prev=WASTE.recs.find(x=>x.code===r.code&&x.ym===wp&&x.item===r.item);const pv=prev?prev.qty:0;if(pv>0&&(r.qty-pv)/pv>0.5&&r.qty>50)jumps.push({br:BNAMES[r.code]||r.code,pv,qty:r.qty,desc:r.desc,unit:r.unit,pct:(r.qty-pv)/pv*100});});
   jumps.sort((a,b)=>b.pct-a.pct);jumps.slice(0,6).forEach(j=>acts.push({sev:2,cat:'Waste',br:j.br,msg:`${j.desc} เสียเพิ่ม +${j.pct.toFixed(0)}% (${fmt(j.pv)}→${fmt(j.qty)} ${j.unit})`}));
  }
- const sevBadge=s=>s>=3?'<span class="pill" style="background:rgba(255,91,110,.18);color:#ff5b6e">สูง</span>':'<span class="pill" style="background:rgba(255,194,75,.18);color:#ffc24b">กลาง</span>';
+ const sevBadge=s=>s>=3?'<span class="pill" style="background:rgba(255,91,110,.18);color:#e05563">สูง</span>':'<span class="pill" style="background:rgba(255,194,75,.18);color:#e0b34e">กลาง</span>';
  // group by branch
  const byB={};acts.forEach(a=>{(byB[a.br]=byB[a.br]||[]).push(a);});
  const cards=Object.entries(byB).map(([br,list])=>{
   list.sort((a,b)=>b.sev-a.sev);
-  const worst=Math.max(...list.map(a=>a.sev));const col=worst>=3?'#ff5b6e':'#ffc24b';
+  const worst=Math.max(...list.map(a=>a.sev));const col=worst>=3?'#e05563':'#e0b34e';
   return {br,list,worst,col};
  }).sort((a,b)=>b.worst-a.worst||b.list.length-a.list.length);
  document.getElementById('actionTitle').textContent=`Action Plan (${cards.length} สาขาที่ต้องติดตาม • ${acts.length} ประเด็น)`;
  if(!cards.length){document.getElementById('actionBox').innerHTML='<div style="color:var(--g);font-weight:700;padding:8px">ไม่มีรายการที่ต้องแก้ — ทุกสาขาอยู่ในเกณฑ์ดี</div>';return;}
  document.getElementById('actionBox').innerHTML=cards.map(c=>`
-  <div style="border:1px solid ${hexA(c.col,.5)};border-left:5px solid ${c.col};border-radius:14px;padding:14px 16px;background:linear-gradient(160deg,#141b2b,#0d121c)">
+  <div style="border:1px solid ${hexA(c.col,.5)};border-left:5px solid ${c.col};border-radius:14px;padding:14px 16px;background:var(--card2)">
    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
     <span style="font-weight:800;font-size:16.5px">${c.br}</span>
     <span style="color:var(--mut);font-size:12.5px">${c.list.length} ประเด็น</span>
