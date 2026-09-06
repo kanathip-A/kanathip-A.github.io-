@@ -132,7 +132,7 @@ html{scroll-padding-top:64px}
 <div class="head">
 <img id="logo" alt="logo">
 <div><h1>KPI ZONE3 BY KANATHIP</h1>
-<div style="color:var(--mut);font-size:12.5px;font-weight:600;margin-top:2px">อัพเดทข้อมูลล่าสุด: 6 ก.ย. 69 เวลา 21:31 น.</div></div>
+<div style="color:var(--mut);font-size:12.5px;font-weight:600;margin-top:2px">อัพเดทข้อมูลล่าสุด: 6 ก.ย. 69 เวลา 21:40 น.</div></div>
 <button class="btn" id="printBtn" style="margin-left:auto;font-size:14px;font-weight:700;padding:10px 16px">⤓ Export PDF (HOME)</button>
 </div>
 
@@ -390,8 +390,6 @@ html{scroll-padding-top:64px}
 <div class="grid">
 <div class="panel full">
 <h3 id="revNewTitle">ดาวที่เพิ่มขึ้นในเดือนล่าสุด แยกสาขา</h3>
-<div style="color:var(--mut);font-size:13.5px;margin:-4px 0 10px">นับเฉพาะรีวิวใหม่ที่เข้ามาในเดือนที่เลือก (เดือนประมาณจากเวลาแบบสัมพัทธ์ของ Google) — ดูว่าแต่ละสาขาได้ดาวประเภทไหนเพิ่มเข้ามาบ้าง</div>
-<div class="filters" style="margin:8px 0"><div class="fg"><label>เลือกเดือน</label><select id="revNewMonth"></select></div></div>
 <div class="cw tall"><canvas id="revNewChart"></canvas></div>
 </div>
 <div class="panel full">
@@ -412,6 +410,7 @@ html{scroll-padding-top:64px}
 <span style="margin-left:auto;color:var(--mut);font-size:13px;font-weight:700">Google Reviews — อัปเดตล่าสุด: 6 กันยายน 2569</span>
 </div>
 <div class="filters" style="margin:8px 0">
+<div class="fg"><label>สาขา (เฉพาะตารางนี้)</label><select id="revTblBranch"></select></div>
 <div class="fg"><label>คะแนน</label><select id="revRating"><option value="ALL">ทุกคะแนน</option><option value="5">5 ดาว</option><option value="4">4 ดาว</option><option value="3">3 ดาว</option><option value="2">2 ดาว</option><option value="1">1 ดาว</option></select></div>
 <div class="fg"><label>ช่วงเวลา</label><select id="revRecency"><option value="ALL">ทั้งหมด</option><option value="6">≤ 6 เดือนล่าสุด</option><option value="12">≤ 12 เดือน</option></select></div>
 </div>
@@ -993,21 +992,21 @@ renderCOL();
 // ===== Reviews =====
 const revBranches=[...new Set(REVIEWS.map(r=>r.code).filter(Boolean))];
 document.getElementById('revMainBranch').innerHTML='<option value="ALL">ทุกสาขา</option>'+revBranches.map(b=>`<option value="${b}">${BNAMES[b]||b}</option>`).join('');
-['revMainBranch','revRating','revRecency'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=renderReviews;});
+['revMainBranch','revRating','revRecency','revTblBranch'].forEach(id=>{const e=document.getElementById(id);if(e)e.onchange=renderReviews;});
+// ตัวเลือกสาขาเฉพาะตารางรายการรีวิว (แยกจากตัวเลือกด้านบนของหน้า)
+(function(){const e=document.getElementById('revTblBranch');if(!e)return;
+ e.innerHTML='<option value="SAME">— ตามที่เลือกด้านบน —</option><option value="ALL">ทุกสาขา</option>'
+  +revBranches.map(b=>`<option value="${b}">${BNAMES[b]||b}</option>`).join('');})();
 // months available (only reviews Google reported at month granularity, i.e. <= ~12 months old)
 const revMonths=[...new Set(REVIEWS.map(r=>r.ym).filter(Boolean))].sort();
 const THM=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 const revMlbl=m=>{const p=String(m).split('-');return (THM[+p[1]-1]||p[1])+' '+String(+p[0]+543).slice(-2);};
 const revLatest=revMonths[revMonths.length-1];
-(function(){const e=document.getElementById('revNewMonth');if(!e)return;
- e.innerHTML=revMonths.slice().reverse().map((m,i)=>`<option value="${m}"${i===0?' selected':''}>${revMlbl(m)}${i===0?' (ล่าสุด)':''}</option>`).join('');
- e.onchange=renderRevNew;})();
 const STARC=['#e05563','#e0954e','#e0b34e','#7ed957','#35b98a'];
 // ===== ดาวที่เพิ่มขึ้นในเดือนล่าสุด แยกสาขา =====
 function renderRevNew(){
  if(!document.getElementById('revNewChart'))return;
- const selEl=document.getElementById('revNewMonth');
- const m=selEl&&revMonths.indexOf(selEl.value)>=0?selEl.value:revLatest;
+ const m=revLatest;
  const t=document.getElementById('revNewTitle');
  if(t)t.textContent=`ดาวที่เพิ่มขึ้นในเดือน ${revMlbl(m)} แยกสาขา`;
  const cntOf=(b,mm,st)=>REVIEWS.filter(r=>r.code===b&&r.ym===mm&&r.rating===st).length;
@@ -1030,7 +1029,6 @@ function renderReviews(){
  const bl=mb==='ALL'?'ทุกสาขา':(BNAMES[mb]||mb);
  document.getElementById('revStarTitle').textContent='การกระจายดาว — '+bl;
  document.getElementById('revThemeTitle').textContent='ประเด็นที่ลูกค้าบ่นมากสุด (รีวิว 1–2 ดาว) — '+bl;
- document.getElementById('revTableTitle').textContent='รายการรีวิว — '+bl;
  const sent=r=>r.rating<=2?'neg':(r.rating===3?'neu':'pos');
  // KPIs (1 decimal)
  const n=all.length,avg=n?all.reduce((a,r)=>a+r.rating,0)/n:0;
@@ -1045,7 +1043,7 @@ function renderReviews(){
  // avg per branch (always all branches for comparison; highlight selected)
  // NOTE: ใช้ค่าที่ปัด 1 ตำแหน่ง (ตามที่ Google แสดงบนเว็บ) ทั้งตัวเลขและการระบายสี — เลขกับสีจะตรงกันเสมอ
  const arr=revBranches.map(b=>{const rs=REVIEWS.filter(r=>r.code===b);const av=+(rs.reduce((a,r)=>a+r.rating,0)/rs.length).toFixed(1);return {b,n:rs.length,avg:av};}).sort((x,y)=>y.avg-x.avg);
- mk('revAvgChart',{type:'bar',data:{labels:arr.map(x=>`${BNAMES[x.b]||x.b} (${x.n})`),datasets:[{label:'คะแนนเฉลี่ย',data:arr.map(x=>x.avg),backgroundColor:arr.map(x=>(mb!=='ALL'&&x.b===mb)?'#4d84c7':(x.avg>=4.2?'#35b98a':x.avg>=4?'#e0b34e':'#e05563')),borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'700'},formatter:v=>v.toFixed(1)}},scales:{x:{...baseScale,max:5,ticks:{color:'#93a1bd'}},y:baseScale}}});
+ mk('revAvgChart',{type:'bar',data:{labels:arr.map(x=>`${BNAMES[x.b]||x.b} (${x.n})`),datasets:[{label:'คะแนนเฉลี่ย',data:arr.map(x=>x.avg),backgroundColor:arr.map(x=>(mb!=='ALL'&&x.b===mb)?'#4d84c7':(x.avg>=4.2?'#35b98a':x.avg>=4?'#7ed957':'#e05563')),borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'700'},formatter:v=>v.toFixed(1)}},scales:{x:{...baseScale,max:5,ticks:{color:'#93a1bd'}},y:baseScale}}});
  // star distribution overall
  const stars=[1,2,3,4,5].map(s=>all.filter(r=>r.rating===s).length);
  mk('revStarChart',{type:'bar',data:{labels:['1★','2★','3★','4★','5★'],datasets:[{label:'จำนวน',data:stars,backgroundColor:['#e05563','#e0954e','#e0b34e','#7ed957','#35b98a'],borderRadius:5}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'700'},formatter:v=>v}},scales:{x:baseScale,y:{...baseScale,ticks:{color:'#93a1bd'}}}}});
@@ -1056,7 +1054,12 @@ function renderReviews(){
  mk('revThemeChart',{type:'bar',data:{labels:tc.map(x=>x[0]),datasets:[{label:'จำนวนรีวิวลบที่กล่าวถึง',data:tc.map(x=>x[1]),backgroundColor:cc,borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#cdd7ea',font:{size:13,weight:'700'},formatter:v=>v}},scales:{x:{...baseScale,ticks:{color:'#93a1bd'}},y:{...baseScale,ticks:{color:'#cdd7ea',font:{size:13}}}}}});
  // table
  const rf=document.getElementById('revRating').value, recf=document.getElementById('revRecency').value;
- let rows=all.filter(r=>(rf==='ALL'||r.rating===+rf)&&(recf==='ALL'||(r.ago!=null&&r.ago<=+recf)));
+ // ตารางนี้ใช้ตัวกรองสาขาของตัวเอง (ค่าเริ่มต้น = ตามที่เลือกด้านบน)
+ const tbSel=(document.getElementById('revTblBranch')||{}).value||'SAME';
+ const tbCode=tbSel==='SAME'?mb:tbSel;
+ const tbBase=tbCode==='ALL'?REVIEWS:REVIEWS.filter(r=>r.code===tbCode);
+ document.getElementById('revTableTitle').textContent='รายการรีวิว — '+(tbCode==='ALL'?'ทุกสาขา':(BNAMES[tbCode]||tbCode));
+ let rows=tbBase.filter(r=>(rf==='ALL'||r.rating===+rf)&&(recf==='ALL'||(r.ago!=null&&r.ago<=+recf)));
  rows=rows.slice().sort((a,b)=>(a.ago==null?9999:a.ago)-(b.ago==null?9999:b.ago)).slice(0,300);
  let h='<thead><tr><th>สาขา</th><th>คะแนน</th><th>เดือน (ประมาณ)</th><th>เมื่อ</th><th>รีวิว</th></tr></thead><tbody>';
  rows.forEach(r=>{const cls=r.rating<=2?'down':(r.rating>=4?'up':'');h+=`<tr><td>${BNAMES[r.code]||r.code||'-'}</td><td class="${cls}">${'★'.repeat(r.rating)}</td><td>${r.ym?revMlbl(r.ym):'เกิน 1 ปี'}</td><td>${r.agotext||'-'}</td><td style="text-align:left">${r.text||'-'}</td></tr>`;});
