@@ -10,50 +10,58 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080a0f;--card:#0f131b;--card2:#161b26;--line:#212936;--txt:#e8ecf4;--mut:#828fa6;--a:#6d8bff;--b:#4d84c7;--g:#35b98a;--r:#e05563;--y:#e0b34e;}
+/* --s = ตัวคูณขนาดตัวอักษรทั้งหน้า ปรับจุดเดียว | --gap = ระยะห่างมาตรฐาน */
+:root{--s:1.22;--gap:14px;--bg:#080a0f;--card:#0f131b;--card2:#161b26;--line:#212936;--txt:#e8ecf4;--mut:#828fa6;--a:#6d8bff;--b:#4d84c7;--g:#35b98a;--r:#e05563;--y:#e0b34e;}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter','Noto Sans Thai','Segoe UI',system-ui,sans-serif;background:#080a0f linear-gradient(180deg,#0c1017 0%,#080a0f 60%) fixed;color:var(--txt);padding:22px;font-size:16.5px;font-weight:450;letter-spacing:.1px;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter','Noto Sans Thai','Segoe UI',system-ui,sans-serif;background:#080a0f linear-gradient(180deg,#0c1017 0%,#080a0f 60%) fixed;color:var(--txt);padding:22px;font-size:calc(16.5px*var(--s));font-weight:450;letter-spacing:.1px;-webkit-font-smoothing:antialiased}
 .head{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
 .head img{height:46px}
-.head h1{font-size:23px;font-weight:800;letter-spacing:.4px}
-.head .sub{color:var(--mut);font-size:12.5px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px}
-.filters{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
+.head h1{font-size:calc(23px*var(--s));font-weight:800;letter-spacing:.4px}
+.head .sub{color:var(--mut);font-size:calc(12.5px*var(--s))}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:calc(17px*var(--s));margin-bottom:var(--gap);display:flex;flex-direction:column}
+.filters{display:flex;gap:var(--gap);flex-wrap:wrap;align-items:flex-end;margin-bottom:calc(10px*var(--s))}
 .fg{display:flex;flex-direction:column;gap:5px}
-.fg label{font-size:13.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;font-weight:700}
-select,.chips{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 10px;font-size:13px}
+.fg label{font-size:calc(13.5px*var(--s));color:var(--mut);text-transform:uppercase;letter-spacing:.4px;font-weight:700}
+select,.chips{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 10px;font-size:calc(13px*var(--s))}
 .chips{display:flex;flex-wrap:wrap;gap:6px;max-width:560px}
-.chip{padding:5px 11px;border-radius:20px;background:var(--card2);border:1px solid var(--line);cursor:pointer;font-size:12.5px;user-select:none;transition:.15s}
+.chip{padding:5px 11px;border-radius:20px;background:var(--card2);border:1px solid var(--line);cursor:pointer;font-size:calc(12.5px*var(--s));user-select:none;transition:.15s}
 .chip.on{background:var(--b);border-color:var(--b);color:#fff;font-weight:600}
 .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
-.seg button{background:var(--card2);border:none;color:var(--mut);padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600}
+.seg button{background:var(--card2);border:none;color:var(--mut);padding:8px 14px;cursor:pointer;font-size:calc(13px*var(--s));font-weight:600}
 .seg button.on{background:var(--a);color:#fff}
-.btn{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600}
+.btn{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 14px;cursor:pointer;font-size:calc(13px*var(--s));font-weight:600}
 .btn:hover{border-color:rgba(109,139,255,.55);color:#c4d0ff}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px}
-.kpi{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:16px 16px 16px 18px;position:relative;overflow:hidden}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(190px*var(--s)),1fr));gap:var(--gap);margin-bottom:var(--gap);align-items:stretch}
+.kpi{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:calc(14px*var(--s)) calc(15px*var(--s)) calc(14px*var(--s)) calc(17px*var(--s));position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;min-height:calc(94px*var(--s))}
 .kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--a);opacity:.85}
-.kpi .t{color:var(--mut);font-size:14px;margin-bottom:7px;font-weight:600;letter-spacing:.2px}
-.kpi .v{font-size:31px;font-weight:700;letter-spacing:-.4px}
-.kpi .d{font-size:14px;margin-top:5px;font-weight:700}
+.kpi .t{color:var(--mut);font-size:calc(14px*var(--s));margin-bottom:7px;font-weight:600;letter-spacing:.2px}
+.kpi .v{font-size:calc(31px*var(--s));font-weight:700;letter-spacing:-.4px}
+.kpi .d{font-size:calc(14px*var(--s));margin-top:5px;font-weight:700}
 .up{color:var(--g)}.down{color:var(--r)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+/* คอลัมน์ยืดหยุ่น — พาเนลใบเดี่ยวยืดเต็มแถวเอง ไม่ทิ้งช่องว่างข้างเดียว */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(560px,1fr));gap:var(--gap);align-items:stretch}
 .grid .full{grid-column:1/-1}
-.panel h3{font-size:19px;margin-bottom:12px;font-weight:700;letter-spacing:.2px;color:#eef2fa;padding-left:11px;border-left:3px solid var(--a)}
-.panel .note{color:var(--mut);font-size:11.5px;margin-bottom:12px}
-.cw{position:relative;height:330px}
-.cw.tall{height:420px}
+.grid>.panel{margin-bottom:0;height:100%}
+.grid .panel>*:last-child{margin-bottom:0}
+.panel h3{font-size:calc(19px*var(--s));margin-bottom:calc(10px*var(--s));font-weight:700;letter-spacing:.2px;color:#eef2fa;padding-left:11px;border-left:3px solid var(--a)}
+.panel .note{color:var(--mut);font-size:calc(11.5px*var(--s));margin-bottom:12px}
+.cw{position:relative;height:calc(290px*var(--s));flex:1 1 auto;min-height:0}
+.cw.tall{height:calc(360px*var(--s))}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
-.tbl{width:100%;border-collapse:collapse;font-size:16px;font-weight:600}
-.tbl th,.tbl td{padding:10px 12px;text-align:right;border-bottom:1px solid #1e2740}
-.tbl th{color:#b9c6e0;font-weight:800;text-align:right;font-size:15px;background:var(--card2);text-transform:none}
+.tbl{width:100%;border-collapse:collapse;font-size:calc(16px*var(--s));font-weight:600}
+.tbl th,.tbl td{padding:calc(9px*var(--s)) calc(11px*var(--s));text-align:right;border-bottom:1px solid #1e2740;vertical-align:middle}
+.tbl th{color:#b9c6e0;font-weight:800;text-align:right;font-size:calc(15px*var(--s));background:var(--card2);text-transform:none}
 .tbl th:first-child,.tbl td:first-child{text-align:left}
 .tbl tbody tr:nth-child(even) td{background:rgba(255,255,255,.018)}
 .tbl tr:hover td{background:rgba(74,163,255,.09)}
 .tbl.stk thead th{position:sticky;top:0;background:var(--card);z-index:3;box-shadow:inset 0 -1px 0 var(--line)}
+/* ตารางกำหนดสัดส่วนคอลัมน์เอง — ข้อความไทยยาวๆ ตัดบรรทัดได้ ไม่ดันคอลัมน์บาน */
+.tbl.fixed{table-layout:fixed}
+.tbl.fixed td,.tbl.fixed th{overflow-wrap:anywhere;word-break:break-word;vertical-align:top}
+.tbl.fixed td{line-height:1.5}
 html{scroll-padding-top:64px}
 .tabnav{position:sticky;top:0;z-index:40;background:var(--bg);padding:10px 0;margin-bottom:16px;border-bottom:1px solid var(--line)}
-.tabtoggle{display:flex;align-items:center;gap:14px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:12px 16px;font-size:16px;font-weight:700;cursor:pointer;min-width:260px}
+.tabtoggle{display:flex;align-items:center;gap:14px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:12px 16px;font-size:calc(16px*var(--s));font-weight:700;cursor:pointer;min-width:260px}
 .tabtoggle:hover{border-color:rgba(109,139,255,.5)}
 .tabtoggle .ham{display:inline-flex;flex-direction:column;justify-content:center;gap:4px;width:20px;flex:0 0 auto}
 .tabtoggle .ham i{display:block;height:2.5px;background:currentColor;border-radius:2px;transition:.2s}
@@ -61,24 +69,24 @@ html{scroll-padding-top:64px}
 .tabnav.open .ham i:nth-child(2){opacity:0}
 .tabnav.open .ham i:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 .tabtoggle .cur{flex:1;text-align:left}
-.tabtoggle .arw{color:var(--mut);font-size:12px;transition:.2s}
+.tabtoggle .arw{color:var(--mut);font-size:calc(12px*var(--s));transition:.2s}
 .tabnav.open .arw{transform:rotate(180deg)}
 .tabs{display:none;flex-direction:column;gap:6px;position:absolute;z-index:50;top:calc(100% - 2px);left:0;min-width:260px;background:#0e1524;border:1px solid #2c3a5c;border-radius:12px;box-shadow:0 16px 44px rgba(0,0,0,.6);padding:8px;max-height:72vh;overflow:auto}
 .tabnav.open .tabs{display:flex}
-.tab{text-align:left;background:transparent;border:1px solid transparent;color:var(--mut);padding:11px 14px;border-radius:9px;cursor:pointer;font-size:16px;font-weight:600;transition:.15s;white-space:nowrap}
+.tab{text-align:left;background:transparent;border:1px solid transparent;color:var(--mut);padding:11px 14px;border-radius:9px;cursor:pointer;font-size:calc(16px*var(--s));font-weight:600;transition:.15s;white-space:nowrap}
 .tab:hover{color:var(--txt);background:var(--card2)}
 .tab.on{background:rgba(109,139,255,.12);color:#c4d0ff;border-color:rgba(109,139,255,.5);font-weight:700}
 .section.hidden{display:none}
 .scard td,.scard th{text-align:center}
 .scard td:first-child,.scard th:first-child{text-align:left}
-.pill{display:inline-block;padding:3px 10px;border-radius:20px;font-weight:800;font-size:13px}
+.pill{display:inline-block;padding:3px 10px;border-radius:20px;font-weight:800;font-size:calc(13px*var(--s))}
 .xlf{position:relative;display:inline-block}
-.xlf-btn{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:9px 12px;font-size:14px;font-weight:700;cursor:pointer;min-width:190px;display:flex;align-items:center;gap:8px}
-.xlf-btn .cnt{color:var(--mut);font-weight:600;margin-left:auto;font-size:12.5px}
+.xlf-btn{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:9px 12px;font-size:calc(14px*var(--s));font-weight:700;cursor:pointer;min-width:190px;display:flex;align-items:center;gap:8px}
+.xlf-btn .cnt{color:var(--mut);font-weight:600;margin-left:auto;font-size:calc(12.5px*var(--s))}
 .xlf-btn .arw{color:var(--mut)}
 .xlf-panel{position:absolute;z-index:60;top:calc(100% + 6px);left:0;min-width:240px;max-height:340px;overflow:auto;background:#0e1524;border:1px solid #2c3a5c;border-radius:12px;box-shadow:0 16px 44px rgba(0,0,0,.6);padding:8px;display:none}
 .xlf.open .xlf-panel{display:block}
-.xlf-panel label{display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap}
+.xlf-panel label{display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:8px;cursor:pointer;font-weight:600;font-size:calc(14px*var(--s));white-space:nowrap}
 .xlf-panel label:hover{background:var(--card2)}
 .xlf-panel input{width:16px;height:16px;accent-color:var(--a);cursor:pointer}
 .xlf-sep{border-top:1px solid var(--line);margin:5px 2px}
@@ -94,37 +102,37 @@ html{scroll-padding-top:64px}
 /* ---- Responsive: tablet ---- */
 @media(max-width:1024px){
  body{padding:14px}
- .head h1{font-size:18px}
+ .head h1{font-size:calc(18px*var(--s))}
  .cw{height:300px}.cw.tall{height:380px}
 }
 /* ---- Responsive: mobile ---- */
 @media(max-width:768px){
- body{padding:10px;font-size:13px}
+ body{padding:10px;font-size:calc(13px*var(--s))}
  .head{gap:10px;margin-bottom:12px}
  .head img{height:36px}
- .head h1{font-size:15px}
+ .head h1{font-size:calc(15px*var(--s))}
  .grid{grid-template-columns:1fr;gap:12px}
  #actionBox{grid-template-columns:1fr!important}
  .tabtoggle{min-width:0;width:100%}
  .tabs{width:100%;min-width:0}
  .panel h3{position:relative;z-index:1}
  .panel{padding:12px;border-radius:12px;margin-bottom:12px}
- .panel h3{font-size:14px}
+ .panel h3{font-size:calc(14px*var(--s))}
  .kpis{gap:10px}
  .kpi{padding:12px}
- .kpi .v{font-size:20px}
+ .kpi .v{font-size:calc(20px*var(--s))}
  .cw{height:280px}.cw.tall{height:340px}
  .filters{gap:10px}
- .fg label{font-size:11px}
- select,.chips{font-size:12.5px;padding:7px 9px}
- .chip{font-size:12px;padding:5px 9px}
- .tbl{font-size:11.5px}
+ .fg label{font-size:calc(11px*var(--s))}
+ select,.chips{font-size:calc(12.5px*var(--s));padding:7px 9px}
+ .chip{font-size:calc(12px*var(--s));padding:5px 9px}
+ .tbl{font-size:calc(11.5px*var(--s))}
  .tbl th,.tbl td{padding:6px 7px}
 }
 /* let chart containers scale on very small screens */
 @media(max-width:420px){
  .cw{height:240px}.cw.tall{height:300px}
- .head h1{font-size:14px}
+ .head h1{font-size:calc(14px*var(--s))}
 }
 </style>
 </head>
@@ -132,7 +140,7 @@ html{scroll-padding-top:64px}
 <div class="head">
 <img id="logo" alt="logo">
 <div><h1>KPI ZONE3 BY KANATHIP</h1>
-<div style="color:var(--mut);font-size:12.5px;font-weight:600;margin-top:2px">อัพเดทข้อมูลล่าสุด: 12 ก.ย. 69 เวลา 15:38 น.</div></div>
+<div style="color:var(--mut);font-size:12.5px;font-weight:600;margin-top:2px">อัพเดทข้อมูลล่าสุด: 16 ก.ย. 69 เวลา 20:55 น.</div></div>
 <button class="btn" id="printBtn" style="margin-left:auto;font-size:14px;font-weight:700;padding:10px 16px">⤓ Export PDF (HOME)</button>
 </div>
 
@@ -211,7 +219,7 @@ html{scroll-padding-top:64px}
 </div>
 <div class="panel full">
 <h3>KPI รายสาขา — Target/Limit เทียบ Actual</h3>
-<div class="filters" style="margin:8px 0"><div class="fg"><label>เลือก KPI</label><select id="coverKpiPick">
+<div class="filters"><div class="fg"><label>เลือก KPI</label><select id="coverKpiPick">
 <option value="Sales">ยอดขาย (Sales)</option>
 <option value="QSC">QSC (คะแนน)</option>
 <option value="COL">COL (%)</option>
@@ -238,7 +246,7 @@ html{scroll-padding-top:64px}
 </div>
 <div class="panel full">
 <h3>ยอดสุทธิรายสาขา — เลือกเดือน เทียบ 2025 vs 2026</h3>
-<div class="filters" style="margin:8px 0"><div class="fg"><label>เลือกเดือน</label><select id="brMonth"></select></div></div>
+<div class="filters"><div class="fg"><label>เลือกเดือน</label><select id="brMonth"></select></div></div>
 <div class="cw tall"><canvas id="branchMonthChart"></canvas></div>
 <div style="overflow-x:auto;margin-top:12px"><table class="tbl" id="branchMonthTable"></table></div>
 </div>
@@ -249,17 +257,17 @@ html{scroll-padding-top:64px}
 <div class="grid">
 <div class="panel">
 <h3>ยอดขายตามช่องทาง (Sale by Channel)</h3>
-<div class="filters" style="margin:8px 0"><div class="fg"><label>สาขา</label><select id="chBranch"></select></div><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="chMonths"></div></div></div>
+<div class="filters"><div class="fg"><label>สาขา</label><select id="chBranch"></select></div><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="chMonths"></div></div></div>
 <div class="cw tall"><canvas id="channelChart"></canvas></div>
 </div>
 <div class="panel">
 <h3>ยอดขาย Delivery แยกแพลตฟอร์ม</h3>
-<div class="filters" style="margin:8px 0"><div class="fg"><label>สาขา</label><select id="dvBranch"></select></div><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="dvMonths"></div></div></div>
+<div class="filters"><div class="fg"><label>สาขา</label><select id="dvBranch"></select></div><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="dvMonths"></div></div></div>
 <div class="cw tall"><canvas id="delivChart"></canvas></div>
 </div>
 <div class="panel full">
 <h3>จำนวนบิล & เฉลี่ยต่อบิล/ต่อหัว</h3>
-<div class="filters" style="margin:8px 0"><div class="fg"><label>สาขา</label><select id="blBranch"></select></div><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="blMonths"></div></div></div>
+<div class="filters"><div class="fg"><label>สาขา</label><select id="blBranch"></select></div><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="blMonths"></div></div></div>
 <div class="cw tall"><canvas id="billChart"></canvas></div>
 </div>
 </div>
@@ -292,7 +300,7 @@ html{scroll-padding-top:64px}
 <div class="panel full">
 <h3>KhoaDon (ยอดขาย KD แยกแพลตฟอร์ม) — แนวโน้มทุกสาขา</h3>
 <div style="color:var(--mut);font-size:11.5px;margin:4px 0 8px">ยอด KhoaDon รวม = (KD) Lineman + (KD) Grabfood + (KD) Foodpanda + (KD) Shopeefood</div>
-<div class="filters" style="margin:8px 0"><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="kdMonths"></div></div></div>
+<div class="filters"><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="kdMonths"></div></div></div>
 <div class="cw tall"><canvas id="kdChart"></canvas></div>
 </div>
 <div class="panel full">
@@ -325,7 +333,7 @@ html{scroll-padding-top:64px}
 <div class="section hidden" id="sec-qsc">
 <div class="panel">
 <h3>QSC Audit — คะแนนรวมรายสาขา <span id="qscPeriod" style="color:var(--mut);font-size:13px"></span></h3>
-<div class="filters" style="margin:8px 0"><div class="fg"><label>เลือกเดือน</label><select id="qscMonth"></select></div></div>
+<div class="filters"><div class="fg"><label>เลือกเดือน</label><select id="qscMonth"></select></div></div>
 <div class="cw tall"><canvas id="qscScoreChart"></canvas></div>
 </div>
 <div class="grid">
@@ -336,7 +344,7 @@ html{scroll-padding-top:64px}
 <div class="panel full">
 <h3 id="qscFailTitle">หัวข้อที่ไม่ผ่าน + ติดตามการแก้ไข</h3>
 <div class="kpis" id="qscFailKpis" style="margin-bottom:12px"></div>
-<div class="filters" style="margin:8px 0">
+<div class="filters">
 <div class="fg"><label>สาขา</label><select id="qscFailBranch"></select></div>
 <div class="fg"><label>สถานะการแก้ไข</label><select id="qscFailStatus">
 <option value="ALL">ทั้งหมด</option>
@@ -346,12 +354,12 @@ html{scroll-padding-top:64px}
 <option value="fixed">🟢 แก้ได้แล้ว (ล่าสุดไม่ตก)</option>
 </select></div>
 </div>
-<div style="overflow:auto;max-height:560px"><table class="tbl stk" id="qscFailTable"></table></div>
+<div style="overflow:auto;max-height:calc(560px*var(--s))"><table class="tbl stk fixed" id="qscFailTable"></table></div>
 </div>
 <div class="panel full">
 <h3>ข้อที่ตกบ่อยทั้งโซน + แนวทางแก้ไขตามคู่มือ</h3>
 <div style="color:var(--mut);font-size:13.5px;margin:-4px 0 10px">เรียงตามอัตราไม่ผ่าน — ใช้เป็นลำดับความสำคัญในการอบรมและแก้ไข ข้อความในคอลัมน์ขวาอ้างอิงมาตรฐานจากคู่มือโดยตรง</div>
-<div class="filters" style="margin:8px 0">
+<div class="filters">
 <div class="fg"><label>หมวด</label><select id="qscTopCat"></select></div>
 <div class="fg"><label>แสดง</label><select id="qscTopN">
 <option value="15">15 อันดับแรก</option>
@@ -368,13 +376,13 @@ html{scroll-padding-top:64px}
 <div class="panel">
 <h3>COL (Cost of Labor) เทียบยอดขาย — แนวโน้มรายรอบเดือน</h3>
 <div style="color:var(--mut);font-size:13.5px;margin:-4px 0 10px">pp = percentage point (จุดเปอร์เซ็นต์) — ผลต่างของค่า %</div>
-<div class="filters" style="margin:8px 0"><div class="fg"><label>สาขา</label><select id="colBranch"></select></div></div>
+<div class="filters"><div class="fg"><label>สาขา</label><select id="colBranch"></select></div></div>
 <div class="cw tall"><canvas id="colChart"></canvas></div>
 <div style="overflow-x:auto;margin-top:12px"><table class="tbl" id="colDetailTable"></table></div>
 </div>
 <div class="panel">
 <h3>สรุป COL รายสาขา</h3>
-<div class="filters" style="margin:8px 0"><div class="fg"><label>เลือกเดือน</label><select id="colSumMonth"></select></div></div>
+<div class="filters"><div class="fg"><label>เลือกเดือน</label><select id="colSumMonth"></select></div></div>
 <div style="overflow-x:auto"><table class="tbl" id="colSummaryTable"></table></div>
 </div>
 </div>
@@ -409,7 +417,7 @@ html{scroll-padding-top:64px}
 <h3 id="revTableTitle" style="margin:0">รายการรีวิว</h3>
 <span style="margin-left:auto;color:var(--mut);font-size:13px;font-weight:700">Google Reviews — อัปเดตล่าสุด: 6 กันยายน 2569</span>
 </div>
-<div class="filters" style="margin:8px 0">
+<div class="filters">
 <div class="fg"><label>สาขา (เฉพาะตารางนี้)</label><select id="revTblBranch"></select></div>
 <div class="fg"><label>คะแนน</label><select id="revRating"><option value="ALL">ทุกคะแนน</option><option value="5">5 ดาว</option><option value="4">4 ดาว</option><option value="3">3 ดาว</option><option value="2">2 ดาว</option><option value="1">1 ดาว</option></select></div>
 <div class="fg"><label>ช่วงเวลา</label><select id="revRecency"><option value="ALL">ทั้งหมด</option><option value="6">≤ 6 เดือนล่าสุด</option><option value="12">≤ 12 เดือน</option></select></div>
@@ -444,7 +452,7 @@ html{scroll-padding-top:64px}
 <div class="panel full">
 <h3 id="wasteTitle">Waste (ของเสีย) — รายการที่เสียมากสุด</h3>
 <div style="color:var(--mut);font-size:11.5px;margin:4px 0 8px">หน่วยนับต่างกันในแต่ละสินค้า — จัดอันดับตามปริมาณที่เสียของแต่ละรายการ (ดูหน่วยที่ป้ายกำกับ)</div>
-<div class="filters" style="margin:8px 0">
+<div class="filters">
 <div class="fg"><label>สาขา</label><select id="wasteBranch"></select></div>
 <div class="fg"><label>เดือน</label><select id="wasteMonth"></select></div>
 <div class="fg"><label>แสดง Top</label><select id="wasteTop"><option>15</option><option selected>20</option><option>30</option></select></div>
@@ -462,12 +470,12 @@ html{scroll-padding-top:64px}
 <div class="grid">
 <div class="panel full">
 <h3 id="usItemTitle">การใช้รายไอเทม — เทียบสาขา</h3>
-<div class="filters" style="margin:8px 0"><div class="fg" style="flex:1;min-width:300px"><label>เลือกสินค้า (พิมพ์ชื่อ/รหัสเพื่อค้นหา)</label><input id="usItem" list="usItemList" placeholder="พิมพ์ เช่น แซลมอน / FG00082" style="background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 10px;font-size:13px"><datalist id="usItemList"></datalist></div></div>
+<div class="filters"><div class="fg" style="flex:1;min-width:300px"><label>เลือกสินค้า (พิมพ์ชื่อ/รหัสเพื่อค้นหา)</label><input id="usItem" list="usItemList" placeholder="พิมพ์ เช่น แซลมอน / FG00082" style="background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 10px;font-size:13px"><datalist id="usItemList"></datalist></div></div>
 <div class="cw tall"><canvas id="usItemChart"></canvas></div>
 </div>
 <div class="panel full">
 <h3 id="usBranchTitle">Top items ที่ใช้มากสุด — รายสาขา</h3>
-<div class="filters" style="margin:8px 0">
+<div class="filters">
 <div class="fg"><label>สาขา</label><select id="usBranch"></select></div>
 <div class="fg"><label>เดือนหลัก</label><select id="usMonth"></select></div>
 <div class="fg"><label>เทียบกับเดือน</label><select id="usMonthB"></select></div>
@@ -477,7 +485,7 @@ html{scroll-padding-top:64px}
 </div>
 <div class="panel full">
 <h3>รายเทียบการใช้ระหว่างสาขา</h3>
-<div class="filters" style="margin:8px 0">
+<div class="filters">
 <div class="fg"><label>เดือน</label><select id="usMxMonth"></select></div>
 <div class="fg" style="flex:1"><label>ค้นหาสินค้า (ชื่อ/รหัส)</label><input id="usSearch" placeholder="พิมพ์เพื่อกรอง เช่น แซลมอน / FG00082" style="background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 10px;font-size:13px"></div>
 </div>
@@ -920,9 +928,17 @@ function renderQSC(){
  const ord={chronic:0,watch:1,fixed:2};
  rows.sort((a,b)=>ord[a.status]-ord[b.status]||b.streak-a.streak||b.cnt-a.cnt||a.code.localeCompare(b.code));
  const badge={chronic:'<span class="down">🔴 เรื้อรัง</span>',watch:'<span style="color:var(--y)">🟡 เฝ้าระวัง</span>',fixed:'<span class="up">🟢 แก้ได้แล้ว</span>'};
- const tl=o=>qscMonths.map(m=>{const f=o.months.has(m);return `<span title="${qscMlbl(m)}" style="color:${f?'#e05563':'#35b98a'};font-weight:700">${qscMonShort(m)}${f?'✗':'✓'}</span>`;}).join(' ');
- let t='<thead><tr><th>สาขา</th><th>หมวด</th><th>หัวข้อ</th><th>Timeline (✗=Fail ✓=Pass)</th><th>ตกรวม(เดือน)</th><th>ตกติดกัน(เดือน)</th><th>สถานะ</th><th>เหตุผลล่าสุดที่ตก</th><th style="min-width:280px">แนวทางแก้ไข (อ้างอิงคู่มือ)</th></tr></thead><tbody>';
- rows.forEach(o=>{t+=`<tr><td>${BNAMES[o.code]||o.code}</td><td>${shortCat(o.category)}</td><td style="text-align:left">${o.topic}</td><td style="text-align:left;white-space:nowrap">${tl(o)}</td><td>${o.cnt}</td><td class="${o.streak>=3?'down':''}">${o.streak}</td><td>${badge[o.status]}</td><td style="text-align:left;color:var(--y)">${o.status==='fixed'?'-':(o.lastReason||'-')}</td><td style="text-align:left;color:#9fd8bd">${o.fix||'-'}</td></tr>`;});
+ // Timeline จัดเป็นตาราง 3 เดือนต่อแถว ให้คอลัมน์แคบลง
+ const tl=o=>'<span style="display:grid;grid-template-columns:repeat(3,auto);gap:2px 10px;justify-content:start">'
+  +qscMonths.map(m=>{const f=o.months.has(m);
+    return `<span title="${qscMlbl(m)}" style="color:${f?'#e05563':'#35b98a'};font-weight:700;white-space:nowrap">${qscMonShort(m)}${f?'✗':'✓'}</span>`;}).join('')
+  +'</span>';
+ let t='<colgroup>'
+  +'<col style="width:9%"><col style="width:7%"><col style="width:15%"><col style="width:9%">'
+  +'<col style="width:5%"><col style="width:5%"><col style="width:7%"><col style="width:15%"><col style="width:28%">'
+  +'</colgroup>'
+  +'<thead><tr><th>สาขา</th><th>หมวด</th><th>หัวข้อ</th><th>Timeline (✗=Fail ✓=Pass)</th><th>ตกรวม<br>(เดือน)</th><th>ตกติดกัน<br>(เดือน)</th><th>สถานะ</th><th>เหตุผลล่าสุดที่ตก</th><th>แนวทางแก้ไข (อ้างอิงคู่มือ)</th></tr></thead><tbody>';
+ rows.forEach(o=>{t+=`<tr><td>${BNAMES[o.code]||o.code}</td><td>${shortCat(o.category)}</td><td style="text-align:left">${o.topic}</td><td style="text-align:left">${tl(o)}</td><td>${o.cnt}</td><td class="${o.streak>=3?'down':''}">${o.streak}</td><td>${badge[o.status]}</td><td style="text-align:left;color:var(--y)">${o.status==='fixed'?'-':(o.lastReason||'-')}</td><td style="text-align:left;color:#9fd8bd">${o.fix||'-'}</td></tr>`;});
  if(!rows.length)t+='<tr><td colspan="9" style="text-align:left;color:var(--mut)">— ไม่มีรายการตามตัวกรอง —</td></tr>';
  t+=`<tr style="font-weight:700;border-top:2px solid var(--line)"><td colspan="8">รวมหัวข้อ (ตามตัวกรอง)</td><td>${rows.length}</td></tr>`;
  document.getElementById('qscFailTable').innerHTML=t+'</tbody>';
