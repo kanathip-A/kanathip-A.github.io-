@@ -154,7 +154,7 @@ html{scroll-padding-top:64px}
 <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
 <div style="text-align:right;line-height:1.35">
 <div style="color:var(--mut);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">อัพเดทข้อมูลล่าสุด</div>
-<div style="color:var(--txt);font-size:15px;font-weight:800">3 ต.ค. 69 · 14:21 น.</div>
+<div style="color:var(--txt);font-size:15px;font-weight:800">4 ต.ค. 69 · 17:57 น.</div>
 </div>
 <button class="btn" id="printBtn" style="font-size:14px;font-weight:700;padding:10px 16px">⤓ Export PDF (HOME)</button>
 </div>
@@ -224,7 +224,7 @@ html{scroll-padding-top:64px}
 </div>
 <div class="panel full">
 <h3 id="actionTitle">ประเด็นที่ต้องติดตาม (Follow-up)</h3>
-<div class="hint">เรื่องเร่งด่วนอยู่บนสุด แต่ละข้อมี “ทำต่อ” ที่เริ่มได้ทันที · pp = percentage point (จุดเปอร์เซ็นต์) — ผลต่างของค่า %</div>
+<div class="hint">เรื่องเร่งด่วนอยู่บนสุด · บรรทัดสีทองคือแนวทางแก้ที่ดึงจากข้อมูลจริงของสาขานั้น · pp = percentage point (จุดเปอร์เซ็นต์) — ผลต่างของค่า %</div>
 <div id="actionBox" style="display:grid;grid-template-columns:1fr 1fr;gap:14px"></div>
 </div>
 <div class="panel">
@@ -1315,29 +1315,66 @@ function renderCoverKpiTable(){
  // เดือนที่ยังไม่มี Actual ของหมวดนี้ → แสดง "–" แทนเลข 0
  const hasAct=m=>KR.some(r=>r[kix.cat]===C.cat&&r[kix.m]===m&&r[kix.v]>0&&(C.cat==='Complaint'?(r[kix.met]==='Food'||r[kix.met]==='Service'):r[kix.met]===C.actMet));
  let h;
+ // Diff แบบมีเครื่องหมาย ย่อหน่วยเท่ากันทั้งบวกและลบ (เดิมฝั่งลบแสดงเลขเต็ม)
+ const fmtS=d=>(d<0?'−':'+')+fmt(Math.abs(d));
+ const qLbl=`รวม ${QNAME}`+(QDONE.length<QM.length?` (ถึง ${MONTHSH[LASTM]})`:'');
+ const qbg='background:rgba(217,163,90,.07)';                 // ไฮไลต์กลุ่มรวมไตรมาส
+ const tot='font-weight:800;border-top:2px solid var(--a)';     // แถวรวมโซน
  if(C.cat==='Complaint'){
   const cm=(m,b)=>ksum('Complaint','Food',[m],b)+ksum('Complaint','Service',[m],b);
-  h='<thead><tr><th>สาขา</th>'+QL.map((m,i)=>`<th style="text-align:right;${bd}">${m}${QM[i]>LASTM?' *':''}</th>`).join('')+`<th style="text-align:right;${bd}">รวม</th></tr></thead><tbody>`;
+  h='<thead><tr><th>สาขา</th>'+QL.map((m,i)=>`<th style="text-align:right;${bd}">${m}${QM[i]>LASTM?' *':''}</th>`).join('')
+   +`<th style="text-align:right;${bd};${qbg}">${qLbl}</th></tr></thead><tbody>`;
+  const colTot=QM.map(()=>0);let grand=0;
   salesBr.forEach(b=>{
-   let tot=0;
-   h+=`<tr><td style="text-align:left">${BNAMES[b]||b}</td>`+QM.map(m=>{
+   let t=0;
+   h+=`<tr><td style="text-align:left">${BNAMES[b]||b}</td>`+QM.map((m,i)=>{
     if(m>LASTM)return `<td style="${bd};${dim}">–</td>`;
-    const a=cm(m,b);tot+=a;return `<td class="${a>0?'down':''}" style="${bd}"><b>${a}</b></td>`;}).join('')
-    +`<td class="${tot>0?'down':''}" style="${bd}"><b>${tot}</b></td></tr>`;
+    const a=cm(m,b);t+=a;colTot[i]+=a;return `<td class="${a>0?'down':''}" style="${bd}"><b>${a}</b></td>`;}).join('')
+    +`<td class="${t>0?'down':''}" style="${bd};${qbg}"><b>${t}</b></td></tr>`;
+   grand+=t;
   });
+  h+=`<tr style="${tot}"><td style="text-align:left">รวมโซน</td>`+QM.map((m,i)=>m>LASTM?`<td style="${bd};${dim}">–</td>`
+    :`<td class="${colTot[i]>0?'down':''}" style="${bd}">${colTot[i]}</td>`).join('')
+    +`<td class="${grand>0?'down':''}" style="${bd};${qbg}">${grand}</td></tr>`;
  }else{
-  h='<thead><tr><th rowspan="2">สาขา</th>'+QL.map((m,i)=>`<th colspan="3" style="text-align:center;${bd}">${m}${QM[i]>LASTM?' *':''}</th>`).join('')+'</tr><tr>'+QL.map(()=>`<th style="text-align:right;${bd}">${C.tlabel}</th><th style="text-align:right">Actual</th><th style="text-align:right">Diff</th>`).join('')+'</tr></thead><tbody>';
+  const withQ=!!C.money;   // รวมไตรมาสมีความหมายเฉพาะหมวดที่เป็นยอดเงิน (บวกกันได้)
+  h='<thead><tr><th rowspan="2">สาขา</th>'+QL.map((m,i)=>`<th colspan="3" style="text-align:center;${bd}">${m}${QM[i]>LASTM?' *':''}</th>`).join('')
+   +(withQ?`<th colspan="4" style="text-align:center;${bd};${qbg}">${qLbl}</th>`:'')+'</tr><tr>'
+   +QL.map(()=>`<th style="text-align:right;${bd}">${C.tlabel}</th><th style="text-align:right">Actual</th><th style="text-align:right">Diff</th>`).join('')
+   +(withQ?`<th style="text-align:right;${bd};${qbg}">${C.tlabel}</th><th style="text-align:right;${qbg}">Actual</th><th style="text-align:right;${qbg}">Diff</th><th style="text-align:right;${qbg}">Ach %</th>`:'')
+   +'</tr></thead><tbody>';
+  const zt=QM.map(()=>0),za=QM.map(()=>0);let zqt=0,zqa=0;
+  const cellD=(t,a)=>{const d=a-t;const ok=C.good>0?d>=0:d<=0;
+   return `<td class="${ok?'up':'down'}">${C.money?fmtS(d):(d>=0?'+':'')+d.toFixed(C.dec)+C.suf}</td>`;};
   salesBr.forEach(b=>{
    h+=`<tr><td style="text-align:left">${BNAMES[b]||b}</td>`;
-   QM.forEach(m=>{
-    const t=ksum(C.cat,C.tgtMet,[m],b);
+   QM.forEach((m,i)=>{
+    const t=ksum(C.cat,C.tgtMet,[m],b);zt[i]+=t;
     if(!hasAct(m)){h+=`<td style="${bd}">${t?fmtv(t):'–'}</td><td style="${dim}">–</td><td style="${dim}">–</td>`;return;}
-    const a=ksum(C.cat,C.actMet,[m],b);
-    const d=a-t;const ok=C.good>0?d>=0:d<=0;
-    h+=`<td style="${bd}">${fmtv(t)}</td><td><b>${fmtv(a)}</b></td><td class="${ok?'up':'down'}">${d>=0?'+':''}${C.money?fmt(d):d.toFixed(C.dec)+C.suf}</td>`;
+    const a=ksum(C.cat,C.actMet,[m],b);za[i]+=a;
+    h+=`<td style="${bd}">${fmtv(t)}</td><td><b>${fmtv(a)}</b></td>`+cellD(t,a);
    });
+   if(withQ){
+    // เป้า Q เทียบ Actual Q — ใช้เฉพาะเดือนที่ปิดแล้ว (เทียบกันอย่างเป็นธรรม)
+    const qt=ksum(C.cat,C.tgtMet,QDONE,b),qa=ksum(C.cat,C.actMet,QDONE,b);zqt+=qt;zqa+=qa;
+    const pct=qt?qa/qt*100:0;
+    h+=`<td style="${bd};${qbg}">${fmtv(qt)}</td><td style="${qbg}"><b>${fmtv(qa)}</b></td>`
+      +cellD(qt,qa).replace('<td ',`<td style="${qbg}" `)
+      +`<td class="${pct>=100?'up':'down'}" style="${qbg}"><b>${pct.toFixed(1)}%</b></td>`;
+   }
    h+='</tr>';
   });
+  if(withQ){   // แถวรวมโซน
+   h+=`<tr style="${tot}"><td style="text-align:left">รวมโซน</td>`;
+   QM.forEach((m,i)=>{
+    if(!hasAct(m)){h+=`<td style="${bd}">${zt[i]?fmtv(zt[i]):'–'}</td><td style="${dim}">–</td><td style="${dim}">–</td>`;return;}
+    h+=`<td style="${bd}">${fmtv(zt[i])}</td><td>${fmtv(za[i])}</td>`+cellD(zt[i],za[i]);
+   });
+   const zp=zqt?zqa/zqt*100:0;
+   h+=`<td style="${bd};${qbg}">${fmtv(zqt)}</td><td style="${qbg}">${fmtv(zqa)}</td>`
+     +cellD(zqt,zqa).replace('<td ',`<td style="${qbg}" `)
+     +`<td class="${zp>=100?'up':'down'}" style="${qbg}">${zp.toFixed(1)}%</td></tr>`;
+  }
  }
  document.getElementById('coverKpiTable').innerHTML=h+'</tbody>';
  const note=document.getElementById('coverKpiNote');
@@ -1430,38 +1467,96 @@ function renderScorecard(){
  const n=document.getElementById('scoreNote');
  if(n)n.innerHTML='Score = ค่าเฉลี่ยของมิติที่มีข้อมูล (เขียว 100 / เหลือง 60 / แดง 20) • “–” = ยังไม่มีข้อมูลเดือนนั้น ไม่นำมาคิดคะแนน<br>var = variance = ผลต่าง';
 }
-// ขั้นตอนถัดไปที่ทำได้ทันที ต่อหมวดปัญหา — สั้น ชัด ทำตามได้
-const NEXT={
- 'ยอดขาย':'เปิดแท็บ Sales & Channels ดูว่ายอดหายจากช่องทางไหน แล้วคุยแผนเร่งยอดกับผู้จัดการสาขา',
- 'COL':'ทบทวนตารางกะ/OT สัปดาห์หน้าให้ตรงช่วงลูกค้าเยอะ',
- 'COGs':'เช็ครายการของเสียในแท็บ COG และการตัดสต็อกรายวัน',
- 'QSC':'เปิดแท็บ QSC ดูข้อที่ตก แล้วแก้ตามคอลัมน์ "แนวทางแก้ไข" ทีละข้อ',
- 'Complaint':'คุยทีมหน้าร้านภายในสัปดาห์นี้ พร้อมตัวอย่างเคสจริง',
- 'Review':'ตอบรีวิวลบให้ครบ และดูประเด็นที่ลูกค้าบ่นซ้ำ',
- 'Waste':'ตรวจรอบสั่งของ/FIFO ของรายการนี้กับครัว'
+// ===== คำแนะนำหน้างาน — ดึงจากข้อมูลจริงของสาขา ไม่ใช่ข้อความกลาง ๆ =====
+const ym2=m=>'2026-'+String(m).padStart(2,'0');
+const shortT=(t,n=40)=>{t=String(t||'').replace(/^\s*\d+(\.\d+)*\)\s*/,'').replace(/\s+/g,' ').trim();
+ if(t.length<=n)return t;const cut=t.lastIndexOf(' ',n);return (cut>n*0.55?t.slice(0,cut):t.slice(0,n)).replace(/[,\s]+$/,'')+'…';};
+// อัตราตกทั้งโซนของแต่ละข้อ — ใช้จัดลำดับว่าข้อไหนสำคัญกว่า
+const QCODE=t=>(String(t||'').match(/^\s*(\d+\.\d+)\)/)||[])[1];
+const QRATE={};(QSC.top||[]).forEach(x=>{QRATE[x.no]=x.rate;});
+const fmtB=v=>'฿'+fmt(Math.abs(v));
+const TIP={
+ sales(b,m,gap){
+  const rowsOf=y=>ROWS.filter(r=>r[ix.branch]===b&&r[ix.year]===y&&r[ix.month]===m);
+  const sum=(rs,f)=>rs.reduce((s,r)=>s+(f(r)||0),0);
+  const cur=rowsOf(2026),prev=rowsOf(2025);
+  const CH=[
+   ['หน้าร้าน',r=>r[ix.eatin]+r[ix.buffet],'เพิ่มคนต้อนรับช่วงพีค ลดเวลารอโต๊ะ และให้พนักงานแนะนำเมนูขายดีทุกโต๊ะ'],
+   ['เดลิเวอรี่',r=>r[ix.delivery],'เช็คโปรและรูปเมนูบนแอป เปิดร้านบนแอปให้ครบเวลา และรักษาเรตติ้งร้าน'],
+   ['Take Away',r=>r[ix.takeaway],'วางชุด Take Away ให้เห็นชัดหน้าร้าน และให้แคชเชียร์เสนอทุกบิล'],
+   ['Shinkanzen Go',r=>r[ix.shinkanzen],'ดันเมนูออกมาขายให้ครบ เน้นของขายดี เช่น ซูชิแซลมอนหน้าต่าง ๆ และให้พนักงานช่วย upsell']];
+  const drops=CH.map(([n,f,act])=>({n,act,d:sum(prev,f)-sum(cur,f)})).filter(x=>x.d>0).sort((x,y)=>y.d-x.d);
+  const days=new Date(2026,m,0).getDate();
+  const perDay=`เดือนหน้าต้องเพิ่มเฉลี่ยวันละ ~${fmtB(gap/days)}`;
+  if(!prev.length||!drops.length)return `ยอดโตกว่าปีก่อนแต่ยังไม่ถึงเป้า — ตั้งเป้ารายวันให้ทีมเห็น และเร่งยอดวันธรรมดา · ${perDay}`;
+  const x=drops[0];
+  return `ยอดหายมากสุดที่ ${x.n} (−${fmtB(x.d)} เทียบปีก่อน) — ${x.act} · ${perDay}`;
+ },
+ col(b,m){
+  const r=COLDATA.data.find(d=>d.code===b&&d.ym===ym2(m));
+  if(r&&r.ot153>=1.5)return `OT คิดเป็น ${r.ot153.toFixed(2)}% ของยอดขาย — ให้ OT ต้องอนุมัติล่วงหน้าทุกครั้ง และลดคนช่วงยอดต่ำ (บ่ายวันธรรมดา)`;
+  return 'จัดคนต่อกะให้ตรงกับยอดขายรายชั่วโมง ลดคนช่วงยอดต่ำ และย้ายคนไปช่วงพีคแทนการเพิ่มคน';
+ },
+ cogs(b){
+  if(!WASTE||!WASTE.months||!WASTE.months.length)return 'ชั่งตวงตามสูตรมาตรฐานทุกเมนู และลดปริมาณสั่งของที่เหลือทิ้งบ่อย';
+  const wm=WASTE.months[WASTE.months.length-1];
+  const top=WASTE.recs.filter(r=>r.code===b&&r.ym===wm&&r.unit==='กรัม').sort((x,y)=>y.qty-x.qty).slice(0,3).map(r=>shortT(r.desc));
+  if(!top.length)return 'ชั่งตวงตามสูตรมาตรฐานทุกเมนู และลดปริมาณสั่งของที่เหลือทิ้งบ่อย';
+  return `ของเสียสูงสุด: ${top.join(', ')} — ลดปริมาณสั่งต่อรอบ ใช้ของเก่าก่อน (FIFO) และชั่งตวงตามสูตรมาตรฐาน`;
+ },
+ qsc(b,m){
+  const fs=QSC.fails.filter(f=>f.code===b&&f.month===ym2(m));
+  if(!fs.length)return 'ให้หัวหน้ากะเช็คตามคู่มือ QSC ทุกเช้าก่อนเปิดร้าน';
+  const t=fs.slice().sort((x,y)=>(QRATE[QCODE(y.topic)]||0)-(QRATE[QCODE(x.topic)]||0)).slice(0,2).map(f=>shortT(f.topic));
+  return `ตก ${fs.length} ข้อ เริ่มที่ ${t.join(' / ')} — ให้หัวหน้ากะเช็คข้อเหล่านี้ทุกเช้าก่อนเปิดร้าน และถ่ายรูปยืนยันในกลุ่มสาขา`;
+ },
+ chronic(b){
+  const agg={};QSC.fails.filter(f=>f.code===b).forEach(f=>{(agg[f.topic]=agg[f.topic]||new Set()).add(f.month);});
+  const ms=[...new Set(QSC.summary.map(s=>s.month))].sort();
+  const ch=Object.entries(agg).filter(([t,s])=>{let k=0;for(let i=ms.length-1;i>=0&&s.has(ms[i]);i--)k++;return k>=3;}).map(([t])=>shortT(t));
+  return `ข้อที่ตกซ้ำ: ${ch.slice(0,2).join(' / ')} — ย้ำอย่างเดียวไม่พอแล้ว ตั้งคนรับผิดชอบรายข้อ และตรวจซ้ำกลางเดือนก่อนรอบ audit`;
+ },
+ complaint(b,m){
+  const ACT={'คุณภาพอาหาร':'ทวนมาตรฐานการปรุงและจัดจานกับครัว ให้หัวหน้าครัวสุ่มตรวจก่อนเสิร์ฟ',
+   'การเสิร์ฟ/จัดส่ง':'อ่านทวนรายการกับบิลก่อนเสิร์ฟ/ก่อนปิดถุงทุกออเดอร์',
+   'การบริการ':'ยกเคสนี้คุยในประชุมก่อนกะ และโค้ชเรื่องการทักทายและการพูดกับลูกค้า',
+   'ความผิดพลาดในการสั่ง/ชำระเงิน':'ทวนการคีย์ออเดอร์และหมายเหตุพิเศษของลูกค้าก่อนส่งเข้าครัว',
+   'สัตว์พาหะ/สุขอนามัย':'นัดบริษัทกำจัดแมลงเข้าตรวจ และอุดจุดเข้า-ออกภายในสัปดาห์นี้'};
+  const cs=COMPLAINTS.details.filter(x=>x.branch===b&&x.month===MONTHTH[m]);
+  if(!cs.length)return 'คุยเคสกับทีมในประชุมก่อนกะ และติดตามผลภายใน 1 สัปดาห์';
+  const c=cs[0];const d=String(c.detail||'').split('–').pop().trim();
+  return `${d}${cs.length>1?` (+อีก ${cs.length-1} เคส)`:''} — ${ACT[c.type]||'คุยเคสกับทีมในประชุมก่อนกะ และติดตามผลภายใน 1 สัปดาห์'}`;
+ },
+ review(b){
+  const neg=REVIEWS.filter(r=>r.code===b&&r.rating<=2);
+  const tc=THEMES.map(([n,kw])=>[n,neg.filter(r=>kw.some(k=>r.text&&r.text.includes(k))).length]).sort((x,y)=>y[1]-x[1]);
+  const t=tc[0]&&tc[0][1]>0?tc[0][0]:null;
+  return (t?`ลูกค้าบ่นเรื่อง${t}บ่อยสุด — แก้เรื่องนี้ก่อน และ`:'')+'ตอบรีวิวลบทุกรายการภายใน 48 ชม.';
+ },
+ waste(){return 'ลดปริมาณสั่งต่อรอบของรายการนี้ เช็ควันหมดอายุทุกเช้า และใช้ของเก่าก่อน (FIFO)';}
 };
 function renderActions(){
  const chr=chronicCount();const acts=[];const MO=MONTHSH;
  const mCOL=MLAST.COL,mCOG=MLAST.COGs,mQSC=MLAST.QSC;
  salesBr.forEach(b=>{const nm=BNAMES[b]||b;
   const p=ksum('Sales','Plan',[KLAST],b),a=ksum('Sales','Actual',[KLAST],b);
-  if(p&&a<p){const gap=p-a,pct=a/p*100;acts.push({sev:pct<95?3:2,cat:'ยอดขาย',br:nm,msg:`ต่ำกว่าเป้าเดือน ${MO[KLAST]} : ${pct.toFixed(1)}% (ขาด ฿${fmt(gap)})`});}
+  if(p&&a<p){const gap=p-a,pct=a/p*100;acts.push({sev:pct<95?3:2,cat:'ยอดขาย',br:nm,msg:`ต่ำกว่าเป้าเดือน ${MO[KLAST]} : ${pct.toFixed(1)}% (ขาด ฿${fmt(gap)})`,tip:TIP.sales(b,KLAST,gap)});}
   if(mCOL){const colV=ksum('COL','Actual',[mCOL],b)-ksum('COL','Limit',[mCOL],b);
-   if(colV>0)acts.push({sev:colV>0.5?3:2,cat:'COL',br:nm,msg:`ต้นทุนแรงงานเกิน Limit +${colV.toFixed(2)} pp (${MO[mCOL]})`});}
+   if(colV>0)acts.push({sev:colV>0.5?3:2,cat:'COL',br:nm,msg:`ต้นทุนแรงงานเกิน Limit +${colV.toFixed(2)} pp (${MO[mCOL]})`,tip:TIP.col(b,mCOL)});}
   if(mCOG){const cogV=ksum('COGs','Actual',[mCOG],b)-ksum('COGs','Limit',[mCOG],b);
-   if(cogV>0)acts.push({sev:cogV>0.5?3:2,cat:'COGs',br:nm,msg:`ต้นทุนวัตถุดิบเกิน Limit +${cogV.toFixed(2)} pp (${MO[mCOG]})`});}
+   if(cogV>0)acts.push({sev:cogV>0.5?3:2,cat:'COGs',br:nm,msg:`ต้นทุนวัตถุดิบเกิน Limit +${cogV.toFixed(2)} pp (${MO[mCOG]})`,tip:TIP.cogs(b)});}
   if(mQSC){const qsc=ksum('QSC','Actual',[mQSC],b);
    const au=qscAuditOf(b,mQSC);const qType=au?au.type:'Onsite';const qTh=qscThresh(qType);
-   if(qsc&&qsc<qTh)acts.push({sev:qsc<qTh-5?3:2,cat:'QSC',br:nm,msg:`คะแนน QSC ${qsc.toFixed(1)} ต่ำกว่าเกณฑ์ ${qTh} (${qType}, ${MO[mQSC]})`});}
-  if(chr[b])acts.push({sev:3,cat:'QSC',br:nm,msg:`ตกหัวข้อเดิมเรื้อรัง ${chr[b]} หัวข้อ (≥3 เดือนติด)`});
+   if(qsc&&qsc<qTh)acts.push({sev:qsc<qTh-5?3:2,cat:'QSC',br:nm,msg:`คะแนน QSC ${qsc.toFixed(1)} ต่ำกว่าเกณฑ์ ${qTh} (${qType}, ${MO[mQSC]})`,tip:TIP.qsc(b,mQSC)});}
+  if(chr[b])acts.push({sev:3,cat:'QSC',br:nm,msg:`ตกหัวข้อเดิมเรื้อรัง ${chr[b]} หัวข้อ (≥3 เดือนติด)`,tip:TIP.chronic(b)});
   if(MCOMP){const comp=ksum('Complaint','Food',[MCOMP],b)+ksum('Complaint','Service',[MCOMP],b);
-   if(comp>0)acts.push({sev:comp>=2?3:2,cat:'Complaint',br:nm,msg:`มีคอมเพลนเดือน ${MO[MCOMP]} : ${comp} เคส`});}
+   if(comp>0)acts.push({sev:comp>=2?3:2,cat:'Complaint',br:nm,msg:`มีคอมเพลนเดือน ${MO[MCOMP]} : ${comp} เคส`,tip:TIP.complaint(b,MCOMP)});}
   const rev=revAvgBranch(b);
-  if(rev!=null&&rev<4.0)acts.push({sev:2,cat:'Review',br:nm,msg:`คะแนนรีวิวเฉลี่ยต่ำ ${rev.toFixed(1)}★`});
+  if(rev!=null&&rev<4.0)acts.push({sev:2,cat:'Review',br:nm,msg:`คะแนนรีวิวเฉลี่ยต่ำ ${rev.toFixed(1)}★`,tip:TIP.review(b)});
  });
  if(WASTE&&WASTE.months&&WASTE.months.length>=2){const wl=WASTE.months[WASTE.months.length-1],wp=WASTE.months[WASTE.months.length-2];
   const jumps=[];WASTE.recs.filter(r=>r.ym===wl).forEach(r=>{const prev=WASTE.recs.find(x=>x.code===r.code&&x.ym===wp&&x.item===r.item);const pv=prev?prev.qty:0;if(pv>0&&(r.qty-pv)/pv>0.5&&r.qty>50)jumps.push({br:BNAMES[r.code]||r.code,pv,qty:r.qty,desc:r.desc,unit:r.unit,pct:(r.qty-pv)/pv*100});});
-  jumps.sort((a,b)=>b.pct-a.pct);jumps.slice(0,6).forEach(j=>acts.push({sev:2,cat:'Waste',br:j.br,msg:`${j.desc} เสียเพิ่ม +${j.pct.toFixed(0)}% (${fmt(j.pv)}→${fmt(j.qty)} ${j.unit})`}));
+  jumps.sort((a,b)=>b.pct-a.pct);jumps.slice(0,6).forEach(j=>acts.push({sev:2,cat:'Waste',br:j.br,msg:`${j.desc} เสียเพิ่ม +${j.pct.toFixed(0)}% (${fmt(j.pv)}→${fmt(j.qty)} ${j.unit})`,tip:TIP.waste()}));
  }
  const sevBadge=s=>s>=3?'<span class="pill" style="background:rgba(227,128,106,.18);color:#e3806a">สูง</span>':'<span class="pill" style="background:rgba(230,184,92,.18);color:#e6b85c">กลาง</span>';
  // group by branch
@@ -1485,7 +1580,7 @@ function renderActions(){
      <span style="flex:0 0 84px;color:var(--mut);font-weight:700;font-size:calc(13px*var(--s));padding-top:2px">${a.cat}</span>
      <span style="flex:1;min-width:0">
       <span style="display:block;font-size:calc(14px*var(--s));font-weight:600">${a.msg}</span>
-      ${NEXT[a.cat]?`<span style="display:block;margin-top:3px;font-size:calc(13px*var(--s));color:#e9c88e">→ ทำต่อ: ${NEXT[a.cat]}</span>`:''}
+      ${a.tip?`<span style="display:block;margin-top:4px;font-size:calc(13.5px*var(--s));color:#e9c88e;line-height:1.55">→ ${a.tip}</span>`:''}
      </span>
    </div>`).join('')}
   </div>`).join('');
