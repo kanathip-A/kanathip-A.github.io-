@@ -256,6 +256,24 @@ button.st-lbl:active{transform:translateX(-50%) scale(.97)}
 .fu-first{font-size:calc(11.5px*var(--s));font-weight:700;color:var(--urushi);background:var(--a);padding:2px 9px;border-radius:999px;letter-spacing:.02em}
 html[data-theme="light"] .fu-first{color:#fffdf8}
 @media (prefers-reduced-motion:reduce){.hero.intro *,.fu-card.fu-in,.section:not(.hidden){animation:none!important;transition:none!important}}
+
+/* ป้ายช่วยอ่าน "ดูวิธีจัดสี" (details/summary — กดหรือ Enter ได้) */
+.hint-d{margin-top:10px}
+.hint-d summary{display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--a);font-weight:600;font-size:calc(13px*var(--s));padding:6px 12px 6px 8px;border-radius:999px;border:1px solid var(--line);list-style:none;transition:background-color .15s}
+.hint-d summary::-webkit-details-marker{display:none}
+.hint-d summary:hover{background:var(--gold-soft)}
+.hint-d summary:focus-visible{outline:none;box-shadow:0 0 0 2px var(--a)}
+.hint-i{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--a);display:grid;place-items:center;font-family:var(--font-display);font-size:12px;font-weight:700;font-style:italic}
+.hint-d[open] summary{background:var(--gold-soft)}
+.hint-d[open] .hint-t,.hint-d[open] .hint-f{animation:kUp .22s cubic-bezier(.23,1,.32,1)}
+.hint-t{width:100%;margin-top:10px;border-collapse:collapse;font-size:calc(13px*var(--s));background:var(--card2);border-radius:12px;overflow:hidden}
+.hint-t th,.hint-t td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--txt);font-weight:400}
+.hint-t thead th{color:var(--mut);font-weight:600;white-space:nowrap}
+.hint-t tbody th{font-weight:600}
+.hint-t tr:last-child th,.hint-t tr:last-child td{border-bottom:0}
+.hd-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.hint-f{margin-top:8px;font-size:calc(12px*var(--s));color:var(--mut);line-height:1.6}
+@media (prefers-reduced-motion:reduce){.hint-d[open] .hint-t,.hint-d[open] .hint-f{animation:none}}
 /* Scorecard: จุดสี + ตัวเลข แทน pill */
 .sdot{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-weight:500}
 .sdot i{width:8px;height:8px;border-radius:50%;flex:none}
@@ -303,7 +321,7 @@ html[data-theme="light"] .tbl tbody tr:nth-child(even) td{background:rgba(42,35,
 <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
 <div style="text-align:right;line-height:1.35">
 <div style="color:var(--mut);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">อัพเดทข้อมูลล่าสุด</div>
-<div style="color:var(--txt);font-size:15px;font-weight:800">15 ต.ค. 69 · 12:28 น.</div>
+<div style="color:var(--txt);font-size:15px;font-weight:800">15 ต.ค. 69 · 12:39 น.</div>
 </div>
 <button class="btn" id="themeBtn" type="button" aria-pressed="false" style="font-size:14px;font-weight:700;padding:10px 14px">☀ ธีมสว่าง</button>
 <button class="btn" id="printBtn" style="font-size:14px;font-weight:700;padding:10px 16px">⤓ Export PDF (HOME)</button>
@@ -1824,7 +1842,22 @@ function renderScorecard(){
    `<td>${pill(r.health.toFixed(0),gH)}</td></tr>`;});
  document.getElementById('scoreTable').innerHTML=h+'</tbody>';
  const n=document.getElementById('scoreNote');
- if(n)n.innerHTML='Score = ค่าเฉลี่ยของมิติที่มีข้อมูล (เขียว 100 / เหลือง 60 / แดง 20) • “–” = ยังไม่มีข้อมูลเดือนนั้น ไม่นำมาคิดคะแนน<br>var = variance = ผลต่าง';
+ if(n){
+  const d=c=>`<i class="hd-dot" style="background:var(--${c})"></i>`;
+  const R=(t,g,y,r)=>`<tr><th scope="row">${t}</th><td>${g}</td><td>${y}</td><td>${r}</td></tr>`;
+  n.innerHTML='Score = ค่าเฉลี่ยของมิติที่มีข้อมูล (เขียว 100 / เหลือง 60 / แดง 20) • “–” = ยังไม่มีข้อมูลเดือนนั้น ไม่นำมาคิดคะแนน<br>var = variance = ผลต่าง'+
+  `<details class="hint-d"><summary><span class="hint-i" aria-hidden="true">i</span>ดูวิธีจัดสี</summary>
+   <table class="hint-t"><thead><tr><th>หัวข้อ</th><th>${d('g')}เขียว · 100</th><th>${d('y')}เหลือง · 60</th><th>${d('r')}แดง · 20</th></tr></thead><tbody>
+   ${R('ยอดขายเทียบเป้า (Sales Ach%)','≥ 100%','95–99.9%','&lt; 95%')}
+   ${R('ต้นทุนแรงงาน (COL var)','ไม่เกิน Limit','เกิน ≤ 0.5 pp','เกิน &gt; 0.5 pp')}
+   ${R('ต้นทุนวัตถุดิบ (COGs var)','ผ่านตามสถานะทางการ','—','ไม่ผ่านตามสถานะทางการ')}
+   ${R('QSC (Onsite ≥85 / CCTV ≥80)','ถึงเกณฑ์','ต่ำกว่าเกณฑ์ ≤ 5 คะแนน','ต่ำกว่าเกณฑ์ &gt; 5 คะแนน')}
+   ${R('คอมเพลน','0 เคส','1 เคส','≥ 2 เคส')}
+   ${R('รีวิว Google','≥ 4.2★','4.0–4.19★','&lt; 4.0★')}
+   </tbody></table>
+   <div class="hint-f">COGs เดือนที่ไม่มีสถานะทางการ ใช้เกณฑ์ตัวเลขแบบเดียวกับ COL • ช่อง Score: ≥80 เขียว / 55–79 เหลือง / &lt;55 แดง • “QSC เรื้อรัง” แสดงเพื่อดูอย่างเดียว ไม่นำมาคิดคะแนน</div>
+  </details>`;
+ }
 }
 
 // ===== สถานะ COGs ย้อนหลัง: สาขา × เดือน =====
