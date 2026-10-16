@@ -1,0 +1,13 @@
+{
+  "name": "KPI ZONE3 BY KANATHIP",
+  "short_name": "KPI Zone3",
+  "start_url": "Sales_Dashboard_2025_vs_2026.html",
+  "display": "standalone",
+  "background_color": "#16110e",
+  "theme_color": "#16110e",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
