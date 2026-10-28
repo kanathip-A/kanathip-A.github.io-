@@ -403,6 +403,72 @@ html .panel.hero,html[data-theme] .panel.hero{border-top:2px solid var(--a)}
  .panel{background-color:var(--card);-webkit-backdrop-filter:none;backdrop-filter:none}
  .tabs,.xlf-panel,.rail-tip,#toast,.tbl.stk thead th{background:var(--card)!important;-webkit-backdrop-filter:none;backdrop-filter:none}}
 @media print{body::before{display:none}.panel,.tabnav{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important}}
+
+/* ===================== CONVEX CLEAR GLASS (แก้วนูนใส) ===================== */
+:root{--glass:rgba(34,26,21,.30);--glass-2:rgba(52,41,33,.30);--glass-blur:12px;
+ --rim:rgba(255,244,228,.30);--rim-soft:rgba(255,244,228,.10);--sheen:rgba(255,246,232,.16);--shade:rgba(0,0,0,.38);--edge:rgba(255,244,228,.16)}
+html[data-theme="light"]{--glass:rgba(255,253,248,.38);--glass-2:rgba(255,250,242,.40);
+ --rim:rgba(255,255,255,.95);--rim-soft:rgba(255,255,255,.55);--sheen:rgba(255,255,255,.60);--shade:rgba(90,60,40,.16);--edge:rgba(255,255,255,.75)}
+.panel,html[data-theme="light"] .panel{
+ border-radius:20px;border:1px solid var(--edge);
+ background-color:var(--glass);
+ background-image:
+  radial-gradient(120% 60% at 30% -12%,var(--sheen),transparent 55%),        /* แสงสะท้อนโค้งด้านบน */
+  linear-gradient(180deg,var(--rim-soft) 0,transparent 22%,transparent 72%,rgba(0,0,0,.10) 100%), /* ความนูน: บนสว่าง ล่างเงา */
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .4 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+ background-size:100% 100%,100% 100%,160px 160px;
+ -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(175%) brightness(1.06);backdrop-filter:blur(var(--glass-blur)) saturate(175%) brightness(1.06);
+ box-shadow:
+  inset 0 1.5px 0 var(--rim),                 /* ขอบบนสะท้อนแสง */
+  inset 1px 0 0 var(--rim-soft),inset -1px 0 0 var(--rim-soft),
+  inset 0 22px 34px -26px var(--sheen),       /* ผิวโค้งด้านบน */
+  inset 0 -26px 40px -28px var(--shade),      /* ท้องแก้วด้านล่าง */
+  inset 0 -1px 0 rgba(0,0,0,.22),
+  0 24px 48px -28px rgba(0,0,0,.65),0 2px 6px -2px rgba(0,0,0,.30)}
+html[data-theme="light"] .panel{box-shadow:inset 0 1.5px 0 var(--rim),inset 1px 0 0 var(--rim-soft),inset -1px 0 0 var(--rim-soft),
+  inset 0 22px 34px -26px var(--sheen),inset 0 -26px 40px -28px var(--shade),inset 0 -1px 0 rgba(90,60,40,.10),
+  0 22px 44px -28px rgba(90,60,40,.40),0 2px 6px -2px rgba(90,60,40,.18)}
+/* การ์ดย่อย / ปุ่ม: แก้วนูนเม็ดเล็ก */
+.kpi,.fu-card,.tabtoggle,.btn,.chip,select,.xlf-btn{
+ background-image:linear-gradient(180deg,var(--rim-soft),transparent 45%,rgba(0,0,0,.08))!important;
+ border-color:var(--edge)!important;
+ box-shadow:inset 0 1px 0 var(--rim),inset 0 -1px 0 rgba(0,0,0,.18),0 6px 14px -10px rgba(0,0,0,.5)}
+.fu-card{border-radius:16px!important}
+.btn:active,.chip:active,.tabtoggle:active{transform:scale(.97);box-shadow:inset 0 2px 6px rgba(0,0,0,.25)}
+html .panel.hero,html[data-theme] .panel.hero{border-top:2px solid var(--a)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.panel{background-color:var(--card)}}
+@media (prefers-reduced-transparency:reduce){.panel{background-color:var(--card)}}
+@media print{.panel{background-image:none!important;box-shadow:none!important;border-radius:12px}}
+
+/* ===================== แว่นขยาย (hover magnifier) ===================== */
+/* แสงแก้วตามเคอร์เซอร์บนพาเนล */
+.panel{--mx:50%;--my:-20%}
+html.mag-on .panel:hover{background-image:
+  radial-gradient(180px 180px at var(--mx) var(--my),var(--sheen),transparent 70%),
+  radial-gradient(120% 60% at 30% -12%,var(--sheen),transparent 55%),
+  linear-gradient(180deg,var(--rim-soft) 0,transparent 22%,transparent 72%,rgba(0,0,0,.10) 100%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .4 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+ background-size:100% 100%,100% 100%,100% 100%,160px 160px;background-repeat:no-repeat,no-repeat,no-repeat,repeat}
+/* ชิ้นข้อมูลขยายขึ้นเมื่อเลื่อนผ่าน */
+html.mag-on :is(.kpi,.hs-row,.fu-card,.statline>div,.ds-row,.chip,.sdot,button.st-lbl,.fu-row,.rt-r){transition:transform .18s cubic-bezier(.23,1,.32,1),box-shadow .18s}
+html.mag-on :is(.kpi,.fu-card,.statline>div):hover{transform:scale(1.035);z-index:2;position:relative}
+html.mag-on :is(.hs-row,.ds-row,.fu-row):hover{transform:scale(1.03);transform-origin:left center}
+html.mag-on .chip:hover{transform:scale(1.08)}
+html.mag-on button.st-lbl:hover{transform:translateX(-50%) scale(1.18)}
+html.mag-on .tbl tbody tr{transition:transform .16s cubic-bezier(.23,1,.32,1)}
+html.mag-on .tbl tbody tr:hover{transform:scale(1.015);position:relative;z-index:2;box-shadow:0 8px 20px -12px rgba(0,0,0,.6);background:var(--gold-soft)}
+/* เลนส์ส่องกราฟ */
+#magLens{position:fixed;z-index:200;width:170px;height:170px;border-radius:50%;pointer-events:none;overflow:hidden;
+ transform:translate(-50%,-50%) scale(.6);opacity:0;transition:opacity .14s ease-out,transform .18s cubic-bezier(.23,1,.32,1);
+ background:var(--bg);border:1.5px solid var(--rim);
+ box-shadow:inset 0 2px 0 var(--rim),inset 0 -14px 26px -14px rgba(0,0,0,.45),0 0 0 6px rgba(255,244,228,.08),0 18px 40px -12px rgba(0,0,0,.7)}
+#magLens.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#magLens canvas{width:100%;height:100%;display:block}
+#magLens::after{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(70% 45% at 35% 18%,rgba(255,255,255,.22),transparent 60%)}
+#magBtn[aria-pressed="false"]{opacity:.7}
+@media (hover:none),(pointer:coarse){#magLens{display:none}html.mag-on *:hover{transform:none!important}}
+@media (prefers-reduced-motion:reduce){html.mag-on *{transition:none!important}}
+@media print{#magLens,#magBtn{display:none!important}}
 </style>
 </head>
 <body>
@@ -412,8 +478,9 @@ html .panel.hero,html[data-theme] .panel.hero{border-top:2px solid var(--a)}
 <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
 <div style="text-align:right;line-height:1.35">
 <div style="color:var(--mut);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">อัพเดทข้อมูลล่าสุด</div>
-<div style="color:var(--txt);font-size:15px;font-weight:800">28 ต.ค. 69 · 15:50 น.</div>
+<div style="color:var(--txt);font-size:15px;font-weight:800">28 ต.ค. 69 · 18:52 น.</div>
 </div>
+<button class="btn" id="magBtn" type="button" aria-pressed="true" style="font-size:14px;font-weight:700;padding:10px 14px">⌕ แว่นขยาย: เปิด</button>
 <button class="btn" id="themeBtn" type="button" aria-pressed="false" style="font-size:14px;font-weight:700;padding:10px 14px">☀ ธีมสว่าง</button>
 <button class="btn" id="printBtn" style="font-size:14px;font-weight:700;padding:10px 16px">⤓ Export PDF (HOME)</button>
 </div>
@@ -976,6 +1043,11 @@ function mk(id,cfg){
 const baseScale={grid:{color:'rgba(243,234,217,.07)'},ticks:{color:T.mut}};
 function applyChartTheme(){
  Chart.defaults.color=T.lbl;
+ const tt=Chart.defaults.plugins&&Chart.defaults.plugins.tooltip;
+ if(tt)Object.assign(tt,{backgroundColor:THEME==='light'?'rgba(255,252,246,.96)':'rgba(28,22,18,.94)',titleColor:T.txt,bodyColor:T.txt,borderColor:THEME==='light'?'rgba(42,31,24,.18)':'rgba(243,234,217,.22)',borderWidth:1,cornerRadius:10,padding:12,boxPadding:6,caretSize:7,titleFont:{size:15,weight:'700'},bodyFont:{size:15,weight:'600'},footerFont:{size:13}});
+ const el=Chart.defaults.elements;
+ if(el&&el.bar){el.bar.hoverBorderWidth=2;el.bar.hoverBorderColor=T.txt;}
+ if(el&&el.point)el.point.hoverRadius=7;
  baseScale.grid.color=THEME==='light'?'rgba(42,35,28,.10)':'rgba(243,234,217,.07)';
  baseScale.ticks.color=T.mut;
  Chart.defaults.animation=REDUCED.matches?false:Object.assign({},Chart.defaults.animation||{},{duration:700,easing:'easeOutQuart'});
@@ -2240,6 +2312,41 @@ document.getElementById('lockPin').addEventListener('input',()=>{document.getEle
 document.getElementById('lockAgain').addEventListener('click',()=>{_unlocked=false;try{sessionStorage.removeItem('dsUnlocked')}catch(_){}applyLock();document.getElementById('lockPin').focus();});
 applyLock();
 tabsEl.querySelectorAll('.tab[data-s="status"]').forEach(b=>b.addEventListener('click',()=>{applyLock();if(!_unlocked)setTimeout(()=>{const i=document.getElementById('lockPin');i&&i.focus();},60);}));
+
+// ===== แว่นขยาย: แสงแก้วตามเคอร์เซอร์ + ขยายชิ้นข้อมูล + เลนส์ส่องกราฟ =====
+(function(){
+ const root=document.documentElement,btn=document.getElementById('magBtn');
+ let on=true;try{on=localStorage.getItem('kpiMag')!=='0';}catch(e){}
+ const apply=()=>{root.classList.toggle('mag-on',on);if(btn){btn.setAttribute('aria-pressed',String(on));btn.textContent='⌕ แว่นขยาย: '+(on?'เปิด':'ปิด');}if(!on)hideLens();};
+ if(btn)btn.addEventListener('click',()=>{on=!on;try{localStorage.setItem('kpiMag',on?'1':'0')}catch(e){}apply();});
+ const fine=window.matchMedia?window.matchMedia('(hover:hover) and (pointer:fine)').matches:true;
+ // เลนส์
+ const lens=document.createElement('div');lens.id='magLens';lens.setAttribute('aria-hidden','true');
+ const lc=document.createElement('canvas');lens.appendChild(lc);document.body.appendChild(lens);
+ const ZOOM=1.6,SIZE=170,OFF=120;
+ function hideLens(){lens.classList.remove('show');}
+ let raf=0,last=null;
+ function frame(){
+  raf=0;const e=last;if(!e)return;
+  const p=e.target.closest&&e.target.closest('.panel');
+  if(p){const r=p.getBoundingClientRect();p.style.setProperty('--mx',(e.clientX-r.left)+'px');p.style.setProperty('--my',(e.clientY-r.top)+'px');}
+  const cv=on&&fine&&e.shiftKey&&e.target.tagName==='CANVAS'&&e.target.closest('.cw')?e.target:null;
+  if(!cv){hideLens();return;}
+  const r=cv.getBoundingClientRect(),sx=cv.width/r.width,sy=cv.height/r.height,dpr=window.devicePixelRatio||1;
+  if(lc.width!==SIZE*dpr){lc.width=lc.height=SIZE*dpr;}
+  const src=SIZE/ZOOM,cx=(e.clientX-r.left)*sx,cy=(e.clientY-r.top)*sy,w=src*sx,h=src*sy;
+  const ctx=lc.getContext('2d');ctx.clearRect(0,0,lc.width,lc.height);
+  ctx.fillStyle=getComputedStyle(root).getPropertyValue('--bg')||'#16110e';ctx.fillRect(0,0,lc.width,lc.height);
+  try{ctx.drawImage(cv,cx-w/2,cy-h/2,w,h,0,0,lc.width,lc.height);}catch(_){}
+  const lx=e.clientX+OFF+SIZE/2>innerWidth?e.clientX-OFF:e.clientX+OFF,ly=e.clientY-OFF<SIZE/2?e.clientY+OFF:e.clientY-OFF;
+  lens.style.left=lx+'px';lens.style.top=ly+'px';lens.classList.add('show');
+ }
+ document.addEventListener('pointermove',e=>{if(e.pointerType&&e.pointerType!=='mouse'&&e.pointerType!=='pen')return;last=e;if(!raf)raf=requestAnimationFrame(frame);},{passive:true});
+ document.addEventListener('pointerleave',hideLens);
+ document.addEventListener('keyup',e=>{if(e.key==='Shift')hideLens();});
+ document.addEventListener('scroll',hideLens,{passive:true});
+ apply();
+})();
 
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',__boot,{once:true});else __boot();
