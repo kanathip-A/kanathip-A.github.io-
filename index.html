@@ -532,7 +532,7 @@ html.mag-on .tbl tbody tr:hover{transform:scale(1.015);position:relative;z-index
 <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
 <div style="text-align:right;line-height:1.35">
 <div style="color:var(--mut);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">อัพเดทข้อมูลล่าสุด</div>
-<div style="color:var(--txt);font-size:15px;font-weight:800">3 พ.ย. 69 · 16:24 น.</div>
+<div style="color:var(--txt);font-size:15px;font-weight:800">8 พ.ย. 69 · 20:49 น.</div>
 </div>
 <button class="btn" id="magBtn" type="button" aria-pressed="true" style="font-size:14px;font-weight:700;padding:10px 14px">⌕ แว่นขยาย: เปิด</button>
 <button class="btn" id="themeBtn" type="button" aria-pressed="false" style="font-size:14px;font-weight:700;padding:10px 14px">☀ ธีมสว่าง</button>
@@ -1880,8 +1880,8 @@ Object.entries(COGSOFF.values||{}).forEach(([mm,bs])=>{const m=+mm;
  if(KR.some(r=>r[kix.cat]==='COGs'&&r[kix.m]===m&&r[kix.met]==='Actual'&&r[kix.v]>0))return;
  Object.entries(bs).forEach(([b,[a,t]])=>['Actual','Limit'].forEach((met,i)=>{const x=[];x[kix.m]=m;x[kix.b]=b;x[kix.cat]='COGs';x[kix.met]=met;x[kix.v]=i?t:a;KR.push(x);}));
 });
-// สถานะ COGs ทางการ: true=ผ่าน · false=ไม่ผ่าน · null=ไม่มีผลทางการ (ใช้การเทียบตัวเลขแทน)
-const cogOK=(b,m)=>{const s=COGSOFF.status&&COGSOFF.status[b]&&COGSOFF.status[b][m];return s==='P'?true:s==='X'?false:null;};
+// สถานะ COGs (ผู้ใช้สั่ง 8 พ.ย. 69): Actual ≤ Limit = ผ่าน · true/false · null=ไม่มีตัวเลขเดือนนั้น
+const cogOK=(b,m)=>{const g=met=>{const r=KR.find(r=>r[kix.cat]==='COGs'&&r[kix.met]===met&&r[kix.m]===m&&r[kix.b]===b);return r&&r[kix.v]>0?r[kix.v]:null;};const a=g('Actual'),l=g('Limit');return a==null||l==null?null:a<=l;};
 const kfilt=(cat,met,ms,b)=>KR.filter(r=>r[kix.cat]===cat&&r[kix.met]===met&&ms.includes(r[kix.m])&&(b==null||r[kix.b]===b));
 const ksum=(cat,met,ms,b)=>kfilt(cat,met,ms,b).reduce((a,r)=>a+r[kix.v],0);
 const kavg=(cat,met,ms,b)=>{const f=kfilt(cat,met,ms,b);return f.length?f.reduce((a,r)=>a+r[kix.v],0)/f.length:0;};
