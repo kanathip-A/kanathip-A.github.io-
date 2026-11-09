@@ -532,7 +532,7 @@ html.mag-on .tbl tbody tr:hover{transform:scale(1.015);position:relative;z-index
 <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
 <div style="text-align:right;line-height:1.35">
 <div style="color:var(--mut);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">อัพเดทข้อมูลล่าสุด</div>
-<div style="color:var(--txt);font-size:15px;font-weight:800">8 พ.ย. 69 · 20:49 น.</div>
+<div style="color:var(--txt);font-size:15px;font-weight:800">9 พ.ย. 69 · 10:50 น.</div>
 </div>
 <button class="btn" id="magBtn" type="button" aria-pressed="true" style="font-size:14px;font-weight:700;padding:10px 14px">⌕ แว่นขยาย: เปิด</button>
 <button class="btn" id="themeBtn" type="button" aria-pressed="false" style="font-size:14px;font-weight:700;padding:10px 14px">☀ ธีมสว่าง</button>
@@ -1647,7 +1647,7 @@ function renderRevCompare(){
  document.getElementById('revCmpCards').innerHTML=cards.map(x=>`<div class="rv-card rv-${x.vc}${mb===x.b?' rv-sel':''}">
   <div class="rv-h"><b>${BNAMES[x.b]||x.b}</b><span class="rv-badge">${x.v}</span></div>
   ${x.C.length||x.A.length?`<div class="rv-sum">รีวิว ${x.A.length} → <b>${x.C.length}</b> · ⭐5 ดาว ${arrow(x.fA,x.fC,false)} · 1–2 ดาว ${arrow(x.bA,x.bC,true)}</div>`:''}
-  ${x.lines.length?'<ul class="rv-lines">'+x.lines.map(l=>`<li class="${l.good?'rv-up':l.bad?'rv-dn':'rv-eq'}">${l.kind==='บ่น'?'บ่นเรื่อง':'ชมเรื่อง'} <b>${l.t}</b> จาก ${l.a} เป็น ${l.c} ${l.kind==='บ่น'?(l.c<l.a?'(ลดลง)':l.c>l.a?'(เพิ่มขึ้น)':'(เท่าเดิม)'):'(เพิ่มขึ้น)'}</li>`).join('')+'</ul>'
+  ${x.lines.length?'<ul class="rv-lines">'+x.lines.map(l=>`<li class="${l.kind==='บ่น'?'rv-dn':'rv-up'}">${l.kind==='บ่น'?'บ่นเรื่อง':'ชมเรื่อง'} <b>${l.t}</b> จาก ${l.a} เป็น ${l.c} ${l.kind==='บ่น'?(l.c<l.a?'(ลดลง)':l.c>l.a?'(เพิ่มขึ้น)':'(เท่าเดิม)'):'(เพิ่มขึ้น)'}</li>`).join('')+'</ul>'
    :(x.C.length&&!x.bC?'<div class="rv-up rv-note">เดือนนี้ไม่มีใครบ่น</div>':'')}
  </div>`).join('');
 }
