@@ -629,6 +629,35 @@ body::before{background:
 .panel>h3:first-child::before,.panel>.ph h3::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--grad);margin-right:10px;vertical-align:middle;box-shadow:0 0 10px rgba(255,79,123,.7)}
 @media (prefers-reduced-motion:reduce){body::before{animation:none}.fu-card:hover,.kpi:hover{transform:none}}
 @media print{.panel::after{display:none}.hero-num,.head h1{color:var(--txt)!important;background:none}}
+/* ===================== POLISH (19 พ.ย. 69) ===================== */
+.head>div[style*="margin-left:auto"]{flex-wrap:wrap;justify-content:flex-end;row-gap:10px}
+.head .btn,.head>div>div>div{white-space:nowrap}
+.eyebrow{letter-spacing:0!important;font-size:calc(14px*var(--s))!important;font-weight:600!important;color:var(--mut2)!important;text-transform:none}
+::selection{background:rgba(255,122,89,.38);color:#fff}
+html{scrollbar-color:rgba(255,255,255,.18) transparent;caret-color:var(--a)}
+html[data-theme="light"]{scrollbar-color:rgba(15,23,42,.22) transparent}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:10px;border:2px solid transparent;background-clip:padding-box}
+html[data-theme="light"] ::-webkit-scrollbar-thumb{background-color:rgba(15,23,42,.2)}
+@media (max-width:640px){
+ .head{gap:10px}.head h1{font-size:calc(19px*var(--s))!important}
+ .head>div[style*="margin-left:auto"]{margin-left:0!important;width:100%;display:grid!important;grid-template-columns:repeat(3,1fr);gap:8px!important}
+ .head>div[style*="margin-left:auto"]>div{grid-column:1/-1;text-align:left!important;display:flex;gap:8px;align-items:baseline}
+ .head .btn{padding:9px 8px!important;font-size:13px!important;text-align:center}}
+.hanko{white-space:nowrap}
+.panel h3{border-left:0!important;padding-left:0!important}
+.scard td:nth-child(2),.scard th:nth-child(2){text-align:left}
+.panel,.panel h3{scroll-margin-top:calc(90px*var(--s))}
+:root{--plan-c:#4d4775}
+/* ===== HUMAN TOUCH (19 พ.ย. 69): ไอคอนจริง ลดของประดับที่ดูเป็น AI ===== */
+.ic{width:1.05em;height:1.05em;flex:0 0 auto}
+.head .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.dot{display:inline-block;width:.6em;height:.6em;border-radius:50%;margin-right:.45em;vertical-align:.05em}
+.head h1{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:var(--txt)!important}
+.panel>h3:first-child::before,.panel>.ph h3::before{display:none!important}
+.panel::after{opacity:.35}
+.panel:hover{box-shadow:inset 0 1px 0 var(--rim),0 1px 2px rgba(0,0,0,.2),0 20px 44px -24px rgba(0,0,0,.6)!important}
+.hero-num{filter:none}
+.st{filter:none}
 </style>
 </head>
 <body>
@@ -638,11 +667,11 @@ body::before{background:
 <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
 <div style="text-align:right;line-height:1.35">
 <div style="color:var(--mut);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">อัพเดทข้อมูลล่าสุด</div>
-<div style="color:var(--txt);font-size:15px;font-weight:800">19 พ.ย. 69 · 14:25 น.</div>
+<div style="color:var(--txt);font-size:15px;font-weight:800">19 พ.ย. 69 · 14:43 น.</div>
 </div>
-<button class="btn" id="magBtn" type="button" aria-pressed="true" style="font-size:14px;font-weight:700;padding:10px 14px">⌕ แว่นขยาย: เปิด</button>
-<button class="btn" id="themeBtn" type="button" aria-pressed="false" style="font-size:14px;font-weight:700;padding:10px 14px">☀ ธีมสว่าง</button>
-<button class="btn" id="printBtn" style="font-size:14px;font-weight:700;padding:10px 16px">⤓ Export PDF (HOME)</button>
+<button class="btn" id="magBtn" type="button" aria-pressed="true" style="font-size:14px;font-weight:700;padding:10px 14px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg><span>แว่นขยาย: เปิด</span></button>
+<button class="btn" id="themeBtn" type="button" aria-pressed="false" style="font-size:14px;font-weight:700;padding:10px 14px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M3 12h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7-.7.7m0 11.4.7.7m-12.1-.7-.7.7"/></svg><span>ธีมสว่าง</span></button>
+<button class="btn" id="printBtn" style="font-size:14px;font-weight:700;padding:10px 16px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12"/></svg><span>Export PDF (HOME)</span></button>
 </div>
 </div>
 
@@ -701,7 +730,7 @@ body::before{background:
 </div>
 <div class="panel fu-wrap full b-6 b-fu">
 <h3 id="actionTitle">ประเด็นที่ต้องติดตาม (Follow-up)</h3>
-<div class="hint">เรื่องด่วนอยู่บนสุด บรรทัดสีทองคือสิ่งที่สาขาควรทำต่อ อ้างอิงจากตัวเลขของสาขานั้นเอง (pp คือส่วนต่างเป็นจุดเปอร์เซ็นต์)</div>
+<div class="hint">เรื่องด่วนอยู่บนสุด บรรทัดสีส้มคือสิ่งที่สาขาควรทำต่อ อ้างอิงจากตัวเลขของสาขานั้นเอง (pp คือส่วนต่างเป็นจุดเปอร์เซ็นต์)</div>
 <div id="actionBox" style="display:grid;grid-template-columns:1fr 1fr;gap:14px"></div>
 </div>
 <div class="panel full b-12 b-score">
@@ -723,7 +752,7 @@ body::before{background:
 <div class="cw tall"><canvas id="coverMChart"></canvas></div>
 </div>
 <div class="panel full b-12 b-kpi">
-<h3>KPI รายสาขา: Target/Limit เทียบ Actual</h3>
+<h3>KPI แต่ละสาขา เทียบเป้า</h3>
 <div class="hint">เลือก KPI ที่ต้องการดูได้ด้านล่าง ช่อง Diff สีเขียวคือดีกว่าเป้า สีแดงคือต้องแก้</div>
 <div class="filters"><div class="fg"><label>เลือก KPI</label><select id="coverKpiPick">
 <option value="Sales">ยอดขาย (Sales)</option>
@@ -752,7 +781,7 @@ body::before{background:
 </div>
 <div id="dsWrap" hidden>
 <div class="panel full" id="dataStatus">
-<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><h3 style="margin:0">สถานะข้อมูล: แต่ละแหล่งมีถึงเดือนไหน</h3><span id="dsSum" class="ds-sum"></span><button class="btn" id="lockAgain" type="button" style="margin-left:auto;font-size:13px;padding:7px 12px">ล็อกอีกครั้ง</button></div>
+<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><h3 style="margin:0">ข้อมูลแต่ละแหล่งมาถึงเดือนไหนแล้ว</h3><span id="dsSum" class="ds-sum"></span><button class="btn" id="lockAgain" type="button" style="margin-left:auto;font-size:13px;padding:7px 12px">ล็อกอีกครั้ง</button></div>
 <div class="hint">เทียบกับเดือนล่าสุดของยอดขาย แหล่งที่เป็นสีแซลมอนยังตามหลัง ให้ส่งไฟล์แล้วพิมพ์คำสั่งอัปเดตในแชทใดก็ได้</div>
 <div class="ds-grid" id="dsGrid"></div>
 </div>
@@ -763,7 +792,7 @@ body::before{background:
 <div class="kpis" id="kpis"></div>
 
 <div class="panel">
-<h3>ภาพรวมรายเดือน 2026: การเติบโตเทียบเดือนก่อนหน้า (MoM)</h3>
+<h3>ยอดขายรายเดือน 2026 เทียบเดือนก่อน (MoM)</h3>
 <div id="momStrip" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"></div>
 </div>
 
@@ -773,7 +802,7 @@ body::before{background:
 <div class="cw"><canvas id="trendChart"></canvas></div>
 </div>
 <div class="panel full">
-<h3>ยอดสุทธิรายสาขา: เลือกเดือน เทียบ 2025 vs 2026</h3>
+<h3>ยอดสุทธิแต่ละสาขา ปี 2025 เทียบ 2026</h3>
 <div class="filters"><div class="fg"><label>เลือกเดือน</label><select id="brMonth"></select></div></div>
 <div class="cw tall"><canvas id="branchMonthChart"></canvas></div>
 <div style="overflow-x:auto;margin-top:12px"><table class="tbl" id="branchMonthTable"></table></div>
@@ -784,7 +813,7 @@ body::before{background:
 <div class="section hidden" id="sec-sales">
 <div class="grid">
 <div class="panel">
-<h3>ยอดขายตามช่องทาง (Sale by Channel)</h3>
+<h3>ยอดขายแยกตามช่องทาง</h3>
 <div class="filters"><div class="fg"><label>สาขา</label><select id="chBranch"></select></div><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="chMonths"></div></div></div>
 <div class="cw tall"><canvas id="channelChart"></canvas></div>
 </div>
@@ -794,7 +823,7 @@ body::before{background:
 <div class="cw tall"><canvas id="delivChart"></canvas></div>
 </div>
 <div class="panel full">
-<h3>จำนวนบิล & เฉลี่ยต่อบิล/ต่อหัว</h3>
+<h3>จำนวนบิล ยอดเฉลี่ยต่อบิลและต่อหัว</h3>
 <div class="filters"><div class="fg"><label>สาขา</label><select id="blBranch"></select></div><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="blMonths"></div></div></div>
 <div class="cw tall"><canvas id="billChart"></canvas></div>
 </div>
@@ -803,7 +832,7 @@ body::before{background:
 
 <div class="section hidden" id="sec-product">
 <div class="panel" style="margin-top:4px">
-<h3>Ranking สินค้าขายดี (Sale by Product)</h3>
+<h3>เมนูขายดี</h3>
 <div class="filters" style="margin-top:10px">
 <div class="fg"><label>สาขา</label><select id="pBranch"></select></div>
 <div class="fg"><label>เดือนหลัก</label><select id="pMonth"></select></div>
@@ -826,13 +855,13 @@ body::before{background:
 <div class="section hidden" id="sec-kd">
 <div class="grid">
 <div class="panel full">
-<h3>KhoaDon (ยอดขาย KD แยกแพลตฟอร์ม): แนวโน้มทุกสาขา</h3>
+<h3>ยอด KhoaDon แต่ละแพลตฟอร์ม ทุกสาขา</h3>
 <div style="color:var(--mut);font-size:11.5px;margin:4px 0 8px">ยอด KhoaDon รวม = (KD) Lineman + (KD) Grabfood + (KD) Foodpanda + (KD) Shopeefood</div>
 <div class="filters"><div class="fg" style="flex:1"><label>เลือกเดือน (สูงสุด 12)</label><div class="chips" id="kdMonths"></div></div></div>
 <div class="cw tall"><canvas id="kdChart"></canvas></div>
 </div>
 <div class="panel full">
-<h3>ตาราง KhoaDon รายสาขา × แพลตฟอร์ม (รวมเดือนที่เลือก)</h3>
+<h3>KhoaDon แยกสาขาและแพลตฟอร์ม (รวมเดือนที่เลือก)</h3>
 <div style="overflow-x:auto"><table class="tbl" id="kdTable"></table></div>
 </div>
 </div>
@@ -875,7 +904,7 @@ body::before{background:
 
 <div class="section hidden" id="sec-qsc">
 <div class="panel">
-<h3>QSC Audit: คะแนนรวมรายสาขา <span id="qscPeriod" style="color:var(--mut);font-size:13px"></span></h3>
+<h3>คะแนน QSC แต่ละสาขา <span id="qscPeriod" style="color:var(--mut);font-size:13px"></span></h3>
 <div class="filters"><div class="fg"><label>เลือกเดือน</label><select id="qscMonth"></select></div></div>
 <div class="cw tall"><canvas id="qscScoreChart"></canvas></div>
 </div>
@@ -891,16 +920,16 @@ body::before{background:
 <div class="fg"><label>สาขา</label><select id="qscFailBranch"></select></div>
 <div class="fg"><label>สถานะการแก้ไข</label><select id="qscFailStatus">
 <option value="ALL">ทั้งหมด</option>
-<option value="STILL">🔺 ยังตกในเดือนล่าสุด (เรื้อรัง+เฝ้าระวัง)</option>
-<option value="chronic">🔴 เรื้อรัง (ตกติดกัน ≥3 เดือน)</option>
-<option value="watch">🟡 เฝ้าระวัง (ยังตกล่าสุด <3 เดือนติด)</option>
-<option value="fixed">🟢 แก้ได้แล้ว (ล่าสุดไม่ตก)</option>
+<option value="STILL">ยังตกในเดือนล่าสุด (เรื้อรัง+เฝ้าระวัง)</option>
+<option value="chronic">เรื้อรัง (ตกติดกัน ≥3 เดือน)</option>
+<option value="watch">เฝ้าระวัง (ยังตกล่าสุด <3 เดือนติด)</option>
+<option value="fixed">แก้ได้แล้ว (ล่าสุดไม่ตก)</option>
 </select></div>
 </div>
 <div style="overflow:auto;max-height:calc(560px*var(--s))"><table class="tbl stk fixed" id="qscFailTable"></table></div>
 </div>
 <div class="panel full">
-<h3>ข้อที่ตกบ่อยทั้งโซน + แนวทางแก้ไขตามคู่มือ</h3>
+<h3>ข้อที่ตกบ่อยทั้งโซน และวิธีแก้ตามคู่มือ</h3>
 <div class="filters">
 <div class="fg"><label>หมวด</label><select id="qscTopCat"></select></div>
 <div class="fg"><label>แสดง</label><select id="qscTopN">
@@ -916,7 +945,7 @@ body::before{background:
 
 <div class="section hidden" id="sec-col">
 <div class="panel">
-<h3>COL (Cost of Labor) เทียบยอดขาย: แนวโน้มรายรอบเดือน</h3>
+<h3>ค่าแรง (COL) เทียบยอดขาย รายรอบเดือน</h3>
 <div style="color:var(--mut);font-size:13.5px;margin:-4px 0 10px">pp คือส่วนต่างเป็นจุดเปอร์เซ็นต์</div>
 <div class="filters"><div class="fg"><label>สาขา</label><select id="colBranch"></select></div></div>
 <div class="cw tall"><canvas id="colChart"></canvas></div>
@@ -939,7 +968,7 @@ body::before{background:
 <div class="kpis" id="revKpis"></div>
 <div class="grid">
 <div class="panel full">
-<h3>คะแนนรีวิวเฉลี่ยรายสาขา (Google Reviews)</h3>
+<h3>คะแนนรีวิว Google แต่ละสาขา</h3>
 <div class="cw tall"><canvas id="revAvgChart"></canvas></div>
 </div>
 <div class="panel full">
@@ -947,7 +976,7 @@ body::before{background:
 <h3 id="revCmpTitle" style="margin:0;flex:1">รีวิวแต่ละสาขาเทียบเดือนก่อน</h3>
 <div class="fg"><label for="revCmpMonth">เดือนที่ต้องการดู</label><select id="revCmpMonth"></select></div>
 </div>
-<div class="hint">เทียบรีวิวที่เข้ามา<b>ในเดือนนั้น</b>กับเดือนก่อน ตัวเลขคือจำนวนรีวิวที่พูดถึงเรื่องนั้น สีเขียวคือดีขึ้น สีแซลมอนคือแย่ลง (เดือนของรีวิวประมาณจากเวลาที่ Google แสดง)</div>
+<div class="hint">เทียบรีวิวที่เข้ามา<b>ในเดือนนั้น</b>กับเดือนก่อน ตัวเลขคือจำนวนรีวิวที่พูดถึงเรื่องนั้น บรรทัดสีแซลมอนคือคำบ่น สีเขียวคือคำชม (เดือนของรีวิวประมาณจากเวลาที่ Google แสดง)</div>
 <div class="rv-grid" id="revCmpCards"></div>
 </div>
 <div class="panel full">
@@ -973,8 +1002,8 @@ body::before{background:
 </div>
 </div>
 <div class="panel">
-<h3>สถานะ COGs รายเดือน: Actual / Target</h3>
-<div class="hint">ผ่านหรือไม่ผ่านยึดตามผลทางการ ตัวเลขบนคือ Actual ตัวล่างคือ Target (%) คอลัมน์ขวาสุดนับเฉพาะเดือนที่เลือก</div>
+<h3>COGs รายเดือน ผ่านหรือไม่ผ่าน</h3>
+<div class="hint">ผ่านเมื่อ Actual ไม่เกิน Limit ในไฟล์ KPI ตัวเลขบนคือ Actual ตัวล่างคือ Limit (%) คอลัมน์ขวาสุดนับเฉพาะเดือนที่เลือก</div>
 <div class="filters"><div class="fg"><label>เลือกเดือนที่แสดง</label><div id="cogHistMonths"></div></div></div>
 <div style="overflow-x:auto"><table class="tbl" id="cogHistTable"></table></div>
 </div>
@@ -984,11 +1013,11 @@ body::before{background:
 <div class="cw tall"><canvas id="cogDeltaChart"></canvas></div>
 </div>
 <div class="panel">
-<h3 id="cogUpTitle">🔺 หมวดที่ต้นทุนเพิ่มขึ้น</h3>
+<h3 id="cogUpTitle">หมวดที่ต้นทุนเพิ่มขึ้น</h3>
 <div style="overflow-x:auto"><table class="tbl" id="cogUpTable"></table></div>
 </div>
 <div class="panel">
-<h3 id="cogDownTitle">🔻 หมวดที่ต้นทุนลดลง</h3>
+<h3 id="cogDownTitle">หมวดที่ต้นทุนลดลง</h3>
 <div style="overflow-x:auto"><table class="tbl" id="cogDownTable"></table></div>
 </div>
 </div>
@@ -1004,7 +1033,7 @@ body::before{background:
 <div class="cw tall" style="height:560px"><canvas id="wasteChart"></canvas></div>
 </div>
 <div class="panel full">
-<h3>ตารางรายการ Waste</h3>
+<h3>รายการของเสียทั้งหมด</h3>
 <div style="overflow:auto;max-height:520px"><table class="tbl stk" id="wasteTable"></table></div>
 </div>
 </div>
@@ -1028,7 +1057,7 @@ body::before{background:
 <div class="cw tall" style="height:560px"><canvas id="usBranchChart"></canvas></div>
 </div>
 <div class="panel full">
-<h3>รายเทียบการใช้ระหว่างสาขา</h3>
+<h3>เทียบการใช้ระหว่างสาขา</h3>
 <div class="filters">
 <div class="fg"><label>เดือน</label><select id="usMxMonth"></select></div>
 <div class="fg" style="flex:1"><label>ค้นหาสินค้า (ชื่อ/รหัส)</label><input id="usSearch" placeholder="พิมพ์เพื่อกรอง เช่น แซลมอน / FG00082" style="background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:8px 10px;font-size:13px"></div>
@@ -1079,7 +1108,7 @@ const LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAe8AAAGQCAYAAACH/ejZ
 function __boot(){
 // ===== ธีมมืด/สว่าง + ลดแอนิเมชัน =====
 // สีในกราฟอ่านจาก T ทุกครั้งที่วาด → สลับธีมแล้ววาดใหม่ก็เปลี่ยนสีตาม
-const THEME_COLORS={dark:{txt:'#f3f1ff',lbl:'#d5dceb',mut:'#9ba7bd',mut2:'#d5dceb',line:'rgba(255,255,255,.10)',line2:'rgba(255,255,255,.06)',plan:'#2e2a4a',a:'#ff7a59',b:'#ff4f7b',g:'#2ee6a6',r:'#ff5d8f',y:'#ffc53d',o:'#ff7a59',g2:'#6ee7b7',gold:'#ffd2c2'},light:{txt:'#0f172a',lbl:'#1e293b',mut:'#526079',mut2:'#1e293b',line:'rgba(15,23,42,.10)',line2:'rgba(15,23,42,.06)',plan:'#cbd5e1',a:'#c2410c',b:'#9a3412',g:'#047857',r:'#be123c',y:'#a16207',o:'#c2410c',g2:'#065f46',gold:'#9a3412'}};
+const THEME_COLORS={dark:{txt:'#f3f1ff',lbl:'#d5dceb',mut:'#9ba7bd',mut2:'#d5dceb',line:'rgba(255,255,255,.10)',line2:'rgba(255,255,255,.06)',plan:'#4d4775',a:'#ff7a59',b:'#ff4f7b',g:'#2ee6a6',r:'#ff5d8f',y:'#ffc53d',o:'#ff7a59',g2:'#6ee7b7',gold:'#ffd2c2'},light:{txt:'#0f172a',lbl:'#1e293b',mut:'#526079',mut2:'#1e293b',line:'rgba(15,23,42,.10)',line2:'rgba(15,23,42,.06)',plan:'#cbd5e1',a:'#c2410c',b:'#9a3412',g:'#047857',r:'#be123c',y:'#a16207',o:'#c2410c',g2:'#065f46',gold:'#9a3412'}};
 const T=Object.assign({},THEME_COLORS.dark);
 const REDUCED=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):{matches:false};
 function savedTheme(){try{return localStorage.getItem('kpiTheme')}catch(e){return null}}
@@ -1232,7 +1261,7 @@ function setTheme(name){
  try{localStorage.setItem('kpiTheme',name)}catch(e){}
  applyChartTheme();
  const b=document.getElementById('themeBtn');
- if(b){b.setAttribute('aria-pressed',String(name==='light'));b.textContent=name==='light'?'☾ ธีมมืด':'☀ ธีมสว่าง';}
+ if(b){b.setAttribute('aria-pressed',String(name==='light'));b.innerHTML=name==='light'?'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg><span>ธีมมืด</span>':'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M3 12h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7-.7.7m0 11.4.7.7m-12.1-.7-.7.7"/></svg><span>ธีมสว่าง</span>';}
  // วาดใหม่ทุกส่วนด้วยสีของธีมใหม่
  [render,renderProd,renderComplaints,renderQSC,renderCOL,renderReviews,renderCOG,renderWaste,renderUsage,renderCover]
   .forEach(f=>{try{f()}catch(e){}});
@@ -1512,7 +1541,7 @@ function renderProd(){
  const compare=mB!=='NONE';
  const aggB=compare?prodAgg(brs,mB):{};
  const mlB=compare?PMONTHS[+mB]:'';
- document.getElementById('prodTitle').textContent=`Top ${topN} สินค้าขายดี: ${bl} • ${mlA}${compare?` เทียบ ${mlB}`:''} (จำนวนชิ้น)`;
+ document.getElementById('prodTitle').textContent=`${topN} เมนูขายดีของ ${bl} · ${mlA}${compare?` เทียบ ${mlB}`:''} (จำนวนชิ้น)`;
 
  const cc=top.map((_,i)=>palOf(i));
  const ds=compare
@@ -1578,18 +1607,18 @@ function renderQSC(){
  if(fb!=='ALL')items=items.filter(x=>x.code===fb);
  const cChr=items.filter(x=>x.status==='chronic').length, cWatch=items.filter(x=>x.status==='watch').length, cFix=items.filter(x=>x.status==='fixed').length;
  document.getElementById('qscFailKpis').innerHTML=[
-  ['🔴 เรื้อรัง (ตกติดกัน ≥3 เดือน)',cChr,'down'],
-  ['🟡 เฝ้าระวัง (ยังตกล่าสุด <3 เดือนติด)',cWatch,''],
-  ['🟢 แก้ได้แล้ว (ล่าสุดไม่ตก)',cFix,'up'],
+  ['เรื้อรัง (ตกติดกัน ≥3 เดือน)',cChr,'down'],
+  ['เฝ้าระวัง (ยังตกล่าสุด <3 เดือนติด)',cWatch,''],
+  ['แก้ได้แล้ว (ล่าสุดไม่ตก)',cFix,'up'],
   ['% ที่แก้ได้แล้ว',(items.length?Math.round(cFix/items.length*100):0)+'%','up'],
  ].map(k=>`<div class="kpi"><div class="t">${k[0]}</div><div class="v ${k[2]}">${k[1]}</div></div>`).join('');
- document.getElementById('qscFailTitle').textContent=`หัวข้อที่ไม่ผ่าน + ติดตามการแก้ไข (เดือนล่าสุด: ${qscMlbl(qscLatest)})`;
+ document.getElementById('qscFailTitle').textContent=`หัวข้อที่ไม่ผ่าน และการแก้ไข (ล่าสุด ${qscMlbl(qscLatest)})`;
  let rows=items.slice();
  if(fstatus==='STILL')rows=rows.filter(x=>x.status==='chronic'||x.status==='watch');
  else if(fstatus!=='ALL')rows=rows.filter(x=>x.status===fstatus);
  const ord={chronic:0,watch:1,fixed:2};
  rows.sort((a,b)=>ord[a.status]-ord[b.status]||b.streak-a.streak||b.cnt-a.cnt||a.code.localeCompare(b.code));
- const badge={chronic:'<span class="down">🔴 เรื้อรัง</span>',watch:'<span style="color:var(--y)">🟡 เฝ้าระวัง</span>',fixed:'<span class="up">🟢 แก้ได้แล้ว</span>'};
+ const badge={chronic:'<span class="down"><i class="dot" style="background:var(--r)"></i>เรื้อรัง</span>',watch:'<span style="color:var(--y)"><i class="dot" style="background:var(--y)"></i>เฝ้าระวัง</span>',fixed:'<span class="up"><i class="dot" style="background:var(--g)"></i>แก้ได้แล้ว</span>'};
  // Timeline จัดเป็นตาราง 3 เดือนต่อแถว ให้คอลัมน์แคบลง
  const tl=o=>'<span style="display:grid;grid-template-columns:repeat(3,auto);gap:2px 10px;justify-content:start">'
   +qscMonths.map(m=>{const f=o.months.has(m);
@@ -1752,7 +1781,7 @@ function renderRevCompare(){
   return `<span class="${good?'rv-up':'rv-dn'}">${a} → ${c} ${lowerIsBetter?(c<a?'ลดลง':'เพิ่มขึ้น'):(c>a?'เพิ่มขึ้น':'ลดลง')}</span>`;};
  document.getElementById('revCmpCards').innerHTML=cards.map(x=>`<div class="rv-card rv-${x.vc}${mb===x.b?' rv-sel':''}">
   <div class="rv-h"><b>${BNAMES[x.b]||x.b}</b><span class="rv-badge">${x.v}</span></div>
-  ${x.C.length||x.A.length?`<div class="rv-sum">รีวิว ${x.A.length} → <b>${x.C.length}</b> · ⭐5 ดาว ${arrow(x.fA,x.fC,false)} · 1–2 ดาว ${arrow(x.bA,x.bC,true)}</div>`:''}
+  ${x.C.length||x.A.length?`<div class="rv-sum">รีวิว ${x.A.length} → <b>${x.C.length}</b> · 5 ดาว ${arrow(x.fA,x.fC,false)} · 1–2 ดาว ${arrow(x.bA,x.bC,true)}</div>`:''}
   ${x.lines.length?'<ul class="rv-lines">'+x.lines.map(l=>`<li class="${l.kind==='บ่น'?'rv-dn':'rv-up'}">${l.kind==='บ่น'?'บ่นเรื่อง':'ชมเรื่อง'} <b>${l.t}</b> จาก ${l.a} เป็น ${l.c} ${l.kind==='บ่น'?(l.c<l.a?'(ลดลง)':l.c>l.a?'(เพิ่มขึ้น)':'(เท่าเดิม)'):'(เพิ่มขึ้น)'}</li>`).join('')+'</ul>'
    :(x.C.length&&!x.bC?'<div class="rv-up rv-note">เดือนนี้ไม่มีใครบ่น</div>':'')}
  </div>`).join('');
@@ -1841,7 +1870,7 @@ function renderReviews(){
  const tbSel=(document.getElementById('revTblBranch')||{}).value||'SAME';
  const tbCode=tbSel==='SAME'?mb:tbSel;
  const tbBase=tbCode==='ALL'?REVIEWS:REVIEWS.filter(r=>r.code===tbCode);
- document.getElementById('revTableTitle').textContent='รายการรีวิว: '+(tbCode==='ALL'?'ทุกสาขา':(BNAMES[tbCode]||tbCode));
+ document.getElementById('revTableTitle').textContent='รีวิวของ '+(tbCode==='ALL'?'ทุกสาขา':(BNAMES[tbCode]||tbCode));
  let rows=tbBase.filter(r=>(rf==='ALL'||r.rating===+rf)&&(recf==='ALL'||(r.ago!=null&&r.ago<=+recf)));
  rows=rows.slice().sort((a,b)=>(a.ago==null?9999:a.ago)-(b.ago==null?9999:b.ago)).slice(0,300);
  let h='<thead><tr><th>สาขา</th><th>คะแนน</th><th>เดือน (ประมาณ)</th><th>เมื่อ</th><th>รีวิว</th></tr></thead><tbody>';
@@ -1872,14 +1901,14 @@ function renderCOG(){
  // delta chart: fixed category order locked to COG_WL list (no reordering per month)
  const cogOrder=new Map(COG_WL.map((c,i)=>[c.trim(),i]));
  const ds=rows.slice().sort((a,b)=>(cogOrder.get(a.cat.trim())??99)-(cogOrder.get(b.cat.trim())??99));
- document.getElementById('cogDeltaTitle').textContent=`การเปลี่ยนแปลงต้นทุนรายหมวด (Δ บาท): ${bl} • ${cogM[mi]} เทียบ ${cogM[mi-1]}`;
+ document.getElementById('cogDeltaTitle').textContent=`ต้นทุนแต่ละหมวดของ ${bl} เปลี่ยนไปเท่าไร (${cogM[mi]} เทียบ ${cogM[mi-1]})`;
  mk('cogDeltaChart',{type:'bar',data:{labels:ds.map(r=>shortCog(r.cat)),datasets:[{label:'Δ บาท (เพิ่ม=แดง ลด=เขียว)',data:ds.map(r=>r.d),backgroundColor:ds.map(r=>r.d>0?T.r:T.g),borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:T.txt}},datalabels:{anchor:'end',align:'end',color:T.lbl,font:{size:13.5,weight:'700'},formatter:v=>(v>0?'+':'')+fmt(v)}},scales:{x:{...baseScale,ticks:{color:T.mut,callback:fmt},title:{display:true,text:'Δ บาท เทียบเดือนก่อน',color:T.mut}},y:{...baseScale,ticks:{color:T.lbl,font:{size:12}},title:{display:true,text:'หมวดต้นทุน',color:T.mut}}}}});
  // up/down lists
  const mkTable=(list)=>{let h='<thead><tr><th>หมวด</th><th>'+cogM[mi-1]+'</th><th>'+cogM[mi]+'</th><th>Δบาท</th><th>%Δ</th></tr></thead><tbody>';
   list.forEach(r=>{h+=`<tr><td style="text-align:left">${shortCog(r.cat)}</td><td>${fmtFull(r.prev)}</td><td>${fmtFull(r.cur)}</td><td class="${r.d>0?'down':'up'}">${r.d>0?'+':''}${fmtFull(r.d)}</td><td class="${r.d>0?'down':'up'}">${r.pct==null?'-':(r.pct>0?'+':'')+r.pct.toFixed(1)+'%'}</td></tr>`;});
   if(!list.length)h+='<tr><td colspan="5" style="text-align:left;color:var(--mut)">— ไม่มี —</td></tr>';return h+'</tbody>';};
- document.getElementById('cogUpTitle').textContent=`🔺 หมวดที่ต้นทุนเพิ่มขึ้น (${cogM[mi]})`;
- document.getElementById('cogDownTitle').textContent=`🔻 หมวดที่ต้นทุนลดลง (${cogM[mi]})`;
+ document.getElementById('cogUpTitle').textContent=`หมวดที่ต้นทุนเพิ่มขึ้น (${cogM[mi]})`;
+ document.getElementById('cogDownTitle').textContent=`หมวดที่ต้นทุนลดลง (${cogM[mi]})`;
  document.getElementById('cogUpTable').innerHTML=mkTable(rows.filter(r=>r.d>0).sort((a,b)=>b.d-a.d));
  document.getElementById('cogDownTable').innerHTML=mkTable(rows.filter(r=>r.d<0).sort((a,b)=>a.d-b.d));
 }
@@ -1908,13 +1937,13 @@ function renderUsage(){
  const lastM=usM.length-1;
  // ---- by item: compare branches, months side by side ----
  const it=usItems[resolveUsItem()]||usItems[0];
- document.getElementById('usItemTitle').textContent=`การใช้รายไอเทม: ${esc(it.name)} (หน่วย: ${it.unit})`;
+ document.getElementById('usItemTitle').textContent=`${esc(it.name)} แต่ละสาขาใช้ไปเท่าไร (${it.unit})`;
  mk('usItemChart',{type:'bar',data:{labels:usB.map(b=>BNAMES[b]||b),datasets:usM.map((m,mi)=>({label:m,data:it.v[mi],backgroundColor:mi===usM.length-1?COL.a:hexA(COL.b,.75),borderRadius:5}))},options:{maintainAspectRatio:false,plugins:{legend:{labels:{color:T.txt}},datalabels:{anchor:'end',align:'end',color:T.lbl,font:{size:13,weight:'700'},formatter:v=>v||''}},scales:{x:{...baseScale,title:{display:true,text:'สาขา',color:T.mut}},y:{...baseScale,ticks:{color:T.mut},title:{display:true,text:'ปริมาณการใช้ ('+it.unit+')',color:T.mut}}}}});
  // ---- by branch: top items ----
  const bi=clampI(document.getElementById('usBranch').value,usB.length-1), mi=clampI(document.getElementById('usMonth').value,lastM), topN=parseInt(document.getElementById('usTop').value,10)||20;
  const mBraw=document.getElementById('usMonthB').value; const cmp=mBraw!=='NONE'&&mBraw!==String(mi);
  const mB=cmp?clampI(mBraw,lastM):null;
- document.getElementById('usBranchTitle').textContent=`Top ${topN} items ที่ใช้มากสุด: ${BNAMES[usB[bi]]||usB[bi]} • ${usM[mi]}${cmp?` เทียบ ${usM[mB]}`:''}`;
+ document.getElementById('usBranchTitle').textContent=`${topN} รายการที่ ${BNAMES[usB[bi]]||usB[bi]} ใช้มากที่สุด · ${usM[mi]}${cmp?` เทียบ ${usM[mB]}`:''}`;
  const arr=usItems.map(x=>({name:x.name,unit:x.unit,val:x.v[mi][bi],valB:mB!=null?x.v[mB][bi]:0})).filter(x=>x.val>0||(mB!=null&&x.valB>0)).sort((a,b)=>b.val-a.val).slice(0,topN);
  const cc=arr.map((_,i)=>palOf(i));
  const dsets=cmp
@@ -1955,7 +1984,7 @@ function renderWaste(){
  const mi=document.getElementById('wasteMonth').value;
  const topN=parseInt(document.getElementById('wasteTop').value,10)||20;
  const arr=WASTE.recs.filter(r=>r.code===b&&r.ym===mi).slice().sort((a,b)=>b.qty-a.qty).slice(0,topN);
- document.getElementById('wasteTitle').textContent=`Waste (ของเสีย): ${BNAMES[b]||b} • ${wMlbl(mi)}`;
+ document.getElementById('wasteTitle').textContent=`ของเสียของ ${BNAMES[b]||b} · ${wMlbl(mi)}`;
  const cc=arr.map((_,i)=>palOf(i));
  mk('wasteChart',{type:'bar',data:{labels:arr.map(r=>r.desc),datasets:[{label:'ปริมาณเสีย ('+wMlbl(mi)+')',data:arr.map(r=>r.qty),backgroundColor:cc,borderRadius:4}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:T.txt}},datalabels:{anchor:'end',align:'end',color:T.lbl,font:{size:13.5,weight:'700'},formatter:(v,ctx)=>v?fmt(v)+' '+arr[ctx.dataIndex].unit:''}},scales:{x:{...baseScale,ticks:{color:T.mut,callback:fmt},title:{display:true,text:'ปริมาณที่เสีย',color:T.mut}},y:{...baseScale,ticks:{color:T.lbl,font:{size:11}},title:{display:true,text:'สินค้า',color:T.mut}}}}});
  // table: compare ALL months for selected branch, arrow vs previous month
@@ -2161,7 +2190,7 @@ function renderCover(){
  document.getElementById('coverQKpis').innerHTML=`<div class="hero-top">
   <div class="hero-main">
    <div class="hero-numwrap"><div class="hero-num">${ach.toFixed(1)}<small>%</small></div>
-    ${ach>=100?`<div class="hanko" aria-hidden="true"><span>ถึง<br>เป้า</span></div>`:''}</div>
+    ${ach>=100?`<div class="hanko" aria-hidden="true"><span>ถึงเป้า</span></div>`:''}</div>
    <div class="hero-sub" style="color:${diff>=0?'var(--g)':'var(--a)'}">${diff>=0?'ทั้งโซนเกินเป้าสุทธิ':'ทั้งโซนต่ำกว่าเป้าสุทธิ'} ${sgn(diff)}</div>
    ${sparkSvg(spM)}
   </div>
@@ -2176,14 +2205,14 @@ function renderCover(){
   </div></div>`;
  renderRail(arr);
  // ---- กราฟไตรมาส: แบบ bullet (เป้า = รางจาง, ทำได้ = แถบเข้มซ้อนบน) ----
- document.getElementById('coverQChartTitle').textContent=`ยอดขาย ${QNAME}: Actual vs Plan รายสาขา (${qtdLbl})`;
+ document.getElementById('coverQChartTitle').textContent=`ยอดขาย ${QNAME} เทียบเป้าแต่ละสาขา (${qtdLbl})`;
  arr.sort((x,y)=>y.act-x.act);
  mk('coverQChart',bulletCfg(arr));
  // ---- Latest month: แถบตัวเลขบรรทัดเดียว ----
  const mplan=ksum('Sales','Plan',[LASTM]), mact=ksum('Sales','Actual',[LASTM]);
  const mach=mplan?mact/mplan*100:0, mgap=mact-mplan;
  const bestB=salesBr.map(b=>{const p=ksum('Sales','Plan',[LASTM],b);return {b,pct:p?ksum('Sales','Actual',[LASTM],b)/p*100:0};}).sort((x,y)=>y.pct-x.pct)[0];
- document.getElementById('coverMTitle').textContent=`ยอดขายเดือนล่าสุด: ${LASTMname} 2026`;
+ document.getElementById('coverMTitle').textContent=`ยอดขาย ${LASTMname} 2026`;
  const st=(k,v,c)=>`<div><span class="k">${k}</span><span class="v"${c?` style="color:var(--${c})"`:''}>${v}</span></div>`;
  document.getElementById('coverMKpis').innerHTML=[
   st('ทำได้เทียบเป้า',mach.toFixed(1)+'%',mach>=100?'g':'a'),
@@ -2192,7 +2221,7 @@ function renderCover(){
   st('Gap to Target',sgn(mgap),mgap>=0?'g':'a'),
   st('สาขาดีที่สุด',bestB?`${BNAMES[bestB.b]||bestB.b} · ${bestB.pct.toFixed(1)}%`:'-'),
  ].join('');
- document.getElementById('coverMChartTitle').textContent=`ยอดขาย ${LASTMname} 2026: Actual vs Plan รายสาขา`;
+ document.getElementById('coverMChartTitle').textContent=`ยอดขาย ${LASTMname} 2026 เทียบเป้าแต่ละสาขา`;
  const marr=salesBr.map(b=>({b,plan:ksum('Sales','Plan',[LASTM],b),act:ksum('Sales','Actual',[LASTM],b)})).sort((x,y)=>y.act-x.act);
  mk('coverMChart',bulletCfg(marr));
  renderCoverKpiTable(); renderScorecard(); renderActions();
@@ -2323,7 +2352,7 @@ function renderRunrate(){
  const yrPlan=ksum('Sales','Plan',allM);
  const runrate=elapsed?ytdA/elapsed:0, projYr=runrate*12;
  const projPct=yrPlan?projYr/yrPlan*100:0, ytdPct=ytdP?ytdA/ytdP*100:0;
- document.getElementById('rrTitle').textContent=`Run-rate & คาดการณ์ทั้งปี 2026 (ข้อมูลถึงเดือน ${KLAST})`;
+ document.getElementById('rrTitle').textContent=`ถ้ายังขายแบบนี้ ทั้งปี 2026 จะได้เท่าไร (ข้อมูลถึงเดือน ${KLAST})`;
  document.getElementById('rrKpis').innerHTML=[
   coverKpi(`YTD Actual (ม.ค.–เดือน ${KLAST})`,'฿'+fmt(ytdA)),
   coverKpi('YTD vs Plan',ytdPct.toFixed(1)+'%',ytdPct>=100?'up':'down'),
@@ -2532,7 +2561,7 @@ function renderActions(){
   const worst=Math.max(...list.map(a=>a.sev));const col=worst>=3?T.r:T.y;
   return {br,list,worst,col};
  }).sort((a,b)=>b.worst-a.worst||b.list.length-a.list.length);
- document.getElementById('actionTitle').textContent=`ประเด็นที่ต้องติดตาม (Follow-up): ${cards.length} สาขา • ${acts.length} ประเด็น`;
+ document.getElementById('actionTitle').textContent=`เรื่องที่ต้องตาม ${acts.length} เรื่อง จาก ${cards.length} สาขา`;
  if(!cards.length){document.getElementById('actionBox').innerHTML='<div style="color:var(--g);font-weight:700;padding:8px">ตอนนี้ไม่มีเรื่องต้องตาม ทุกสาขาอยู่ในเกณฑ์</div>';return;}
  document.getElementById('actionBox').innerHTML=cards.map((c,ci)=>`
   <div class="fu-card${ci===0?' fu-top':''}" style="--i:${ci};border:1px solid ${ci===0?'var(--a)':hexA(c.col,.35)};border-left:5px solid ${ci===0?'var(--a)':c.col};border-radius:14px;padding:14px 16px;background:${ci===0?'var(--card2)':'var(--card)'}">
@@ -2542,8 +2571,8 @@ function renderActions(){
     <span style="margin-left:auto">${sevBadge(c.worst)}</span>
    </div>
    ${c.list.map(a=>`<div class="fu-row" style="display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line2)">
-     <span style="flex:0 0 auto;padding-top:1px">${sevBadge(a.sev)}</span>
-     <span class="fu-cat" style="flex:0 0 84px;color:var(--mut);font-weight:700;font-size:calc(13px*var(--s));padding-top:2px">${a.cat}</span>
+     <span style="flex:0 0 calc(54px*var(--s));padding-top:1px">${sevBadge(a.sev)}</span>
+     <span class="fu-cat" style="flex:0 0 calc(66px*var(--s));color:var(--mut);font-weight:700;font-size:calc(13px*var(--s));padding-top:2px">${a.cat}</span>
      <span style="flex:1;min-width:0">
       <span style="display:block;font-size:calc(14px*var(--s));font-weight:600">${esc(a.msg)}</span>
       ${a.tip?`<span style="display:block;margin-top:4px;font-size:calc(13.5px*var(--s));color:var(--gold);line-height:1.55">${esc(a.tip)}</span>`:''}
@@ -2628,7 +2657,7 @@ tabsEl.querySelectorAll('.tab[data-s="status"]').forEach(b=>b.addEventListener('
 (function(){
  const root=document.documentElement,btn=document.getElementById('magBtn');
  let on=true;try{on=localStorage.getItem('kpiMag')!=='0';}catch(e){}
- const apply=()=>{root.classList.toggle('mag-on',on);if(btn){btn.setAttribute('aria-pressed',String(on));btn.textContent='⌕ แว่นขยาย: '+(on?'เปิด':'ปิด');}if(!on)hideLens();};
+ const apply=()=>{root.classList.toggle('mag-on',on);if(btn){btn.setAttribute('aria-pressed',String(on));btn.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg><span>แว่นขยาย: '+(on?'เปิด':'ปิด')+'</span>';}if(!on)hideLens();};
  if(btn)btn.addEventListener('click',()=>{on=!on;try{localStorage.setItem('kpiMag',on?'1':'0')}catch(e){}apply();});
  const fine=window.matchMedia?window.matchMedia('(hover:hover) and (pointer:fine)').matches:true;
  // เลนส์
