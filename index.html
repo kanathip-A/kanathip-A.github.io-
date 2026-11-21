@@ -978,8 +978,7 @@ table.fg-t td:first-child{white-space:nowrap}
 <div class="head">
 <img id="logo" alt="logo">
 <div class="ptitle"><h1 id="pageTitle">หน้าแรก</h1><div class="psub" id="pageSub">ภาพรวมโซน ไตรมาสนี้เทียบเป้า</div></div>
-<div class="fg-actions"><span class="fg-upd">อัปเดต 21 พ.ย. 69 · 18:13 น.</span>
-<button class="btn" id="magBtn" type="button" aria-pressed="true"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg><span>แว่นขยาย: เปิด</span></button>
+<div class="fg-actions"><span class="fg-upd">อัปเดต 21 พ.ย. 69 · 18:18 น.</span>
 <button class="btn" id="themeBtn" type="button" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M3 12h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7-.7.7m0 11.4.7.7m-12.1-.7-.7.7"/></svg><span>ธีมสว่าง</span></button>
 <button class="btn" id="printBtn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12"/></svg><span>ส่งออก PDF</span></button>
 </div>
@@ -3083,7 +3082,7 @@ tabsEl.querySelectorAll('.tab[data-s="status"]').forEach(b=>b.addEventListener('
 // ===== แว่นขยาย: แสงแก้วตามเคอร์เซอร์ + ขยายชิ้นข้อมูล + เลนส์ส่องกราฟ =====
 (function(){
  const root=document.documentElement,btn=document.getElementById('magBtn');
- let on=true;try{on=localStorage.getItem('kpiMag')!=='0';}catch(e){}
+ let on=false;   // เอาแว่นขยายออกแล้ว (ผู้ใช้สั่ง 21 พ.ย. 69)
  const apply=()=>{root.classList.toggle('mag-on',on);if(btn){btn.setAttribute('aria-pressed',String(on));btn.innerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg><span>แว่นขยาย: '+(on?'เปิด':'ปิด')+'</span>';}if(!on)hideLens();};
  if(btn)btn.addEventListener('click',()=>{on=!on;try{localStorage.setItem('kpiMag',on?'1':'0')}catch(e){}apply();});
  const fine=window.matchMedia?window.matchMedia('(hover:hover) and (pointer:fine)').matches:true;
