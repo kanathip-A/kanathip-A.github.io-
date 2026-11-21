@@ -970,6 +970,14 @@ table.fg-t td:first-child{white-space:nowrap}
 #iosTabbar button,#iosTabbar button:hover,#iosTabbar button:active{flex:0 0 auto!important;min-width:64px!important;padding:8px 12px!important;transform:none!important;transition:background-color .15s,color .15s!important}
 #iosTabbar button span{white-space:nowrap!important;font:600 13px/16px var(--fg-font)!important}
 @media (max-width:380px){#iosTabbar button{min-width:56px!important;padding:8px 8px!important}#iosTabbar button span{font-size:12px!important}}
+/* มือถือ (21 พ.ย. 69): กันล้นจอ + ตัวเลขสรุปไม่ถูกตัด */
+html,body{overflow-x:clip}
+.fg-f{min-width:0;max-width:100%}
+.fg-f select{max-width:100%;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+@media (max-width:767px){.fg-filters{gap:12px}.fg-f{flex:1 1 100%}.fg-f select,.fg-f input{width:100%;min-width:0}}
+.fg-stats.c2{--c:2!important}
+@container (max-width:420px){.fg-stat .v{font-size:28px;line-height:34px}.fg-stats{column-gap:16px}}
+.fg-stat .v{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:normal!important;word-break:keep-all}
 
 </style>
 </head>
@@ -978,7 +986,7 @@ table.fg-t td:first-child{white-space:nowrap}
 <div class="head">
 <img id="logo" alt="logo">
 <div class="ptitle"><h1 id="pageTitle">หน้าแรก</h1><div class="psub" id="pageSub">ภาพรวมโซน ไตรมาสนี้เทียบเป้า</div></div>
-<div class="fg-actions"><span class="fg-upd">อัปเดต 21 พ.ย. 69 · 18:18 น.</span>
+<div class="fg-actions"><span class="fg-upd">อัปเดต 21 พ.ย. 69 · 21:09 น.</span>
 <button class="btn" id="themeBtn" type="button" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M3 12h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7-.7.7m0 11.4.7.7m-12.1-.7-.7.7"/></svg><span>ธีมสว่าง</span></button>
 <button class="btn" id="printBtn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12"/></svg><span>ส่งออก PDF</span></button>
 </div>
@@ -3559,7 +3567,8 @@ tabsEl.querySelectorAll('.tab[data-s="status"]').forEach(b=>b.addEventListener('
   if(page==='status'){const box=$('fgStatusBox');if(box)box.innerHTML=pStatus();setSub(SUBS.status,title);return;}
   const f=PAGES[page];const host=$('fg-'+page);if(!f||!host)return;
   let r;try{r=f();}catch(e){host.innerHTML=`<div class="fg-p"><p class="fg-empty fg-dn">หน้านี้แสดงผลไม่ได้: ${esc(e.message)}</p></div>`;if(window.console)console.error(e);return;}
-  const ae=document.activeElement,aid=ae&&ae.id,pos=ae&&ae.selectionStart;
+  const ae=document.activeElement,aid=ae&&ae.tagName==='INPUT'?ae.id:null,pos=aid?ae.selectionStart:null;   // คืนโฟกัสเฉพาะช่องค้นหา (ถ้าคืนให้ select บน iPhone ตัวเลือกจะเด้งขึ้นใหม่ไม่ยอมปิด)
+  if(ae&&ae.tagName==='SELECT'&&ae.blur)ae.blur();
   host.innerHTML=r.html;
   if(r.bind)bind(page,r.bind);
   host.querySelectorAll&&host.querySelectorAll('[data-fgmore]').forEach(b=>b.addEventListener('click',()=>{ST[page]=Object.assign(ST[page]||{},{more:!pick(page,'more',false)});draw(page);}));
