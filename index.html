@@ -965,6 +965,11 @@ table.fg-t tr.tot td{color:var(--fg-t1);font-weight:600}
 @media print{#fgMob,#iosTabbar,.tabnav{display:none!important}body{padding:0!important}.fg-p{break-inside:avoid}}
 @media (max-width:767px){.fg-hero .fg-stats.c3h{--c:2!important}}
 table.fg-t td:first-child{white-space:nowrap}
+/* แถบลัดล่าง: ไม่ใช้ transform (แว่นขยายล้าง transform ตอนแตะ ทำให้แถบกระโดด) + ป้ายไม่ตัดบรรทัด */
+#iosTabbar,#iosTabbar:hover{left:0!important;right:0!important;margin:0 auto!important;width:max-content!important;max-width:calc(100vw - 16px)!important;transform:none!important;transition:none!important}
+#iosTabbar button,#iosTabbar button:hover,#iosTabbar button:active{flex:0 0 auto!important;min-width:64px!important;padding:8px 12px!important;transform:none!important;transition:background-color .15s,color .15s!important}
+#iosTabbar button span{white-space:nowrap!important;font:600 13px/16px var(--fg-font)!important}
+@media (max-width:380px){#iosTabbar button{min-width:56px!important;padding:8px 8px!important}#iosTabbar button span{font-size:12px!important}}
 
 </style>
 </head>
@@ -973,7 +978,7 @@ table.fg-t td:first-child{white-space:nowrap}
 <div class="head">
 <img id="logo" alt="logo">
 <div class="ptitle"><h1 id="pageTitle">หน้าแรก</h1><div class="psub" id="pageSub">ภาพรวมโซน ไตรมาสนี้เทียบเป้า</div></div>
-<div class="fg-actions"><span class="fg-upd">อัปเดต 21 พ.ย. 69 · 18:08 น.</span>
+<div class="fg-actions"><span class="fg-upd">อัปเดต 21 พ.ย. 69 · 18:13 น.</span>
 <button class="btn" id="magBtn" type="button" aria-pressed="true"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6-6"/></svg><span>แว่นขยาย: เปิด</span></button>
 <button class="btn" id="themeBtn" type="button" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M3 12h1m8-9v1m8 8h1m-9 8v1M5.6 5.6l.7.7m12.1-.7-.7.7m0 11.4.7.7m-12.1-.7-.7.7"/></svg><span>ธีมสว่าง</span></button>
 <button class="btn" id="printBtn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12"/></svg><span>ส่งออก PDF</span></button>
